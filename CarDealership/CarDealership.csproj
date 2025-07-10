@@ -8,4 +8,10 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="NHibernate" Version="5.5.2" />
+      <PackageReference Include="NHibernate.Mapping.Attributes" Version="5.1.0" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    </ItemGroup>
+
 </Project>
