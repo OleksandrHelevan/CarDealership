@@ -1,6 +1,8 @@
+using CarDealership.Models.Interfaces;
+
 namespace CarDealership.Models;
 
-public abstract class Vehicle
+public abstract class Vehicle : IPrintable
 {
     private string Brand { get; set; }
     private string ModelName { get; set; }
@@ -19,4 +21,6 @@ public abstract class Vehicle
         Mileage = mileage;
         Price = price;
     }
+    
+    public abstract string Print();
 }

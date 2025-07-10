@@ -2,7 +2,7 @@ namespace CarDealership.Models;
 
 public enum FuelType
 {
-    Gasoline,
+    Petrol,
     Diesel,
     Gas
 }
