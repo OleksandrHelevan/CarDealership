@@ -1,13 +1,15 @@
 using System.Text;
+using CarDealership.Models;
 
-namespace CarDealership.Models;
+namespace CarDealership.model;
 
-public class GasolineEngine : Engine
+public class GasolineEngineDto : Engine
 {
     private FuelType FuelType { get; set; }
     private float FuelConsumption { get; set; }
 
-    public GasolineEngine(double power, FuelType fuelType, float fuelConsumption) : base(power)
+    public GasolineEngineDto() : base(0) { }
+    public GasolineEngineDto(double power, FuelType fuelType, float fuelConsumption) : base(power)
     {
         FuelType = fuelType;
         FuelConsumption = fuelConsumption;

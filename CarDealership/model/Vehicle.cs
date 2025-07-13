@@ -1,6 +1,8 @@
-using CarDealership.Models.Interfaces;
 
-namespace CarDealership.Models;
+using CarDealership.model.interfaces;
+using CarDealership.Models;
+
+namespace CarDealership.model;
 
 public abstract class Vehicle : IPrintable
 {

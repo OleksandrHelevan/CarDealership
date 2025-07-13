@@ -1,6 +1,6 @@
 using CarDealership.Models.Enums;
 
-namespace CarDealership.Models;
+namespace CarDealership.model;
 
 public class User
 {

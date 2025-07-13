@@ -1,6 +1,6 @@
-using CarDealership.Models.Interfaces;
+using CarDealership.model.interfaces;
 
-namespace CarDealership.Models;
+namespace CarDealership.model;
 
 public abstract class Engine : IPrintable
 {
