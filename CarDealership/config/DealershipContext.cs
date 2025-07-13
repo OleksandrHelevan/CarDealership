@@ -1,5 +1,4 @@
 using CarDealership.entity;
-using CarDealership.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.config;

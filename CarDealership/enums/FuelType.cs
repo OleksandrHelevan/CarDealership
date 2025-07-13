@@ -1,4 +1,4 @@
-namespace CarDealership.Models;
+namespace CarDealership.enums;
 
 public enum FuelType
 {

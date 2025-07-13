@@ -1,6 +1,6 @@
 
 using CarDealership.model.interfaces;
-using CarDealership.Models;
+using CarDealership.enums;
 
 namespace CarDealership.model;
 

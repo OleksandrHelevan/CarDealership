@@ -1,4 +1,4 @@
-namespace CarDealership.Models.Enums;
+namespace CarDealership.enums;
 
 public enum AccessRight
 {

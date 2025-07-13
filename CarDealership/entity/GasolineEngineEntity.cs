@@ -1,4 +1,4 @@
-using CarDealership.Models;
+using CarDealership.enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
