@@ -4,7 +4,7 @@ namespace CarDealership.model;
 
 public abstract class Engine : IPrintable
 {
-    private double Power { get; set; }
+    public double Power { get; set; }
     private const double WattsPerHorsepower = 745.7;
 
     protected Engine(double power)

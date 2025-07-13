@@ -10,7 +10,7 @@ namespace CarDealership.entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
-        public int Id { get; set; }
+        public int Id {get; set; }
 
         [Required]
         [Column("power")]
@@ -20,8 +20,9 @@ namespace CarDealership.entity
         [Column("fuel_type")]
         public FuelType FuelType { get; set; }
 
-        [Required]
-        [Column("fuel_consumption")]
-        public float FuelConsumption { get; set; }
+        [Required] [Column("fuel_consumption")]
+        public float FuelConsumption {get; set; }
+        
     }
+    
 }

@@ -1,5 +1,7 @@
 ﻿using CarDealership.config;
 using CarDealership.entity;
+using CarDealership.model;
+using CarDealership.service.impl;
 
 namespace CarDealership;
 
@@ -26,8 +28,8 @@ public partial class MainWindow : Window
 
     private void LoadData()
     {
-        using var context = new DealershipContext();
-        List<GasolineEngineEntity> engines = context.GasolineEngines.ToList();
+        GasolineEngineServiceImpl service = new GasolineEngineServiceImpl();
+        List<GasolineEngineDto> engines = service.GetAllGasolineEngines();
         EnginesDataGrid.ItemsSource = engines;
     }
 }

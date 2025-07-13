@@ -21,7 +21,7 @@ namespace CarDealership
             }
             else
             {
-                MessageBox.Show("Невірні дані для входу");
+                MessageBox.Show("Invalid login details");
             }
         }
     }

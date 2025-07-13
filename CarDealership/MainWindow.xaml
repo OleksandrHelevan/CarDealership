@@ -1,8 +1,41 @@
 ﻿<Window x:Class="CarDealership.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Car Dealership" Height="400" Width="600">
+        Title="Car Dealership"
+        WindowStartupLocation="CenterScreen"
+        Background="#f0f2f5"
+        FontFamily="Segoe UI"
+        FontSize="14"
+        WindowState="Maximized"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize">
+
     <Grid>
-        <DataGrid x:Name="EnginesDataGrid" AutoGenerateColumns="True" />
+        <Border Background="White" 
+                CornerRadius="8" 
+                BorderBrush="#ccc" 
+                BorderThickness="1" 
+                Padding="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Direction="270" Opacity="0.3"/>
+            </Border.Effect>
+
+            <DataGrid x:Name="EnginesDataGrid"
+                      AutoGenerateColumns="True"
+                      HeadersVisibility="Column"
+                      CanUserAddRows="False"
+                      GridLinesVisibility="Horizontal"
+                      RowBackground="#fff"
+                      AlternatingRowBackground="#f9f9f9"
+                      BorderBrush="#ddd"
+                      BorderThickness="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      IsReadOnly="True"
+                      MaxHeight="600"
+                      MaxWidth="1000" />
+        </Border>
     </Grid>
 </Window>

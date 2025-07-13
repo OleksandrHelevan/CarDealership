@@ -5,8 +5,8 @@ namespace CarDealership.model;
 
 public class GasolineEngineDto : Engine
 {
-    private FuelType FuelType { get; set; }
-    private float FuelConsumption { get; set; }
+    public FuelType FuelType { get; set; }
+    public float FuelConsumption { get; set; }
 
     public GasolineEngineDto() : base(0) { }
     public GasolineEngineDto(double power, FuelType fuelType, float fuelConsumption) : base(power)
