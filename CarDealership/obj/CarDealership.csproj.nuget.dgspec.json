@@ -44,6 +44,18 @@
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
             "NHibernate": {
               "target": "Package",
               "version": "[5.5.2, )"
@@ -51,6 +63,10 @@
             "NHibernate.Mapping.Attributes": {
               "target": "Package",
               "version": "[5.1.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.5, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
