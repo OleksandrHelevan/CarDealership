@@ -81,3 +81,5 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership.genruntime
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\ref\CarDealership.dll
 D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\Npgsql.dll
 D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.g.cs
