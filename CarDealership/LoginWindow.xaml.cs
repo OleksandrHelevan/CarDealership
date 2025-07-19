@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace CarDealership
+namespace CarDealership.page
 {
     public partial class LoginWindow : Window
     {
@@ -11,18 +11,15 @@ namespace CarDealership
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            string username = UsernameTextBox.Text;
-            string password = PasswordBox.Password;
-
-            if (username == "admin" && password == "1234")
+            if (UsernameTextBox.Text == "admin" && PasswordBox.Password == "1234")
             {
-                DialogResult = true;
-                Close();
+                this.DialogResult = true; // достатньо
             }
             else
             {
-                MessageBox.Show("Invalid login details");
+                MessageBox.Show("Невірні дані для входу");
             }
         }
+
     }
 }

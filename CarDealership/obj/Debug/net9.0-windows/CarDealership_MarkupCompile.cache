@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 D:\CarDealership\CarDealership\App.xaml
-2-216653475
+4596213286
 
-23-1366172384
+3155074890
 251988847164
-LoginWindow.xaml;MainWindow.xaml;
+LoginWindow.xaml;MainWindow.xaml;page\ElectroEngibePage.xaml;page\GasolineEnginePage.xaml;
 
 False
 

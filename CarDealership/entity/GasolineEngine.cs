@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CarDealership.entity
 {
     [Table("gasoline_engines")]
-    public class GasolineEngineEntity
+    public class GasolineEngine
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

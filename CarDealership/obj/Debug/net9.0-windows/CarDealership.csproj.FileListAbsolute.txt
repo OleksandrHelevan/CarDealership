@@ -63,8 +63,6 @@ D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\runtimes\unix\lib\net8.0
 D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\runtimes\win\lib\net8.0\System.Data.SqlClient.dll
 D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership.csproj.AssemblyReference.cache
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\MainWindow.baml
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\MainWindow.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\App.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership_MarkupCompile.cache
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership.g.resources
@@ -81,5 +79,14 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership.genruntime
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\ref\CarDealership.dll
 D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\Npgsql.dll
 D:\CarDealership\CarDealership\bin\Debug\net9.0-windows\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership_MarkupCompile.lref
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\MainWindow.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEngibePage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineEnginePage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\MainWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEngibePage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineEnginePage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\App.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.g.cs

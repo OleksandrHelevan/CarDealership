@@ -17,6 +17,11 @@ public class ElectroEngineDto : Engine
 
     public override string Print()
     {
-        throw new NotImplementedException();
+        return $"Електродвигун:\n" +
+               $"- Потужність: {Power} кВт\n" +
+               $"- Ємність батареї: {BatteryCapacity} кВт·год\n" +
+               $"- Запас ходу: {Range} км\n" +
+               $"- Тип мотора: {MotorType}";
     }
+
 }

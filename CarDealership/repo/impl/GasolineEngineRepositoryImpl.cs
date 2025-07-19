@@ -12,22 +12,22 @@ namespace CarDealership.repo.impl
             _context = context;
         }
 
-        public IEnumerable<GasolineEngineEntity> GetAll()
+        public IEnumerable<GasolineEngine> GetAll()
         {
             return _context.GasolineEngines.ToList();
         }
 
-        public GasolineEngineEntity GetById(int id)
+        public GasolineEngine GetById(int id)
         {
             return _context.GasolineEngines.FirstOrDefault(e => e.Id == id);
         }
 
-        public void Add(GasolineEngineEntity engine)
+        public void Add(GasolineEngine engine)
         {
             _context.GasolineEngines.Add(engine);
         }
 
-        public void Update(GasolineEngineEntity engine)
+        public void Update(GasolineEngine engine)
         {
             _context.GasolineEngines.Update(engine);
         }

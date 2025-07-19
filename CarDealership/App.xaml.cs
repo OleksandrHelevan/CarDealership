@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using CarDealership.page;
 
 namespace CarDealership;
 
@@ -13,15 +14,13 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        var mainWindow = new MainWindow();
-        Current.MainWindow = mainWindow;
-
         var loginWindow = new LoginWindow();
-        bool? result = loginWindow.ShowDialog();
-        Console.WriteLine($"Login dialog result: {result}");
+        bool? loginResult = loginWindow.ShowDialog();
 
-        if (result == true)
+        if (loginResult == true)
         {
+            var mainWindow = new MainWindow();
+            Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
         }
         else
@@ -29,4 +28,5 @@ public partial class App : Application
             Shutdown();
         }
     }
+
 }
