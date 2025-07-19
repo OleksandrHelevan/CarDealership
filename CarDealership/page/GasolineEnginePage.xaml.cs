@@ -23,6 +23,6 @@ public partial class GasolineEnginePage : Page
     {
         GasolineEngineServiceImpl service = new GasolineEngineServiceImpl();
         List<GasolineEngineDto> engines = service.GetAllGasolineEngines();
-        EnginesDataGrid.ItemsSource = engines;
+        GasolineEnginesList.ItemsSource = engines;
     }
 }
