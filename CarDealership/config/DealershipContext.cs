@@ -10,7 +10,8 @@ namespace CarDealership.config
         public DbSet<ElectroEngine> ElectroEngines { get; set; }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<AuthorizationRequest> Requests { get; set; }
+        
+        public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,11 +27,6 @@ namespace CarDealership.config
             modelBuilder.Entity<ElectroEngine>()
                 .ToTable("electro_engines"); // Вказуємо точну назву таблиці
 
-            // Якщо є енум, який зберігається як текст, можна додати конвертацію
-            modelBuilder.Entity<GasolineEngine>()
-                .Property(e => e.FuelType)
-                .HasConversion<string>();
-
             modelBuilder.Entity<ElectroEngine>()
                 .Property(e => e.MotorType)
                 .HasConversion<string>();
@@ -39,6 +35,11 @@ namespace CarDealership.config
                 .ToTable("keys") // Назва таблиці в БД
                 .Property(u => u.AccessRight)
                 .HasConversion<string>(); // enum AccessRight => string
+
+            // Якщо є енум, який зберігається як текст, можна додати конвертацію
+            modelBuilder.Entity<GasolineEngine>()
+                .Property(e => e.FuelType)
+                .HasConversion<string>();
 
             modelBuilder.Entity<AuthorizationRequest>()
                 .ToTable("requests"); // Назва таблиці в БД

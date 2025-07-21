@@ -90,3 +90,4 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineEnginePage.
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\App.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership_Content.g.cs
