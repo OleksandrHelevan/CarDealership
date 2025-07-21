@@ -9,17 +9,22 @@ namespace CarDealership.config
         public DbSet<GasolineEngine> GasolineEngines { get; set; }
         public DbSet<ElectroEngine> ElectroEngines { get; set; }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<AuthorizationRequest> Requests { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=car_dealership;Username=postgres;Password=1234qwer");
+            optionsBuilder.UseNpgsql(
+                "Host=localhost;Port=5432;Database=car_dealership;Username=postgres;Password=1234qwer");
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GasolineEngine>()
-                .ToTable("gasoline_engines");  // Вказуємо точну назву таблиці
+                .ToTable("gasoline_engines"); // Вказуємо точну назву таблиці
 
             modelBuilder.Entity<ElectroEngine>()
-                .ToTable("electro_engines");   // Вказуємо точну назву таблиці
+                .ToTable("electro_engines"); // Вказуємо точну назву таблиці
 
             // Якщо є енум, який зберігається як текст, можна додати конвертацію
             modelBuilder.Entity<GasolineEngine>()
@@ -29,7 +34,19 @@ namespace CarDealership.config
             modelBuilder.Entity<ElectroEngine>()
                 .Property(e => e.MotorType)
                 .HasConversion<string>();
-        }
 
+            modelBuilder.Entity<User>()
+                .ToTable("keys") // Назва таблиці в БД
+                .Property(u => u.AccessRight)
+                .HasConversion<string>(); // enum AccessRight => string
+
+            modelBuilder.Entity<AuthorizationRequest>()
+                .ToTable("requests"); // Назва таблиці в БД
+
+            // Якщо Request.Status — це enum, додай і для нього:
+            modelBuilder.Entity<AuthorizationRequest>()
+                .Property(r => r.Status)
+                .HasConversion<string>();
+        }
     }
 }

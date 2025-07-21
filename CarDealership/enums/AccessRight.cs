@@ -2,6 +2,8 @@ namespace CarDealership.enums;
 
 public enum AccessRight
 {
-    Client,
+    Guest,
+    Authorized,
+    Operator,
     Admin
 }
