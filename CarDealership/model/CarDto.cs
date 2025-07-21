@@ -2,12 +2,12 @@ using CarDealership.enums;
 
 namespace CarDealership.model
 {
-    public class Car : Vehicle
+    public class CarDto : Vehicle
     {
         public DriveType Drive { get; set; }
         public TransmissionType Transmission { get; set; }
 
-        public Car(
+        public CarDto(
             string brand,
             string modelName,
             Engine engine,
@@ -25,7 +25,8 @@ namespace CarDealership.model
 
         public override string Print()
         {
-            return $"{Drive} drive, {Transmission} transmission";
+            return
+                $"Car: {Brand} {ModelName}, {Engine}, {Color}, {Mileage} km, ${Price}, {Weight} kg, {Transmission}, {Drive}";
         }
     }
 }

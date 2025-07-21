@@ -2,11 +2,11 @@ using CarDealership.enums;
 
 namespace CarDealership.model
 {
-    public class Truck : Vehicle
+    public class TruckDto : Vehicle
     {
-        public double CargoCapacity { get; set; } // у кг
+        public double CargoCapacity { get; set; }
 
-        public Truck(
+        public TruckDto(
             string brand,
             string modelName,
             Engine engine,

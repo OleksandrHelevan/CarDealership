@@ -1,5 +1,7 @@
 using CarDealership.entity;
 using CarDealership.enums;
+using CarDealership.mapper;
+using CarDealership.model;
 using CarDealership.repo;
 using CarDealership.repo.impl;
 
@@ -30,7 +32,7 @@ namespace CarDealership.service.impl
             return true;
         }
 
-        public User? Login(string login, string password, AccessRight accessRight)
+        public UserDto? Login(string login, string password, AccessRight accessRight)
         {
             var user = new User
             {
@@ -40,7 +42,7 @@ namespace CarDealership.service.impl
             };
 
             return _userRepository.Exists(user)
-                ? _userRepository.GetByLogin(login)
+                ? UserMapper.ToDto(_userRepository.GetByLogin(login))
                 : null;
         }
     }

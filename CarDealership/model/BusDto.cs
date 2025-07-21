@@ -2,12 +2,12 @@ using CarDealership.enums;
 
 namespace CarDealership.model
 {
-    public class Bus : Vehicle
+    public class BusDto : Vehicle
     {
         public int SeatingCapacity { get; set; }
         public int StandingCapacity { get; set; }
 
-        public Bus(
+        public BusDto(
             string brand,
             string modelName,
             Engine engine,
@@ -25,7 +25,7 @@ namespace CarDealership.model
 
         public override string Print()
         {
-            return $"🚌 Bus: {Brand} {ModelName}, {Engine}, {Color}, {Mileage} km, ${Price}, {Weight} kg, " +
+            return $"Bus: {Brand} {ModelName}, {Engine}, {Color}, {Mileage} km, ${Price}, {Weight} kg, " +
                    $"Seats: {SeatingCapacity}, Standing: {StandingCapacity}";
         }
     }

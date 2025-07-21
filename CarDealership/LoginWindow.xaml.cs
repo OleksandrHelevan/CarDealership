@@ -1,6 +1,7 @@
 using System.Windows;
 using CarDealership.entity;
 using CarDealership.enums;
+using CarDealership.model;
 using CarDealership.service;
 using CarDealership.service.impl;
 
@@ -29,7 +30,7 @@ namespace CarDealership
 
             AccessRight selectedRight = (AccessRight)AccessComboBox.SelectedIndex;
 
-            User? user = _userService.Login(login, password, selectedRight);
+            UserDto? user = _userService.Login(login, password, selectedRight);
 
             if (user != null)
             {
