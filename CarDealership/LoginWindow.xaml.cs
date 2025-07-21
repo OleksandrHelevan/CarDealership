@@ -35,8 +35,7 @@ namespace CarDealership
             {
                 MessageBox.Show($"✅ Welcome, {user.Login} ({user.AccessRight})!", "Login Successful");
 
-                // Відкрити MainWindow
-                MainWindow mainWindow = new MainWindow();
+                GuestWindow mainWindow = new GuestWindow();
                 mainWindow.Show();
                 
             }
@@ -58,15 +57,15 @@ namespace CarDealership
                 return;
             }
 
-            bool success = _userService.Register(login, password, AccessRight.Authorized);
+            bool success = _userService.Register(login, password, AccessRight.Guest);
 
             if (success)
             {
-                MessageBox.Show("✅ Registered successfully!", "Registration");
+                MessageBox.Show("Registered successfully!", "Registration");
             }
             else
             {
-                MessageBox.Show("❌ Login already exists.", "Registration Failed");
+                MessageBox.Show("Login already exists.", "Registration Failed");
             }
         }
     }

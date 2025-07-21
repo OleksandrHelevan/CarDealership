@@ -19,7 +19,7 @@ public partial class App : Application
 
         if (loginResult == true)
         {
-            var mainWindow = new MainWindow();
+            var mainWindow = new GuestWindow();
             Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
         }

@@ -3,9 +3,9 @@ using CarDealership.page;
 
 namespace CarDealership
 {
-    public partial class MainWindow : Window
+    public partial class GuestWindow : Window
     {
-        public MainWindow()
+        public GuestWindow()
         {
             InitializeComponent();
 
