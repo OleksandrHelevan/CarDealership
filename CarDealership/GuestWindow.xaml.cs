@@ -8,8 +8,7 @@ namespace CarDealership
         public GuestWindow()
         {
             InitializeComponent();
-
-            // За замовчуванням показуємо сторінку бензинових двигунів
+            
             MainFrame.Navigate(new GasolineEnginePage());
         }
 

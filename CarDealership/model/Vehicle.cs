@@ -6,15 +6,17 @@ namespace CarDealership.model;
 
 public abstract class Vehicle : IPrintable
 {
-    private string Brand { get; set; }
-    private string ModelName { get; set; }
-    private Engine Engine { get; set; }
-    private Color Color { get; set; }
-    private int Mileage { get; set; }
-    private double Price { get; set; }
+    public string Brand { get; set; }
+    
+    public int Weight { get; set; }
+    public string ModelName { get; set; }
+    public Engine Engine { get; set; }
+    public Color Color { get; set; }
+    public int Mileage { get; set; }
+    public double Price { get; set; }
 
 
-    public Vehicle(string brand, string modelName, Engine engine, Color color, int mileage, double price)
+    public Vehicle(string brand, string modelName, Engine engine, Color color, int mileage, double price, int weight)
     {
         Brand = brand;
         ModelName = modelName;
@@ -22,6 +24,7 @@ public abstract class Vehicle : IPrintable
         Color = color;
         Mileage = mileage;
         Price = price;
+        Weight = weight;
     }
     
     public abstract string Print();

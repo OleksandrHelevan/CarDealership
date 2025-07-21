@@ -61,7 +61,7 @@ namespace CarDealership
 
             if (success)
             {
-                MessageBox.Show("Registered successfully!", "Registration");
+                MessageBox.Show("Registered successfully! With access rights - Guest", "Registration");
             }
             else
             {
