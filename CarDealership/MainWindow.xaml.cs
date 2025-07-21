@@ -1,35 +1,26 @@
-using CarDealership.config;
-using CarDealership.entity;
-using CarDealership.model;
-using CarDealership.service.impl;
-
-namespace CarDealership;
-
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
+using CarDealership.page;
 
-public partial class MainWindow : Window
+namespace CarDealership
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-        try
+        public MainWindow()
         {
-            LoadData();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Error loading data: " + ex.Message);
-            // Можна залогувати виняток або в консолі
-            Console.WriteLine(ex);
-        }
-    }
+            InitializeComponent();
 
-    private void LoadData()
-    {
-        GasolineEngineServiceImpl service = new GasolineEngineServiceImpl();
-        List<GasolineEngineDto> engines = service.GetAllGasolineEngines();
-        EnginesDataGrid.ItemsSource = engines;
+            // За замовчуванням показуємо сторінку бензинових двигунів
+            MainFrame.Navigate(new GasolineEnginePage());
+        }
+
+        private void BtnGasoline_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new GasolineEnginePage());
+        }
+
+        private void BtnElectro_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new ElectroEnginePage());
+        }
     }
 }
