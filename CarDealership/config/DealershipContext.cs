@@ -36,6 +36,18 @@ namespace CarDealership.config
                 .Property(u => u.AccessRight)
                 .HasConversion<string>(); // enum AccessRight => string
 
+            modelBuilder.Entity<ElectroCar>()
+                .HasOne(e => e.Engine)
+                .WithMany()
+                .HasForeignKey("engine_id")
+                .IsRequired();
+            
+            modelBuilder.Entity<GasolineCar>()
+                .HasOne(e => e.Engine)
+                .WithMany() 
+                .HasForeignKey("engine_id")
+                .IsRequired();
+
             // Якщо є енум, який зберігається як текст, можна додати конвертацію
             modelBuilder.Entity<GasolineEngine>()
                 .Property(e => e.FuelType)
