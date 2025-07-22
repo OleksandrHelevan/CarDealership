@@ -11,6 +11,10 @@ namespace CarDealership.config
 
         public DbSet<User> Users { get; set; }
         
+        public DbSet<ElectroCar> ElectroCars { get; set; }
+        
+        public DbSet<GasolineCar>  GasolineCars { get; set; }
+        
         public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
