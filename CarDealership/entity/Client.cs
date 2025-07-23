@@ -16,7 +16,7 @@ namespace CarDealership.entity
         public virtual User User { get; set; }
 
         [Required]
-        [ForeignKey("PassportData")]
+        [ForeignKey("passport_data")]
         [Column("passport_data_id")]
         public virtual PassportData PassportData { get; set; }
     }

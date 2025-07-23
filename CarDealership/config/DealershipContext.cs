@@ -13,6 +13,8 @@ namespace CarDealership.config
         public DbSet<GasolineCar> GasolineCars { get; set; }
         public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
         public DbSet<Product> Products { get; set; }
+        
+        public DbSet<Client> Clients { get; set; }
 
         public DbSet<PassportData> PassportData { get; set; }
         
