@@ -14,6 +14,8 @@ namespace CarDealership.config
         public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<PassportData> PassportData { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(

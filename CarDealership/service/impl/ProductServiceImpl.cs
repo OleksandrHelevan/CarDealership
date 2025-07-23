@@ -1,4 +1,6 @@
 using CarDealership.entity;
+using CarDealership.mapper;
+using CarDealership.model;
 using CarDealership.repo;
 
 namespace CarDealership.service.impl
@@ -12,14 +14,14 @@ namespace CarDealership.service.impl
             _productRepository = productRepository;
         }
 
-        public IEnumerable<Product> GetAll()
+        public List<ProductDto> GetAll()
         {
-            return _productRepository.GetAll();
+            return _productRepository.GetAll().Select(ProductMapper.ToDto).ToList();
         }
 
-        public Product? GetById(int id)
+        public ProductDto? GetById(int id)
         {
-            return _productRepository.GetById(id);
+            return ProductMapper.ToDto(_productRepository.GetById(id));
         }
 
         public bool Create(Product product)

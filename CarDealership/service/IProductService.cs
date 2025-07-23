@@ -1,12 +1,13 @@
 using CarDealership.entity;
+using CarDealership.model;
 
 
 namespace CarDealership.service
 {
     public interface IProductService
     {
-        IEnumerable<Product> GetAll();
-        Product? GetById(int id);
+        List<ProductDto> GetAll();
+        ProductDto? GetById(int id);
         bool Create(Product product);
         bool Update(Product product);
         bool Delete(int id);
