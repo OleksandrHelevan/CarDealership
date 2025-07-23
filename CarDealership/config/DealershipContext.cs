@@ -8,14 +8,11 @@ namespace CarDealership.config
     {
         public DbSet<GasolineEngine> GasolineEngines { get; set; }
         public DbSet<ElectroEngine> ElectroEngines { get; set; }
-
         public DbSet<User> Users { get; set; }
-        
         public DbSet<ElectroCar> ElectroCars { get; set; }
-        
-        public DbSet<GasolineCar>  GasolineCars { get; set; }
-        
+        public DbSet<GasolineCar> GasolineCars { get; set; }
         public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,10 +42,10 @@ namespace CarDealership.config
                 .WithMany()
                 .HasForeignKey("engine_id")
                 .IsRequired();
-            
+
             modelBuilder.Entity<GasolineCar>()
                 .HasOne(e => e.Engine)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey("engine_id")
                 .IsRequired();
 
@@ -64,6 +61,20 @@ namespace CarDealership.config
             modelBuilder.Entity<AuthorizationRequest>()
                 .Property(r => r.Status)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.CarType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.ElectroCar)
+                .WithMany()
+                .HasForeignKey("electro_car_id");
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.GasolineCar)
+                .WithMany()
+                .HasForeignKey("gasoline_car_id");
         }
     }
 }

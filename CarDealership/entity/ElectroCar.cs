@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows.Forms.VisualStyles;
 using CarDealership.enums;
 
 namespace CarDealership.entity
@@ -48,5 +49,18 @@ namespace CarDealership.entity
         [Required]
         [Column("transmission")]
         public TransmissionType Transmission { get; set; }
+        
+        [Required]
+        [Column("year")]
+        public int Year { get; set; }
+        
+        [Required]
+        [Column("number_of_doors")]
+        public int NumberOfDoors { get; set; }
+        
+        [Required]
+        [Column("body_type")]
+        public CarBodyType BodyType { get; set; }
+        
     }
 }

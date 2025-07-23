@@ -10,6 +10,7 @@ public class GasolineCarMapper
         return new CarDto(e.Brand, e.ModelName,
             GasolineEngineMapper.ToDto(e.Engine),
             e.Color, e.Mileage, e.Price,
-            e.Weight, e.DriveType, e.Transmission);
+            e.Weight, e.DriveType, e.Transmission,
+            e.Year, e.NumberOfDoors, e.BodyType);
     }
 }

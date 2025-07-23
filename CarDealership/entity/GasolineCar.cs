@@ -49,4 +49,16 @@ public class GasolineCar
     [Required]
     [Column("transmission")]
     public TransmissionType Transmission { get; set; }
+    
+    [Required]
+    [Column("year")]
+    public int Year { get; set; }
+        
+    [Required]
+    [Column("number_of_doors")]
+    public int NumberOfDoors { get; set; }
+        
+    [Required]
+    [Column("body_type")]
+    public CarBodyType BodyType { get; set; }
 }

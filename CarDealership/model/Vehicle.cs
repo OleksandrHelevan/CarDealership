@@ -14,9 +14,18 @@ public abstract class Vehicle : IPrintable
     public Color Color { get; set; }
     public int Mileage { get; set; }
     public double Price { get; set; }
+    
+    public int Year { get; set; }
+    
+    public int NumberOfDoors { get; set; }
+    
+    public CarBodyType BodyType { get; set; }
 
 
-    public Vehicle(string brand, string modelName, Engine engine, Color color, int mileage, double price, int weight)
+    public Vehicle()
+    {
+    }
+    public Vehicle(string brand, string modelName, Engine engine, Color color, int mileage, double price, int weight, int year, int numberOfDoors, CarBodyType bodyType)
     {
         Brand = brand;
         ModelName = modelName;
@@ -25,6 +34,9 @@ public abstract class Vehicle : IPrintable
         Mileage = mileage;
         Price = price;
         Weight = weight;
+        Year = year;
+        NumberOfDoors = numberOfDoors;
+        BodyType = bodyType;
     }
     
     public abstract string Print();

@@ -17,6 +17,5 @@ public class AuthorizationRequest
     public string Login { get; set; }
 
     [Column("message")] public string Message { get; set; }
-
     [Required] [Column("status")] public RequestStatus Status { get; set; } = RequestStatus.Pending;
 }

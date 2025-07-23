@@ -7,6 +7,10 @@ namespace CarDealership.model
         public DriveType Drive { get; set; }
         public TransmissionType Transmission { get; set; }
 
+        public CarDto()
+        {
+            
+        }
         public CarDto(
             string brand,
             string modelName,
@@ -16,8 +20,11 @@ namespace CarDealership.model
             double price,
             int weight,
             DriveType drive,
-            TransmissionType transmission
-        ) : base(brand, modelName, engine, color, mileage, price, weight)
+            TransmissionType transmission,
+            int year,
+            int numberOfDoors,
+            CarBodyType bodyType
+        ) : base(brand, modelName, engine, color, mileage, price, weight, year, numberOfDoors, bodyType)
         {
             Drive = drive;
             Transmission = transmission;
