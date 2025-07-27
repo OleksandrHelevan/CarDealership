@@ -9,4 +9,14 @@ public class PassportDataMapper
     {
         return new PassportDataDto(e.FirstName, e.LastName, e.PassportNumber);
     }
+
+    public static PassportData ToEntity(PassportDataDto dto)
+    {
+        return new PassportData
+        {
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            PassportNumber = dto.PassportNumber
+        };
+    }
 }

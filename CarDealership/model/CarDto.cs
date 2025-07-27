@@ -4,7 +4,7 @@ namespace CarDealership.model
 {
     public class CarDto : Vehicle
     {
-        public DriveType Drive { get; set; }
+        public DriveType DriveType { get; set; }
         public TransmissionType Transmission { get; set; }
 
         public CarDto()
@@ -26,14 +26,14 @@ namespace CarDealership.model
             CarBodyType bodyType
         ) : base(brand, modelName, engine, color, mileage, price, weight, year, numberOfDoors, bodyType)
         {
-            Drive = drive;
+            DriveType = drive;
             Transmission = transmission;
         }
 
         public override string Print()
         {
             return
-                $"Car: {Brand} {ModelName}, {Engine}, {Color}, {Mileage} km, ${Price}, {Weight} kg, {Transmission}, {Drive}";
+                $"Car: {Brand} {ModelName}, {Engine}, {Color}, {Mileage} km, ${Price}, {Weight} kg, {Transmission}, {DriveType}";
         }
     }
 }

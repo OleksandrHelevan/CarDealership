@@ -1,4 +1,5 @@
 using CarDealership.entity;
+using CarDealership.enums;
 using CarDealership.model;
 
 namespace CarDealership.mapper;
@@ -14,5 +15,29 @@ public class ProductMapper
             car = GasolineCarMapper.ToDto(e.GasolineCar);
 
         return new ProductDto(e.Number, e.CountryOfOrigin, e.InStock, e.AvailableFrom, e.CarType, car);
+    }
+
+    public static Product ToEntity(ProductDto dto)
+    {
+        var product = new Product
+        {
+            Number = dto.Number,
+            CountryOfOrigin = dto.CountryOfOrigin,
+            InStock = dto.InStock,
+            AvailableFrom = dto.AvailableFrom,
+            CarType = dto.CarType
+        };
+
+        // Залежно від типу — заповнюємо відповідне поле
+        if (dto.CarType == CarType.Electro)
+        {
+            product.ElectroCar = ElectroCarMapper.ToEntity(dto.Car);
+        }
+        else if (dto.CarType == CarType.Gasoline)
+        {
+            product.GasolineCar = GasolineCarMapper.ToEntity(dto.Car);
+        }
+
+        return product;
     }
 }

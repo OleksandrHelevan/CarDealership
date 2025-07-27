@@ -13,11 +13,12 @@ namespace CarDealership.config
         public DbSet<GasolineCar> GasolineCars { get; set; }
         public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
         public DbSet<Product> Products { get; set; }
-        
         public DbSet<Client> Clients { get; set; }
 
         public DbSet<PassportData> PassportData { get; set; }
         
+        public DbSet<Order> Orders { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(
@@ -79,6 +80,26 @@ namespace CarDealership.config
                 .HasOne(p => p.GasolineCar)
                 .WithMany()
                 .HasForeignKey("gasoline_car_id");
+            
+            modelBuilder.Entity<Order>()
+                .ToTable("orders");
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Client)
+                .WithMany()
+                .HasForeignKey("client_id")
+                .IsRequired();
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Product)
+                .WithMany()
+                .HasForeignKey("product_id")
+                .IsRequired();
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.PaymentType)
+                .HasConversion<string>();
+
         }
     }
 }
