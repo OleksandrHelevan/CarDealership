@@ -1,6 +1,6 @@
 using CarDealership.config;
 using CarDealership.mapper;
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.repo.impl;
 
 namespace CarDealership.service.impl;

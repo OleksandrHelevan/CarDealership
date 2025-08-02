@@ -1,8 +1,5 @@
 using CarDealership.config;
 using CarDealership.entity;
-using CarDealership.model;
-using CarDealership.repo;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.repo.impl
 {

@@ -1,7 +1,7 @@
 using System.Windows;
 using CarDealership.entity;
 using CarDealership.enums;
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.service;
 using CarDealership.service.impl;
 

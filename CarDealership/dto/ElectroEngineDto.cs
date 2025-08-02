@@ -1,7 +1,7 @@
 using CarDealership.enums;
-using CarDealership.model.interfaces;
+using CarDealership.dto.interfaces;
 
-namespace CarDealership.model;
+namespace CarDealership.dto;
 
 public class ElectroEngineDto : Engine
 {

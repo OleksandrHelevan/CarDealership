@@ -1,6 +1,6 @@
 using CarDealership.enums;
 
-namespace CarDealership.model
+namespace CarDealership.dto
 {
     public class CarDto : Vehicle
     {
@@ -9,8 +9,8 @@ namespace CarDealership.model
 
         public CarDto()
         {
-            
         }
+
         public CarDto(
             string brand,
             string modelName,

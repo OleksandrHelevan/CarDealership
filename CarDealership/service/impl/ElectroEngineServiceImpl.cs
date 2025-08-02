@@ -1,7 +1,7 @@
 using CarDealership.config;
 using CarDealership.entity;
 using CarDealership.mapper;
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.repo;
 using CarDealership.repo.impl;
 

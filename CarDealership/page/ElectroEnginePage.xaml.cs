@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.service.impl;
 
 namespace CarDealership.page

@@ -1,6 +1,6 @@
 using CarDealership.entity;
 using CarDealership.mapper;
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.repo;
 
 namespace CarDealership.service.impl;

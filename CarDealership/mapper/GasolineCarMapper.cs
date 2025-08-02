@@ -1,5 +1,5 @@
 using CarDealership.entity;
-using CarDealership.model;
+using CarDealership.dto;
 using System;
 
 namespace CarDealership.mapper

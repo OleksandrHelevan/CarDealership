@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:CarDealership"
-      xmlns:model="clr-namespace:CarDealership.model"
+      xmlns:model="clr-namespace:CarDealership.dto"
       mc:Ignorable="d"
       Title="ElectroEnginePage">
 

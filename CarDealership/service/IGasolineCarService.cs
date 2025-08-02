@@ -1,13 +1,14 @@
+using CarDealership.dto;
 using CarDealership.entity;
 
 namespace CarDealership.service
 {
     public interface IGasolineCarService
     {
-        IEnumerable<GasolineCar> GetAll();
+        IEnumerable<CarDto> GetAll();
         GasolineCar? GetById(int id);
-        void Add(GasolineCar car);
-        void Update(GasolineCar car);
+        void Add(CarDto car);
+        void Update(CarDto car);
         void Delete(int id);
     }
 }

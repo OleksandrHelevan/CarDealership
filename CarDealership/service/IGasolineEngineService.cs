@@ -1,4 +1,4 @@
-using CarDealership.model;
+using CarDealership.dto;
 
 namespace CarDealership.service;
 

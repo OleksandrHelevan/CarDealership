@@ -1,5 +1,5 @@
 using CarDealership.service.impl;
-using CarDealership.model;
+using CarDealership.dto;
 using System.Windows.Controls;
 
 namespace CarDealership.page;

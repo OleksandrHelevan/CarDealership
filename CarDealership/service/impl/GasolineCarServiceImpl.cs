@@ -1,5 +1,9 @@
+using System.Collections.Immutable;
 using CarDealership.entity;
 using CarDealership.repo;
+using CarDealership.dto;
+using CarDealership.mapper;
+using NHibernate.Util;
 
 namespace CarDealership.service.impl
 {
@@ -12,9 +16,9 @@ namespace CarDealership.service.impl
             _repository = repository;
         }
 
-        public IEnumerable<GasolineCar> GetAll()
+        public IEnumerable<CarDto> GetAll()
         {
-            return _repository.GetAll();
+            return _repository.GetAll().Select(GasolineCarMapper.ToDto).ToList();
         }
 
         public GasolineCar? GetById(int id)
@@ -22,14 +26,14 @@ namespace CarDealership.service.impl
             return _repository.GetById(id);
         }
 
-        public void Add(GasolineCar car)
+        public void Add(CarDto car)
         {
-            _repository.Add(car);
+            _repository.Add(GasolineCarMapper.ToEntity(car));
         }
 
-        public void Update(GasolineCar car)
+        public void Update(CarDto car)
         {
-            _repository.Update(car);
+            _repository.Update(GasolineCarMapper.ToEntity(car));
         }
 
         public void Delete(int id)

@@ -1,4 +1,4 @@
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.enums;
 
 namespace CarDealership.service

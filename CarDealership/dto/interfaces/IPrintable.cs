@@ -1,4 +1,4 @@
-namespace CarDealership.model.interfaces;
+namespace CarDealership.dto.interfaces;
 
 public interface IPrintable
 { 

@@ -1,6 +1,6 @@
 using CarDealership.enums;
 
-namespace CarDealership.model;
+namespace CarDealership.dto;
 
 public class PassportDataDto
 {

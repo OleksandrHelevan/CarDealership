@@ -1,7 +1,7 @@
 using CarDealership.entity;
 using CarDealership.enums;
 using CarDealership.mapper;
-using CarDealership.model;
+using CarDealership.dto;
 using CarDealership.repo;
 using CarDealership.repo.impl;
 

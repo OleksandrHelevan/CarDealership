@@ -1,8 +1,8 @@
 
-using CarDealership.model.interfaces;
+using CarDealership.dto.interfaces;
 using CarDealership.enums;
 
-namespace CarDealership.model;
+namespace CarDealership.dto;
 
 public abstract class Vehicle : IPrintable
 {
