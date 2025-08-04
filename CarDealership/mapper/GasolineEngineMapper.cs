@@ -7,7 +7,16 @@ namespace CarDealership.mapper
     {
         public static GasolineEngineDto ToDto(GasolineEngine entity)
         {
-            return new GasolineEngineDto(entity.Power, entity.FuelType, entity.FuelConsumption);
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity), "GasolineEngine is null.");
+            }
+
+            return new GasolineEngineDto(
+                entity.Power,
+                entity.FuelType,
+                entity.FuelConsumption
+            );
         }
         
         public static GasolineEngine ToEntity(GasolineEngineDto dto)

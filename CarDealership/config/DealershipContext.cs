@@ -11,13 +11,11 @@ namespace CarDealership.config
         public DbSet<User> Users { get; set; }
         public DbSet<ElectroCar> ElectroCars { get; set; }
         public DbSet<GasolineCar> GasolineCars { get; set; }
-        public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
-
-        public DbSet<PassportData> PassportData { get; set; }
-        
         public DbSet<Order> Orders { get; set; }
+        public DbSet<PassportData> PassportData { get; set; }
+        public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,21 +25,23 @@ namespace CarDealership.config
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+            //Entity
+            
             modelBuilder.Entity<GasolineEngine>()
-                .ToTable("gasoline_engines"); // Вказуємо точну назву таблиці
+                .ToTable("gasoline_engines");
 
             modelBuilder.Entity<ElectroEngine>()
-                .ToTable("electro_engines"); // Вказуємо точну назву таблиці
+                .ToTable("electro_engines");
+            
+            modelBuilder.Entity<AuthorizationRequest>()
+                .ToTable("requests");
+                
+            modelBuilder.Entity<Order>()
+                .ToTable("orders");
 
-            modelBuilder.Entity<ElectroEngine>()
-                .Property(e => e.MotorType)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<User>()
-                .ToTable("keys") // Назва таблиці в БД
-                .Property(u => u.AccessRight)
-                .HasConversion<string>(); // enum AccessRight => string
-
+            //FK
+            
             modelBuilder.Entity<ElectroCar>()
                 .HasOne(e => e.Engine)
                 .WithMany()
@@ -49,28 +49,12 @@ namespace CarDealership.config
                 .IsRequired();
 
             modelBuilder.Entity<GasolineCar>()
-                .HasOne(e => e.Engine)
+                .HasOne(c => c.Engine)
                 .WithMany()
-                .HasForeignKey("engine_id")
+                .HasForeignKey(c => c.EngineId)
                 .IsRequired();
 
-            // Якщо є енум, який зберігається як текст, можна додати конвертацію
-            modelBuilder.Entity<GasolineEngine>()
-                .Property(e => e.FuelType)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<AuthorizationRequest>()
-                .ToTable("requests"); // Назва таблиці в БД
-
-            // Якщо Request.Status — це enum, додай і для нього:
-            modelBuilder.Entity<AuthorizationRequest>()
-                .Property(r => r.Status)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<Product>()
-                .Property(p => p.CarType)
-                .HasConversion<string>();
-
+            
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.ElectroCar)
                 .WithMany()
@@ -81,8 +65,6 @@ namespace CarDealership.config
                 .WithMany()
                 .HasForeignKey("gasoline_car_id");
             
-            modelBuilder.Entity<Order>()
-                .ToTable("orders");
 
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Client)
@@ -95,11 +77,49 @@ namespace CarDealership.config
                 .WithMany()
                 .HasForeignKey("product_id")
                 .IsRequired();
+            
+            //Enums
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentType)
                 .HasConversion<string>();
+            
+            modelBuilder.Entity<GasolineCar>()
+                .Property(c => c.Color)
+                .HasConversion<string>();
 
+            modelBuilder.Entity<GasolineCar>()
+                .Property(c => c.DriveType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<GasolineCar>()
+                .Property(c => c.Transmission)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<GasolineCar>()
+                .Property(c => c.BodyType)
+                .HasConversion<string>();
+            
+            modelBuilder.Entity<AuthorizationRequest>()
+                .Property(r => r.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.CarType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<GasolineEngine>()
+                .Property(e => e.FuelType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<ElectroEngine>()
+                .Property(e => e.MotorType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<User>()
+                .ToTable("keys")
+                .Property(u => u.AccessRight)
+                .HasConversion<string>();
         }
     }
 }

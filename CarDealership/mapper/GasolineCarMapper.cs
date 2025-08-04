@@ -6,16 +6,26 @@ namespace CarDealership.mapper
 {
     public class GasolineCarMapper
     {
-        public static CarDto ToDto(GasolineCar e)
+        public static GasolineCarDto ToDto(GasolineCar e)
         {
-            return new CarDto(e.Brand, e.ModelName,
+            return new GasolineCarDto(
+                e.Brand,
+                e.ModelName,
                 GasolineEngineMapper.ToDto(e.Engine),
-                e.Color, e.Mileage, e.Price,
-                e.Weight, e.DriveType, e.Transmission,
-                e.Year, e.NumberOfDoors, e.BodyType);
+                e.Color,
+                e.Mileage,
+                e.Price,
+                e.Weight,
+                e.DriveType,
+                e.Transmission,
+                e.Year,
+                e.NumberOfDoors,
+                e.BodyType
+            );
         }
 
-        public static GasolineCar ToEntity(CarDto dto)
+
+        public static GasolineCar ToEntity(GasolineCarDto dto)
         {
             if (dto.Engine is not GasolineEngineDto gasolineEngineDto)
                 throw new ArgumentException("Expected GasolineEngineDto for GasolineCar");

@@ -16,24 +16,25 @@ namespace CarDealership.service.impl
             _repository = repository;
         }
 
-        public IEnumerable<CarDto> GetAll()
+        public IEnumerable<GasolineCarDto> GetAll()
         {
             return _repository.GetAll().Select(GasolineCarMapper.ToDto).ToList();
         }
+
 
         public GasolineCar? GetById(int id)
         {
             return _repository.GetById(id);
         }
 
-        public void Add(CarDto car)
+        public void Add(GasolineCarDto electroCar)
         {
-            _repository.Add(GasolineCarMapper.ToEntity(car));
+            _repository.Add(GasolineCarMapper.ToEntity(electroCar));
         }
 
-        public void Update(CarDto car)
+        public void Update(GasolineCarDto electroCar)
         {
-            _repository.Update(GasolineCarMapper.ToEntity(car));
+            _repository.Update(GasolineCarMapper.ToEntity(electroCar));
         }
 
         public void Delete(int id)

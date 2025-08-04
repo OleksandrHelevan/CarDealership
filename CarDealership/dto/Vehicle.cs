@@ -1,43 +1,47 @@
-
-using CarDealership.dto.interfaces;
 using CarDealership.enums;
 
 namespace CarDealership.dto;
 
-public abstract class Vehicle : IPrintable
+public abstract class Vehicle
 {
     public string Brand { get; set; }
-    
+
     public int Weight { get; set; }
     public string ModelName { get; set; }
     public Engine Engine { get; set; }
     public Color Color { get; set; }
+
+    public string ColorString { get; set; }
     public int Mileage { get; set; }
     public double Price { get; set; }
-    
+
     public int Year { get; set; }
-    
+
     public int NumberOfDoors { get; set; }
-    
+
     public CarBodyType BodyType { get; set; }
+
+    public string BodyTypeString { get; set; }
 
 
     public Vehicle()
     {
     }
-    public Vehicle(string brand, string modelName, Engine engine, Color color, int mileage, double price, int weight, int year, int numberOfDoors, CarBodyType bodyType)
+
+    public Vehicle(string brand, string modelName, Engine engine, Color color, int mileage, double price, int weight,
+        int year, int numberOfDoors, CarBodyType bodyType)
     {
         Brand = brand;
         ModelName = modelName;
         Engine = engine;
         Color = color;
+        ColorString = color.ToFriendlyString();
         Mileage = mileage;
         Price = price;
         Weight = weight;
         Year = year;
         NumberOfDoors = numberOfDoors;
         BodyType = bodyType;
+        BodyTypeString = bodyType.ToFriendlyString();
     }
-    
-    public abstract string Print();
 }

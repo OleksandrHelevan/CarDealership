@@ -1,4 +1,6 @@
+using CarDealership.dto;
 using CarDealership.entity;
+using CarDealership.mapper;
 using CarDealership.repo;
 
 namespace CarDealership.service.impl
@@ -12,9 +14,9 @@ namespace CarDealership.service.impl
             _repository = repository;
         }
 
-        public IEnumerable<ElectroCar> GetAllCars()
+        public IEnumerable<ElectroCarDto> GetAllCars()
         {
-            return _repository.GetAll();
+            return _repository.GetAll().Select(ElectroCarMapper.ToDto).ToList();
         }
 
         public ElectroCar? GetCarById(int id)
@@ -22,14 +24,14 @@ namespace CarDealership.service.impl
             return _repository.GetById(id);
         }
 
-        public void AddCar(ElectroCar car)
+        public void AddCar(ElectroCarDto electroCar)
         {
-            _repository.Add(car);
+            _repository.Add(ElectroCarMapper.ToEntity(electroCar));
         }
 
-        public void UpdateCar(ElectroCar car)
+        public void UpdateCar(ElectroCarDto electroCar)
         {
-            _repository.Update(car);
+            _repository.Update(ElectroCarMapper.ToEntity(electroCar));
         }
 
         public void DeleteCar(int id)

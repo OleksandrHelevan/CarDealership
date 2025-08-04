@@ -2,19 +2,22 @@ using CarDealership.enums;
 
 namespace CarDealership.dto
 {
-    public class CarDto : Vehicle
+    public class GasolineCarDto : Vehicle
     {
         public DriveType DriveType { get; set; }
         public TransmissionType Transmission { get; set; }
 
-        public CarDto()
+        public string DriveTypeString { get; set; }
+        public string TransmissionString { get; set; }
+
+        public GasolineCarDto()
         {
         }
 
-        public CarDto(
+        public GasolineCarDto(
             string brand,
             string modelName,
-            Engine engine,
+            GasolineEngineDto engine,
             Color color,
             int mileage,
             double price,
@@ -26,14 +29,11 @@ namespace CarDealership.dto
             CarBodyType bodyType
         ) : base(brand, modelName, engine, color, mileage, price, weight, year, numberOfDoors, bodyType)
         {
+            DriveTypeString = DriveType.ToFriendlyString();
             DriveType = drive;
             Transmission = transmission;
+            TransmissionString = Transmission.ToFriendlyString();
         }
-
-        public override string Print()
-        {
-            return
-                $"Car: {Brand} {ModelName}, {Engine}, {Color}, {Mileage} km, ${Price}, {Weight} kg, {Transmission}, {DriveType}";
-        }
+        
     }
 }

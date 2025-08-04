@@ -13,7 +13,7 @@ public class ClientServiceImpl : IClientService
     {
         _clientRepository = clientRepository;
     }
-
+    
     public IEnumerable<ClientDto> GetAllClients()
     {
         var clients = _clientRepository.GetAll();
@@ -34,7 +34,7 @@ public class ClientServiceImpl : IClientService
             User = new User
             {
                 Login = clientDto.Login,
-                Password = clientDto.Password,
+                Password = clientDto.Password.GetHashCode().ToString(),
                 AccessRight = clientDto.AccessRight
             },
             PassportData = new PassportData

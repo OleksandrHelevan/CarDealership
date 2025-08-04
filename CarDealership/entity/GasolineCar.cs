@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using CarDealership.enums;
 
 namespace CarDealership.entity;
-
 [Table("gasoline_cars")]
 public class GasolineCar
 {
@@ -21,9 +20,12 @@ public class GasolineCar
     [MaxLength(100)]
     [Column("model_name")]
     public string ModelName { get; set; }
-
+    
     [Required]
+    [ForeignKey(nameof(Engine))]
     [Column("engine_id")]
+    public int EngineId { get; set; }
+
     public GasolineEngine Engine { get; set; }
 
     [Required]
@@ -49,15 +51,15 @@ public class GasolineCar
     [Required]
     [Column("transmission")]
     public TransmissionType Transmission { get; set; }
-    
+
     [Required]
     [Column("year")]
     public int Year { get; set; }
-        
+
     [Required]
     [Column("number_of_doors")]
     public int NumberOfDoors { get; set; }
-        
+
     [Required]
     [Column("body_type")]
     public CarBodyType BodyType { get; set; }

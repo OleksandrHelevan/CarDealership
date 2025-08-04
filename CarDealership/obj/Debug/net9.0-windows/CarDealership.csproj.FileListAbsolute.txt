@@ -93,3 +93,5 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEnginePage.g
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\TestWindow.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEnginePage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\TestWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineCarPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineCarPage.baml

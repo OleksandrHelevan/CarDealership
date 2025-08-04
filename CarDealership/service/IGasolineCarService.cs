@@ -5,10 +5,10 @@ namespace CarDealership.service
 {
     public interface IGasolineCarService
     {
-        IEnumerable<CarDto> GetAll();
+        IEnumerable<GasolineCarDto> GetAll();
         GasolineCar? GetById(int id);
-        void Add(CarDto car);
-        void Update(CarDto car);
+        void Add(GasolineCarDto electroCar);
+        void Update(GasolineCarDto electroCar);
         void Delete(int id);
     }
 }

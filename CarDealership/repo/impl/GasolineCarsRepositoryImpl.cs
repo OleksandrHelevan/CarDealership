@@ -1,5 +1,6 @@
 using CarDealership.entity;
 using CarDealership.config;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.repo.impl
 {
@@ -14,12 +15,16 @@ namespace CarDealership.repo.impl
 
         public IEnumerable<GasolineCar> GetAll()
         {
-            return _context.GasolineCars.ToList();
+            return _context.GasolineCars
+                .Include(c => c.Engine)
+                .ToList();
         }
 
         public GasolineCar? GetById(int id)
         {
-            return _context.GasolineCars.FirstOrDefault(c => c.Id == id);
+            return _context.GasolineCars
+                .Include(c => c.Engine)
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public void Add(GasolineCar car)

@@ -14,16 +14,16 @@ public class ProductDto
     
     public CarType CarType { get; set; }
         
-    public CarDto Car { get; set; }
+    public Vehicle Vehicle { get; set; }
 
-    public ProductDto(string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, CarType carType, CarDto car)
+    public ProductDto(string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, CarType carType, Vehicle vehicle)
     {
         Number = number;
         CountryOfOrigin = countryOfOrigin;
         InStock = inStock;
         AvailableFrom = availableFrom;
         CarType = carType;
-        Car = car;
+        Vehicle = vehicle;
         
     }
     

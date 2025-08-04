@@ -1,25 +1,41 @@
+using CarDealership.dto;
 using CarDealership.entity;
 using CarDealership.enums;
-using CarDealership.dto;
 
 namespace CarDealership.mapper;
 
-public class ProductMapper
+public static class ProductMapper
 {
-    public static ProductDto ToDto(Product e)
+    public static ProductDto ToDto(Product entity)
     {
-        CarDto car = new CarDto();
-        if (e.ElectroCar != null)
-            car = ElectroCarMapper.ToDto(e.ElectroCar);
-        if (e.GasolineCar != null)
-            car = GasolineCarMapper.ToDto(e.GasolineCar);
+        Vehicle vehicle = null!;
 
-        return new ProductDto(e.Number, e.CountryOfOrigin, e.InStock, e.AvailableFrom, e.CarType, car);
+        if (entity.CarType == CarType.Electro && entity.ElectroCar != null)
+        {
+            vehicle = ElectroCarMapper.ToDto(entity.ElectroCar);
+        }
+        else if (entity.CarType == CarType.Gasoline && entity.GasolineCar != null)
+        {
+            vehicle = GasolineCarMapper.ToDto(entity.GasolineCar);
+        }
+        else
+        {
+            throw new InvalidOperationException("Unknown car type or vehicle is null");
+        }
+
+        return new ProductDto(
+            entity.Number,
+            entity.CountryOfOrigin,
+            entity.InStock,
+            entity.AvailableFrom,
+            entity.CarType,
+            vehicle
+        );
     }
 
     public static Product ToEntity(ProductDto dto)
     {
-        var product = new Product
+        var entity = new Product
         {
             Number = dto.Number,
             CountryOfOrigin = dto.CountryOfOrigin,
@@ -28,16 +44,19 @@ public class ProductMapper
             CarType = dto.CarType
         };
 
-        // Залежно від типу — заповнюємо відповідне поле
-        if (dto.CarType == CarType.Electro)
+        if (dto.CarType == CarType.Electro && dto.Vehicle is ElectroCarDto electroDto)
         {
-            product.ElectroCar = ElectroCarMapper.ToEntity(dto.Car);
+            entity.ElectroCar = ElectroCarMapper.ToEntity(electroDto);
         }
-        else if (dto.CarType == CarType.Gasoline)
+        else if (dto.CarType == CarType.Gasoline && dto.Vehicle is GasolineCarDto gasolineDto)
         {
-            product.GasolineCar = GasolineCarMapper.ToEntity(dto.Car);
+            entity.GasolineCar = GasolineCarMapper.ToEntity(gasolineDto);
+        }
+        else
+        {
+            throw new InvalidOperationException("Unknown car type or vehicle DTO type mismatch");
         }
 
-        return product;
+        return entity;
     }
 }

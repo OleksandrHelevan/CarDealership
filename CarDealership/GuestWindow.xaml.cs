@@ -21,5 +21,9 @@ namespace CarDealership
         {
             MainFrame.Navigate(new ElectroEnginePage());
         }
+        private void BtnGasolineCar_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new GasolineCarPage());
+        }
     }
 }

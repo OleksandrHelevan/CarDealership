@@ -65,6 +65,10 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnElectro_Click"/>
 
+            <Button Name="BtnGasolineCar"
+                    Content="Gasoline Car"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnGasolineCar_Click"/>
         </StackPanel>
 
         <Frame x:Name="MainFrame"

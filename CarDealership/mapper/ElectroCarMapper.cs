@@ -5,16 +5,16 @@ namespace CarDealership.mapper;
 
 public class ElectroCarMapper
 {
-    public static CarDto ToDto(ElectroCar e)
+    public static ElectroCarDto ToDto(ElectroCar e)
     {
-        return new CarDto(e.Brand, e.ModelName,
+        return new ElectroCarDto(e.Brand, e.ModelName,
             ElectroEngineMapper.ToDto(e.Engine),
             e.Color, e.Mileage, e.Price,
             e.Weight, e.DriveType, e.Transmission,
             e.Year, e.NumberOfDoors, e.BodyType);
     }
 
-    public static ElectroCar ToEntity(CarDto dto)
+    public static ElectroCar ToEntity(ElectroCarDto dto)
     {
         if (dto.Engine is not ElectroEngineDto electroEngineDto)
             throw new ArgumentException("Expected ElectroEngineDto for ElectroCar");

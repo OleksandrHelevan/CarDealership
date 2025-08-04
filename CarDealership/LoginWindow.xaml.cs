@@ -1,5 +1,4 @@
 using System.Windows;
-using CarDealership.entity;
 using CarDealership.enums;
 using CarDealership.dto;
 using CarDealership.service;
@@ -7,7 +6,7 @@ using CarDealership.service.impl;
 
 namespace CarDealership
 {
-    public partial class LoginWindow : Window
+    public partial class LoginWindow
     {
         private readonly IUserService _userService;
 
@@ -24,27 +23,33 @@ namespace CarDealership
 
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("⚠️ Enter login and password.");
+                MessageBox.Show("Enter login and password.");
                 return;
             }
 
             AccessRight selectedRight = (AccessRight)AccessComboBox.SelectedIndex;
 
-            UserDto? user = _userService.Login(login, password, selectedRight);
-
-            if (user != null)
+            try
             {
-                MessageBox.Show($"✅ Welcome, {user.Login} ({user.AccessRight})!", "Login Successful");
+                UserDto? user = _userService.Login(login, password, selectedRight);
 
-                GuestWindow mainWindow = new GuestWindow();
-                mainWindow.Show();
-                
+
+                if (user != null)
+                {
+                    MessageBox.Show($"Welcome, {user.Login} ({user.AccessRight})!", "Login Successful");
+
+                    GuestWindow mainWindow = new GuestWindow();
+                    mainWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid login, password or access right.", "Login Failed");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("❌ Invalid login, password or access right.", "Login Failed");
+                MessageBox.Show(ex.Message, "Login Failed");
             }
-
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
@@ -54,7 +59,7 @@ namespace CarDealership
 
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("⚠️ Enter login and password.");
+                MessageBox.Show("Enter login and password.");
                 return;
             }
 
