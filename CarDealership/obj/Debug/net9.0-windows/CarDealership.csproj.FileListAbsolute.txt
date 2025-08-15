@@ -84,11 +84,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership_MarkupComp
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineEnginePage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineEnginePage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\App.baml
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.baml
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\LoginWindow.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\CarDealership_Content.g.cs
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\GuestWindow.baml
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\GuestWindow.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEnginePage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEnginePage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineCarPage.g.cs
@@ -97,3 +93,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroCarPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\ResetPasswordWindow.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\ResetPasswordWindow.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\GuestWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\LoginWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\GuestWindow.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\LoginWindow.g.cs

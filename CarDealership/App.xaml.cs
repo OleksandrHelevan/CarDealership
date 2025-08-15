@@ -1,7 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
-using CarDealership.page;
+﻿using System.Windows;
+using CarDealership.window;
 
 namespace CarDealership;
 

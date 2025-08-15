@@ -6,7 +6,7 @@ using CarDealership.repo.impl;
 using CarDealership.service;
 using CarDealership.service.impl;
 
-namespace CarDealership
+namespace CarDealership.window
 {
     public partial class GuestWindow
     {
