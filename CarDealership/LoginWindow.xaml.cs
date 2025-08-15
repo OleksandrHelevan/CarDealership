@@ -1,6 +1,7 @@
 using System.Windows;
 using CarDealership.enums;
 using CarDealership.dto;
+using CarDealership.exception;
 using CarDealership.service;
 using CarDealership.service.impl;
 
@@ -31,25 +32,27 @@ namespace CarDealership
 
             try
             {
-                UserDto? user = _userService.Login(login, password, selectedRight);
+                UserDto user = _userService.Login(login, password, selectedRight)!;
 
-                if (user != null)
-                {
-                    MessageBox.Show($"Ласкаво просимо, {user.Login} ({user.AccessRight})!", "Вхід успішний");
+                MessageBox.Show($"Ласкаво просимо, {user.Login} (Права доступу - {user.AccessRight.ToFriendlyString()})!", "Вхід успішний");
 
-                    this.DialogResult = true;
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Невірний логін, пароль або рівень доступу.", "Вхід не вдалось");
-                }
+                DialogResult = true;
+                Close();
+            }
+            catch (UserNotFoundException)
+            {
+                MessageBox.Show("Користувача з таким логіном не знайдено.", "Вхід не вдалось");
+            }
+            catch (InvalidPasswordException)
+            {
+                MessageBox.Show("Невірний пароль.", "Вхід не вдалось");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Вхід не вдалось");
+                MessageBox.Show($"Сталася помилка: {ex.Message}", "Вхід не вдалось");
             }
         }
+
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
@@ -87,6 +90,5 @@ namespace CarDealership
             ResetPasswordWindow resetWindow = new ResetPasswordWindow(_userService, login);
             resetWindow.ShowDialog();
         }
-
     }
 }

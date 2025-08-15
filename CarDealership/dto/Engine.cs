@@ -11,7 +11,6 @@ public abstract class Engine
     {
         Power = power;
         HorsePower = CalculateToHorsePower();
-        Console.WriteLine(HorsePower);
     }
 
     protected short CalculateToHorsePower()

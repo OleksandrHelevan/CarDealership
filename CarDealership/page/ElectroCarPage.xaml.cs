@@ -24,8 +24,7 @@ namespace CarDealership.page
             {
                 List<ElectroCarDto> cars = _service.GetAllCars().ToList();
                 foreach (ElectroCarDto car in cars)
-                    Console.WriteLine(car);
-                ElectroCarsList.ItemsSource = cars;
+                    ElectroCarsList.ItemsSource = cars;
             }
             catch (Exception ex)
             {

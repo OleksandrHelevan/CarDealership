@@ -1,14 +1,10 @@
 namespace CarDealership.exception
 {
-    public class UserNotFoundException : Exception
+    public class UserNotFoundException : CarDealershipException
     {
-        public UserNotFoundException() 
-            : base("Користувача не знайдено.") { }
-
-        public UserNotFoundException(string message) 
-            : base(message) { }
-
-        public UserNotFoundException(string message, Exception innerException) 
-            : base(message, innerException) { }
+        public UserNotFoundException(string message)
+            : base(message)
+        {
+        }
     }
 }

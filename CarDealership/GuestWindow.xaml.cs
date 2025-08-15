@@ -1,14 +1,21 @@
 using System.Windows;
+using CarDealership.config;
 using CarDealership.page;
+using CarDealership.repo.impl;
+using CarDealership.service;
+using CarDealership.service.impl;
 
 namespace CarDealership
 {
     public partial class GuestWindow
     {
-        public GuestWindow()
+        private readonly string _currentUserLogin;
+        private readonly IAuthorizationRequestService _requestService;
+        public GuestWindow(string login)
         {
             InitializeComponent();
-
+            _requestService = new AuthorizationRequestService(new AuthorizationRequestRepository(new DealershipContext()));
+            _currentUserLogin = login; 
             MainFrame.Navigate(new GasolineCarPage());
         }
 
@@ -20,6 +27,14 @@ namespace CarDealership
         private void BtnElectroCar_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new ElectroCarPage());
+        }
+        
+        private void BtnAuthRequest_Click(object sender, RoutedEventArgs e)
+        {
+            
+            var request = _requestService.CreateRequest(_currentUserLogin);
+
+            MessageBox.Show($"Запит на авторизацію створено! Очікуйте відповіді", "Успіх");
         }
     }
 }

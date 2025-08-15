@@ -36,19 +36,20 @@ namespace CarDealership.service.impl
 
         public UserDto? Login(string login, string password, AccessRight accessRight)
         {
-            Console.WriteLine(DealershipPasswordEncoder.Encode(password));
+            var userFromDb = _userRepository.GetByLogin(login);
 
-            var user = new User
+            if (userFromDb == null)
             {
-                Login = login,
-                Password = DealershipPasswordEncoder.Encode(password),
-                AccessRight = accessRight
-            };
+                throw new UserNotFoundException($"Користувач з логіном '{login}' не знайдений.");
+            }
+            if (userFromDb.Password != DealershipPasswordEncoder.Encode(password))
+            {
+                throw new InvalidPasswordException("Невірний пароль.");
+            }
 
-            return _userRepository.Exists(user)
-                ? UserMapper.ToDto(_userRepository.GetByLogin(login))
-                : throw new UserNotFoundException($"User with '{login}' not found.");
+            return UserMapper.ToDto(userFromDb);
         }
+
 
         public bool UpdatePassword(string login, string password)
         {
