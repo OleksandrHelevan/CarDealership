@@ -20,13 +20,16 @@ public partial class App : Application
         if (loginResult == true)
         {
             var mainWindow = new GuestWindow();
-            Application.Current.MainWindow = mainWindow;
+            Current.MainWindow = mainWindow;
             mainWindow.Show();
         }
         else
         {
+        
+            MessageBox.Show("Вхід не виконано. Додаток буде закрито.", "Інформація");
             Shutdown();
         }
     }
+
 
 }

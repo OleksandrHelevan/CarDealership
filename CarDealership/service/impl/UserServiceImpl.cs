@@ -49,5 +49,15 @@ namespace CarDealership.service.impl
                 ? UserMapper.ToDto(_userRepository.GetByLogin(login))
                 : throw new UserNotFoundException($"User with '{login}' not found.");
         }
+
+        public bool UpdatePassword(string login, string password)
+        {
+            var user = _userRepository.GetByLogin(login);
+            if (user == null)
+                throw new UserNotFoundException($"User with '{login}' not found.");
+            user.Password = DealershipPasswordEncoder.Encode(password);
+            _userRepository.Update(user);
+            return true;
+        }
     }
 }

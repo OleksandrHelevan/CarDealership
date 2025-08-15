@@ -1,5 +1,6 @@
 using CarDealership.entity;
 using CarDealership.config;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CarDealership.repo.impl
@@ -15,8 +16,9 @@ namespace CarDealership.repo.impl
 
         public IEnumerable<ElectroCar> GetAll()
         {
-            return _context.ElectroCars.ToList();
+            return _context.ElectroCars.Include(c => c.Engine).ToList();
         }
+
 
         public ElectroCar? GetById(int id)
         {

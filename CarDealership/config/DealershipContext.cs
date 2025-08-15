@@ -1,5 +1,4 @@
 using CarDealership.entity;
-using CarDealership.enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.config
@@ -43,9 +42,9 @@ namespace CarDealership.config
             //FK
             
             modelBuilder.Entity<ElectroCar>()
-                .HasOne(e => e.Engine)
+                .HasOne(c => c.Engine)
                 .WithMany()
-                .HasForeignKey("engine_id")
+                .HasForeignKey(c => c.EngineId)
                 .IsRequired();
 
             modelBuilder.Entity<GasolineCar>()
@@ -79,6 +78,23 @@ namespace CarDealership.config
                 .IsRequired();
             
             //Enums
+
+            
+            modelBuilder.Entity<ElectroCar>()
+                .Property(c => c.Color)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<ElectroCar>()
+                .Property(c => c.DriveType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<ElectroCar>()
+                .Property(c => c.Transmission)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<ElectroCar>()
+                .Property(c => c.BodyType)
+                .HasConversion<string>();
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentType)

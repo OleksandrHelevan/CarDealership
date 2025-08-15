@@ -95,3 +95,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroEnginePage.b
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\TestWindow.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineCarPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\GasolineCarPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroCarPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\ElectroCarPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\ResetPasswordWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\ResetPasswordWindow.g.cs

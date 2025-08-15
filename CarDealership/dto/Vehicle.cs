@@ -10,7 +10,7 @@ public abstract class Vehicle
     public string ModelName { get; set; }
     public Engine Engine { get; set; }
     public Color Color { get; set; }
-
+    
     public string ColorString { get; set; }
     public int Mileage { get; set; }
     public double Price { get; set; }

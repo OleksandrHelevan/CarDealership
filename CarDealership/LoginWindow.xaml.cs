@@ -23,7 +23,7 @@ namespace CarDealership
 
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Enter login and password.");
+                MessageBox.Show("Введіть логін та пароль.", "Помилка");
                 return;
             }
 
@@ -33,22 +33,21 @@ namespace CarDealership
             {
                 UserDto? user = _userService.Login(login, password, selectedRight);
 
-
                 if (user != null)
                 {
-                    MessageBox.Show($"Welcome, {user.Login} ({user.AccessRight})!", "Login Successful");
+                    MessageBox.Show($"Ласкаво просимо, {user.Login} ({user.AccessRight})!", "Вхід успішний");
 
-                    GuestWindow mainWindow = new GuestWindow();
-                    mainWindow.Show();
+                    this.DialogResult = true;
+                    this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Invalid login, password or access right.", "Login Failed");
+                    MessageBox.Show("Невірний логін, пароль або рівень доступу.", "Вхід не вдалось");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Login Failed");
+                MessageBox.Show(ex.Message, "Вхід не вдалось");
             }
         }
 
@@ -59,7 +58,7 @@ namespace CarDealership
 
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Enter login and password.");
+                MessageBox.Show("Введіть логін та пароль.", "Помилка");
                 return;
             }
 
@@ -67,12 +66,27 @@ namespace CarDealership
 
             if (success)
             {
-                MessageBox.Show("Registered successfully! With access rights - Guest", "Registration");
+                MessageBox.Show("Реєстрація пройшла успішно! Рівень доступу - Гість", "Реєстрація");
             }
             else
             {
-                MessageBox.Show("Login already exists.", "Registration Failed");
+                MessageBox.Show("Логін вже існує.", "Не вдалося зареєструватися");
             }
         }
+
+        private void ForgotPassword_Click(object sender, RoutedEventArgs e)
+        {
+            string login = UsernameTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                MessageBox.Show("Введіть логін.", "Помилка");
+                return;
+            }
+
+            ResetPasswordWindow resetWindow = new ResetPasswordWindow(_userService, login);
+            resetWindow.ShowDialog();
+        }
+
     }
 }

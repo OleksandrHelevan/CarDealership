@@ -6,6 +6,9 @@ namespace CarDealership.dto
     {
         public DriveType DriveType { get; set; }
         public TransmissionType Transmission { get; set; }
+        
+        public string DriveTypeString { get; set; }
+        public string TransmissionString { get; set; }
 
         public ElectroCarDto()
         {
@@ -28,6 +31,8 @@ namespace CarDealership.dto
         {
             DriveType = drive;
             Transmission = transmission;
+            TransmissionString = transmission.ToFriendlyString();
+            DriveTypeString = DriveType.ToFriendlyString();
         }
     }
 }

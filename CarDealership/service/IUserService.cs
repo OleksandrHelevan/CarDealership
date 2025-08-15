@@ -7,5 +7,7 @@ namespace CarDealership.service
     {
         bool Register(string login, string password, AccessRight accessRight);
         UserDto? Login(string login, string password, AccessRight accessRight);
+        
+        bool UpdatePassword(string login, string newPassword);
     }
 }

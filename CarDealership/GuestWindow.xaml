@@ -10,15 +10,15 @@
 
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#3B82F6"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="12,6"/>
-            <Setter Property="Margin" Value="10,8"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Width" Value="180"/>
+            <Setter Property="Background" Value="#3B82F6" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="10,8" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="180" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -27,19 +27,20 @@
                                 CornerRadius="14"
                                 Padding="{TemplateBinding Padding}"
                                 SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#60A5FA"/>
+                                <Setter TargetName="border" Property="Background" Value="#60A5FA" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#1E40AF"/>
+                                <Setter TargetName="border" Property="Background" Value="#1E40AF" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Background" Value="#a0aec0"/>
-                                <Setter Property="Foreground" Value="#6b7280"/>
-                                <Setter Property="Cursor" Value="Arrow"/>
+                                <Setter TargetName="border" Property="Background" Value="#a0aec0" />
+                                <Setter Property="Foreground" Value="#6b7280" />
+                                <Setter Property="Cursor" Value="Arrow" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -55,20 +56,15 @@
                     HorizontalAlignment="Center"
                     Background="Transparent">
 
-            <Button Name="BtnGasoline"
-                    Content="Gasoline Engine"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnGasoline_Click"/>
-
-            <Button Name="BtnElectro"
-                    Content="Electro Engine"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnElectro_Click"/>
-
             <Button Name="BtnGasolineCar"
                     Content="Gasoline Car"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnGasolineCar_Click"/>
+                    Click="BtnGasolineCar_Click" />
+
+            <Button Name="BtnElectroeCar"
+                    Content="Electro Car"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnElectroCar_Click" />
         </StackPanel>
 
         <Frame x:Name="MainFrame"

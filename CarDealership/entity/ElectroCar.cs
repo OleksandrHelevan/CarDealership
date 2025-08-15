@@ -24,6 +24,10 @@ namespace CarDealership.entity
         public string ModelName { get; set; }
 
         [Required]
+        [ForeignKey(nameof(Engine))]
+        [Column("engine_id")]
+        public int EngineId { get; set; }
+
         public ElectroEngine Engine { get; set; }
 
         [Required]

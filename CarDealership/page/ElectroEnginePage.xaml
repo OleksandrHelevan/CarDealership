@@ -25,7 +25,6 @@
                             <TextBlock Text="{Binding BatteryCapacity, StringFormat=Батарея: {0} кВт·год}" Margin="0 2"/>
                             <TextBlock Text="{Binding Range, StringFormat=Запас ходу: {0} км}" Margin="0 2"/>
                             <TextBlock Text="{Binding MotorType, StringFormat=Тип мотора: {0}}" Margin="0 2"/>
-                            <Button Content="Детальніше" Margin="0 10 0 0" Padding="5"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

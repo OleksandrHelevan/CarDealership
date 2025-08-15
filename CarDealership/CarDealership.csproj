@@ -45,8 +45,4 @@
       <Content Include="obj\Debug\net9.0-windows\CarDealership_MarkupCompile.lref" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="request\" />
-    </ItemGroup>
-
 </Project>

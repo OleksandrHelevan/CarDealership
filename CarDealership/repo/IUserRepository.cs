@@ -15,4 +15,7 @@ public interface IUserRepository
     bool Exists(User user);
 
     User? GetByLogin(string login);
+    
+    public void Update(User user);
+    
 }
