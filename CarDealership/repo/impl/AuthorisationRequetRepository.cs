@@ -19,6 +19,10 @@ namespace CarDealership.repo.impl
             return request;
         }
 
+        public AuthorizationRequest? GetByLogin(string login)
+        {
+            return _context.Set<AuthorizationRequest>().FirstOrDefault(r => r.Login == login);
+        }
         public AuthorizationRequest? GetById(int id)
         {
             return _context.Set<AuthorizationRequest>().FirstOrDefault(r => r.Id == id);

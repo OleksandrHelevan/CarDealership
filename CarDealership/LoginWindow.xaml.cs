@@ -28,13 +28,20 @@ namespace CarDealership
                 return;
             }
 
-            AccessRight selectedRight = (AccessRight)AccessComboBox.SelectedIndex;
-
             try
             {
-                UserDto user = _userService.Login(login, password, selectedRight)!;
+                UserDto user = _userService.Login(login, password)!;
+
+                if (user.AccessRight != AccessRight.Guest)
+                {
+                    MessageBox.Show("Доступ до цього вікна дозволений лише користувачам з рівнем Guest.", "Увага");
+                    return;
+                }
 
                 MessageBox.Show($"Ласкаво просимо, {user.Login} (Права доступу - {user.AccessRight.ToFriendlyString()})!", "Вхід успішний");
+
+                GuestWindow guestWindow = new GuestWindow(user.Login);
+                guestWindow.Show();
 
                 DialogResult = true;
                 Close();
@@ -52,6 +59,7 @@ namespace CarDealership
                 MessageBox.Show($"Сталася помилка: {ex.Message}", "Вхід не вдалось");
             }
         }
+
 
 
         private void Register_Click(object sender, RoutedEventArgs e)

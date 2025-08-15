@@ -66,14 +66,7 @@
 
         <TextBlock Text="Пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="3"/>
         <PasswordBox x:Name="PasswordBox" Height="35" Margin="0,0,0,10" Grid.Row="4" FontSize="14"/>
-
-        <ComboBox x:Name="AccessComboBox" Height="35" SelectedIndex="0" Grid.Row="5" FontSize="14"
-                  HorizontalAlignment="Stretch" MaxDropDownHeight="150" Margin="0,0,0,10">
-            <ComboBoxItem Content="Гість" />
-            <ComboBoxItem Content="Авторизований" />
-            <ComboBoxItem Content="Оператор" />
-            <ComboBoxItem Content="Адмін" />
-        </ComboBox>
+        
 
         <UniformGrid Grid.Row="6" Rows="1" Columns="3" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Увійти" Click="Login_Click" Style="{StaticResource RoundedButtonStyle}"/>

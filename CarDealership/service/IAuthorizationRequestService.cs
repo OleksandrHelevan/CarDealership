@@ -8,7 +8,7 @@ namespace CarDealership.service
     {
         AuthorizationRequest CreateRequest(string login);
 
-        AuthorizationRequest? GetRequestById(int id);
+        AuthorizationRequest? GetRequestByLogin(string login);
 
         IEnumerable<AuthorizationRequest> GetAllRequests();
 

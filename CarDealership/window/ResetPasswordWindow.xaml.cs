@@ -37,7 +37,7 @@ namespace CarDealership
             if (success)
             {
                 MessageBox.Show("Пароль успішно оновлено!", "Оновлення пароля");
-                this.Close();
+                Close();
             }
             else
             {

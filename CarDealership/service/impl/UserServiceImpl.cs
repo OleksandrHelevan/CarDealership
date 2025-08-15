@@ -34,7 +34,7 @@ namespace CarDealership.service.impl
             return true;
         }
 
-        public UserDto? Login(string login, string password, AccessRight accessRight)
+        public UserDto? Login(string login, string password)
         {
             var userFromDb = _userRepository.GetByLogin(login);
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CarDealership.entity;
 using CarDealership.enums;
+using CarDealership.exception;
 using CarDealership.repo;
 
 namespace CarDealership.service.impl
@@ -16,6 +17,8 @@ namespace CarDealership.service.impl
 
         public AuthorizationRequest CreateRequest(string login)
         {
+            if(_repository.GetByLogin(login) != null)
+                throw new RequestAlreadyExistException("Запит вже поданий, очікуйте відповіді");
             var request = new AuthorizationRequest
             {
                 Login = login,
@@ -25,9 +28,9 @@ namespace CarDealership.service.impl
             return _repository.Add(request);
         }
 
-        public AuthorizationRequest? GetRequestById(int id)
+        public AuthorizationRequest? GetRequestByLogin(string login)
         {
-            return _repository.GetById(id);
+            return _repository.GetByLogin(login);
         }
 
         public IEnumerable<AuthorizationRequest> GetAllRequests()

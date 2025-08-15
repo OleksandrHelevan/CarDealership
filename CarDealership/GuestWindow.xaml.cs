@@ -1,5 +1,6 @@
 using System.Windows;
 using CarDealership.config;
+using CarDealership.exception;
 using CarDealership.page;
 using CarDealership.repo.impl;
 using CarDealership.service;
@@ -31,10 +32,15 @@ namespace CarDealership
         
         private void BtnAuthRequest_Click(object sender, RoutedEventArgs e)
         {
-            
-            var request = _requestService.CreateRequest(_currentUserLogin);
-
-            MessageBox.Show($"Запит на авторизацію створено! Очікуйте відповіді", "Успіх");
+            try
+            {
+                _requestService.CreateRequest(_currentUserLogin);
+                MessageBox.Show($"Запит на авторизацію створено!", "Успіх");
+            }
+            catch (RequestAlreadyExistException ex)
+            {
+                MessageBox.Show(ex.Message);
+            } 
         }
     }
 }

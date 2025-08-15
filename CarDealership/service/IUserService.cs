@@ -6,7 +6,7 @@ namespace CarDealership.service
     public interface IUserService
     {
         bool Register(string login, string password, AccessRight accessRight);
-        UserDto? Login(string login, string password, AccessRight accessRight);
+        UserDto? Login(string login, string password);
         
         bool UpdatePassword(string login, string newPassword);
     }
