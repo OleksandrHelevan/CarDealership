@@ -32,19 +32,24 @@ namespace CarDealership.window
             {
                 UserDto user = _userService.Login(login, password)!;
 
-                if (user.AccessRight != AccessRight.Guest)
-                {
-                    MessageBox.Show("Доступ до цього вікна дозволений лише користувачам з рівнем Guest.", "Увага");
-                    return;
-                }
-
                 MessageBox.Show($"Ласкаво просимо, {user.Login} (Права доступу - {user.AccessRight.ToFriendlyString()})!", "Вхід успішний");
+                
+                if (user.AccessRight == AccessRight.Guest)
+                {
+                    GuestWindow guestWindow = new GuestWindow(user.Login);
+                    guestWindow.Show();
 
-                GuestWindow guestWindow = new GuestWindow(user.Login);
-                guestWindow.Show();
-
-                DialogResult = true;
-                Close();
+                    DialogResult = true;
+                    Close();
+                }
+                else if(user.AccessRight == AccessRight.Authorized)
+                {
+                    AuthorizedWindow authorizedWindow = new AuthorizedWindow();
+                    authorizedWindow.Show();
+                    
+                    DialogResult = true;
+                    Close();
+                }
             }
             catch (UserNotFoundException)
             {

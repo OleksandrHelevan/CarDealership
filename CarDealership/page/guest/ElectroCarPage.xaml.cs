@@ -5,7 +5,7 @@ using CarDealership.dto;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
 
-namespace CarDealership.page
+namespace CarDealership.page.guest
 {
     public partial class ElectroCarPage : Page
     {

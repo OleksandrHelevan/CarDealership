@@ -14,10 +14,10 @@ public static class TransmissionTypeExtensions
     {
         return transmission switch
         {
-            TransmissionType.Manual => "Механічна",
-            TransmissionType.Automatic => "Автоматична",
-            TransmissionType.CVT => "Варіатор (CVT)",
-            TransmissionType.SemiAutomatic => "Напівавтоматична",
+            TransmissionType.Manual => "Механіка",
+            TransmissionType.Automatic => "Автомат",
+            TransmissionType.CVT => "CVT",
+            TransmissionType.SemiAutomatic => "Напівавтомат",
             _ => transmission.ToString()
         };
     }

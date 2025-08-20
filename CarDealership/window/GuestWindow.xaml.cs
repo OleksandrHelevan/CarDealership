@@ -1,7 +1,7 @@
 using System.Windows;
 using CarDealership.config;
 using CarDealership.exception;
-using CarDealership.page;
+using CarDealership.page.guest;
 using CarDealership.repo.impl;
 using CarDealership.service;
 using CarDealership.service.impl;
