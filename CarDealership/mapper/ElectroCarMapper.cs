@@ -9,11 +9,13 @@ public class ElectroCarMapper
     {
         var engineDto = e.Engine != null ? ElectroEngineMapper.ToDto(e.Engine) : null;
     
-        return new ElectroCarDto(e.Brand, e.ModelName,
+        var dto = new ElectroCarDto(e.Brand, e.ModelName,
             engineDto,
             e.Color, e.Mileage, e.Price,
             e.Weight, e.DriveType, e.Transmission,
             e.Year, e.NumberOfDoors, e.BodyType);
+        dto.Id = e.Id;
+        return dto;
     }
 
 
@@ -24,6 +26,7 @@ public class ElectroCarMapper
 
         return new ElectroCar
         {
+            Id = dto.Id,
             Brand = dto.Brand,
             ModelName = dto.ModelName,
             Engine = ElectroEngineMapper.ToEntity(electroEngineDto),

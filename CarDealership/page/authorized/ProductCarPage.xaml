@@ -1,0 +1,49 @@
+<Page x:Class="CarDealership.page.authorized.ProductCarPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:model="clr-namespace:CarDealership.dto"
+      mc:Ignorable="d"
+      Title="ProductCarPage">
+
+    <DockPanel Background="#f7f7f7">
+        <TextBlock DockPanel.Dock="Top" Text="Куплені автомобілі" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="20"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
+            <ItemsControl x:Name="ProductsList">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type model:ProductDto}">
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="350">
+                            <StackPanel>
+                                <TextBlock Text="Куплений автомобіль" FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
+                                
+                                <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна походження: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding AvailableFrom, StringFormat=Доступно з: {0:dd.MM.yyyy HH:mm}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding CarType, StringFormat=Тип автомобіля: {0}}" Margin="0 2"/>
+                                
+                                <Separator Margin="0,10"/>
+                                
+                                <TextBlock Text="{Binding Vehicle.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.Price, StringFormat=Ціна: ${0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Page>

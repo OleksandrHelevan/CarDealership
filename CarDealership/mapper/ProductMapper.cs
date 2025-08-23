@@ -10,17 +10,18 @@ public static class ProductMapper
     {
         Vehicle vehicle = null!;
 
-        if (entity.CarType == CarType.Electro && entity.ElectroCar != null)
+        // Determine car type based on which foreign key is set
+        if (entity.ElectroCarId.HasValue && entity.ElectroCar != null)
         {
             vehicle = ElectroCarMapper.ToDto(entity.ElectroCar);
         }
-        else if (entity.CarType == CarType.Gasoline && entity.GasolineCar != null)
+        else if (entity.GasolineCarId.HasValue && entity.GasolineCar != null)
         {
             vehicle = GasolineCarMapper.ToDto(entity.GasolineCar);
         }
         else
         {
-            throw new InvalidOperationException("Unknown car type or vehicle is null");
+            throw new InvalidOperationException("No valid car reference found");
         }
 
         return new ProductDto(
@@ -28,7 +29,6 @@ public static class ProductMapper
             entity.CountryOfOrigin,
             entity.InStock,
             entity.AvailableFrom,
-            entity.CarType,
             vehicle
         );
     }
@@ -40,21 +40,21 @@ public static class ProductMapper
             Number = dto.Number,
             CountryOfOrigin = dto.CountryOfOrigin,
             InStock = dto.InStock,
-            AvailableFrom = dto.AvailableFrom,
-            CarType = dto.CarType
+            AvailableFrom = dto.AvailableFrom
         };
 
-        if (dto.CarType == CarType.Electro && dto.Vehicle is ElectroCarDto electroDto)
+        // Set foreign key IDs based on vehicle type
+        if (dto.Vehicle is ElectroCarDto electroDto)
         {
-            entity.ElectroCar = ElectroCarMapper.ToEntity(electroDto);
+            entity.ElectroCarId = electroDto.Id;
         }
-        else if (dto.CarType == CarType.Gasoline && dto.Vehicle is GasolineCarDto gasolineDto)
+        else if (dto.Vehicle is GasolineCarDto gasolineDto)
         {
-            entity.GasolineCar = GasolineCarMapper.ToEntity(gasolineDto);
+            entity.GasolineCarId = gasolineDto.Id;
         }
         else
         {
-            throw new InvalidOperationException("Unknown car type or vehicle DTO type mismatch");
+            throw new InvalidOperationException("Unknown vehicle DTO type");
         }
 
         return entity;

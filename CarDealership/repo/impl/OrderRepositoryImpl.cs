@@ -3,11 +3,11 @@ using CarDealership.entity;
 
 namespace CarDealership.repo.impl
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepositoryImpl : IOrderRepository
     {
         private readonly DealershipContext _context;
 
-        public OrderRepository(DealershipContext context)
+        public OrderRepositoryImpl(DealershipContext context)
         {
             _context = context;
         }

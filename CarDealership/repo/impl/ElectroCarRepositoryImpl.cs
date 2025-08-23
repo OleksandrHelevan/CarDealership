@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.repo.impl
 {
-    public class ElectroCarRepository : IElectroCarRepository
+    public class ElectroCarRepositoryImpl : IElectroCarRepository
     {
         private readonly DealershipContext _context;
 
-        public ElectroCarRepository(DealershipContext context)
+        public ElectroCarRepositoryImpl(DealershipContext context)
         {
             _context = context;
         }

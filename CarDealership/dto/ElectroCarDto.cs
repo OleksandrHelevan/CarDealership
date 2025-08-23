@@ -4,6 +4,7 @@ namespace CarDealership.dto
 {
     public class ElectroCarDto : Vehicle
     {
+        public int Id { get; set; }
         public DriveType DriveType { get; set; }
         public TransmissionType Transmission { get; set; }
         

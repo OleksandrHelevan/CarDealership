@@ -12,19 +12,23 @@ public class ProductDto
 
     public DateTime? AvailableFrom { get; set; }
     
-    public CarType CarType { get; set; }
-        
     public Vehicle Vehicle { get; set; }
 
-    public ProductDto(string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, CarType carType, Vehicle vehicle)
+    // Computed property to determine car type based on Vehicle type
+    public CarType CarType => Vehicle switch
+    {
+        GasolineCarDto => CarType.Gasoline,
+        ElectroCarDto => CarType.Electro,
+        _ => throw new InvalidOperationException("Unknown vehicle type")
+    };
+
+    public ProductDto(string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, Vehicle vehicle)
     {
         Number = number;
         CountryOfOrigin = countryOfOrigin;
         InStock = inStock;
         AvailableFrom = availableFrom;
-        CarType = carType;
         Vehicle = vehicle;
-        
     }
     
 }

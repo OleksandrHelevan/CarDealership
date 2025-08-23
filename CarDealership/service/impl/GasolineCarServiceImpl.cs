@@ -21,6 +21,10 @@ namespace CarDealership.service.impl
             return _repository.GetAll().Select(GasolineCarMapper.ToDto).ToList();
         }
 
+        public IEnumerable<GasolineCarDto> GetFiltered(GasolineCarFilterDto filter)
+        {
+            return _repository.GetFiltered(filter).Select(GasolineCarMapper.ToDto).ToList();
+        }
 
         public GasolineCar? GetById(int id)
         {

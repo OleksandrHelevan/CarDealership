@@ -26,14 +26,16 @@ namespace CarDealership.entity
         [Column("available_from")]
         public DateTime? AvailableFrom { get; set; }
         
-        [Required]
-        [Column("car_type")]
-        public CarType CarType { get; set; }
+
         
-        [ForeignKey("electro_car_id")]
+        [Column("electro_car_id")]
+        public int? ElectroCarId { get; set; }
+        
+        [Column("gasoline_car_id")]
+        public int? GasolineCarId { get; set; }
+        
         public ElectroCar? ElectroCar { get; set; }
         
-        [ForeignKey("gasoline_car_id")]
         public GasolineCar? GasolineCar { get; set; }
     }
 }

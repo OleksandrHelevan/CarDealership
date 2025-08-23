@@ -11,5 +11,7 @@ namespace CarDealership.repo
         void Update(Product product);
         void Delete(int id);
         bool ExistsByNumber(string number);
+        GasolineCar? GetGasolineCarById(int id);
+        ElectroCar? GetElectroCarById(int id);
     }
 }

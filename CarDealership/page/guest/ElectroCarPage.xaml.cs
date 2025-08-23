@@ -14,7 +14,7 @@ namespace CarDealership.page.guest
         public ElectroCarPage()
         {
             InitializeComponent();
-            _service = new ElectroCarServiceImpl(new ElectroCarRepository(new DealershipContext()));
+            _service = new ElectroCarServiceImpl(new ElectroCarRepositoryImpl(new DealershipContext()));
             LoadData();
         }
 

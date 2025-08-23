@@ -99,3 +99,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ElectroC
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\GasolineCarPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ElectroCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\GasolineCarPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductCarPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductCarPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\BuyCarDialog.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\BuyCarDialog.g.cs

@@ -8,7 +8,7 @@ namespace CarDealership.mapper
     {
         public static GasolineCarDto ToDto(GasolineCar e)
         {
-            return new GasolineCarDto(
+            var dto = new GasolineCarDto(
                 e.Brand,
                 e.ModelName,
                 GasolineEngineMapper.ToDto(e.Engine),
@@ -22,6 +22,8 @@ namespace CarDealership.mapper
                 e.NumberOfDoors,
                 e.BodyType
             );
+            dto.Id = e.Id;
+            return dto;
         }
 
 
@@ -32,6 +34,7 @@ namespace CarDealership.mapper
 
             return new GasolineCar
             {
+                Id = dto.Id,
                 Brand = dto.Brand,
                 ModelName = dto.ModelName,
                 Engine = GasolineEngineMapper.ToEntity(gasolineEngineDto),

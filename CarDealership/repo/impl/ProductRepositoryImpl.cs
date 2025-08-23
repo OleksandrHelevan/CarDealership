@@ -61,5 +61,19 @@ namespace CarDealership.repo.impl
         {
             return _context.Products.Any(p => p.Number == number);
         }
+
+        public GasolineCar? GetGasolineCarById(int id)
+        {
+            return _context.GasolineCars
+                .Include(c => c.Engine)
+                .FirstOrDefault(c => c.Id == id);
+        }
+
+        public ElectroCar? GetElectroCarById(int id)
+        {
+            return _context.ElectroCars
+                .Include(c => c.Engine)
+                .FirstOrDefault(c => c.Id == id);
+        }
     }
 }

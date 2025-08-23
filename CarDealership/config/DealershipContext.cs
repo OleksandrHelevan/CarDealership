@@ -57,12 +57,12 @@ namespace CarDealership.config
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.ElectroCar)
                 .WithMany()
-                .HasForeignKey("electro_car_id");
+                .HasForeignKey(p => p.ElectroCarId);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.GasolineCar)
                 .WithMany()
-                .HasForeignKey("gasoline_car_id");
+                .HasForeignKey(p => p.GasolineCarId);
             
 
             modelBuilder.Entity<Order>()
@@ -120,9 +120,7 @@ namespace CarDealership.config
                 .Property(r => r.Status)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<Product>()
-                .Property(p => p.CarType)
-                .HasConversion<string>();
+
 
             modelBuilder.Entity<GasolineEngine>()
                 .Property(e => e.FuelType)
