@@ -5,6 +5,7 @@ namespace CarDealership.dto;
 
 public class GasolineEngineDto : Engine
 {
+    public int Id { get; set; }
     public FuelType FuelType { get; set; }
     public float FuelConsumption { get; set; }
     
@@ -13,7 +14,7 @@ public class GasolineEngineDto : Engine
     public GasolineEngineDto() : base(0)
     {
     }
-    public GasolineEngineDto(double power, FuelType fuelType, float fuelConsumption) : base(power)
+    public GasolineEngineDto(int id, double power, FuelType fuelType, float fuelConsumption) : base(power)
     {
         FuelType = fuelType;
         FuelConsumption = fuelConsumption;

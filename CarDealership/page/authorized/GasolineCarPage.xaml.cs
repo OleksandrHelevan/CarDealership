@@ -6,7 +6,6 @@ using CarDealership.dto;
 using CarDealership.enums;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
-using CarDealership.page.authorized;
 
 namespace CarDealership.page.authorized
 {
@@ -15,17 +14,19 @@ namespace CarDealership.page.authorized
         private readonly ProductServiceImpl _productService;
         private readonly BuyServiceImpl _buyService;
         private readonly MigrationServiceImpl _migrationService;
+        private readonly string _currentUserLogin;
 
         public ICommand BuyCommand { get; }
 
-        public GasolineCarPage()
+        public GasolineCarPage(string userLogin = null)
         {
             InitializeComponent();
-            
+            _currentUserLogin = userLogin;
+    
             var productRepo = new ProductRepositoryImpl(new DealershipContext());
             var gasolineCarRepo = new GasolineCarRepository(new DealershipContext());
             var electroCarRepo = new ElectroCarRepositoryImpl(new DealershipContext());
-            
+    
             _productService = new ProductServiceImpl(productRepo);
             _migrationService = new MigrationServiceImpl(productRepo, gasolineCarRepo, electroCarRepo);
             var orderService = new OrderService(new OrderRepositoryImpl(new DealershipContext()));
@@ -34,8 +35,9 @@ namespace CarDealership.page.authorized
 
             BuyCommand = new RelayCommand<ProductDto>(BuyCar);
 
+            DataContext = this; // ← ОБОВ’ЯЗКОВО
+
             RunMigration();
-            
             LoadData();
         }
 
@@ -166,60 +168,130 @@ namespace CarDealership.page.authorized
                 MessageBox.Show($"Помилка при застосуванні фільтра: {ex.Message}", "Помилка");
             }
         }
-
-
-
-
-
+        
         private void BuyCar(ProductDto product)
         {
+            System.Diagnostics.Debug.WriteLine($"BuyCar called for product: {product?.Number}");
             try
             {
-                var vehicle = product.Vehicle as GasolineCarDto;
-                if (vehicle == null)
+                // відкриваємо діалогове вікно
+                var dialog = new BuyCarDialog
                 {
-                    MessageBox.Show("Помилка: Невірний тип автомобіля", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+                    Owner = Window.GetWindow(this) // щоб модальне вікно було поверх сторінки
+                };
 
-                // Debug: Check if car has valid ID
-                if (vehicle.Id <= 0)
+                if (dialog.ShowDialog() == true) // користувач натиснув "Купити"
                 {
-                    MessageBox.Show($"Помилка: Невірний ID автомобіля: {vehicle.Id}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                // Show buy dialog
-                var buyDialog = new BuyCarDialog();
-                buyDialog.Owner = Window.GetWindow(this);
-                
-                if (buyDialog.ShowDialog() == true)
-                {
-                    // Complete the buy car DTO with car information
-                    var buyCarDto = buyDialog.BuyCarDto;
-                    buyCarDto.CarId = vehicle.Id;
-                    buyCarDto.CarType = CarType.Gasoline;
-                    buyCarDto.AvailableFrom = DateTime.Now;
-
-                    // Debug: Show the buy request details
-                    System.Diagnostics.Debug.WriteLine($"Buying car: ID={vehicle.Id}, Brand={vehicle.Brand}, Model={vehicle.ModelName}");
-
-                    // Attempt to buy the car
-                    bool success = _buyService.BuyCar(buyCarDto);
-
-                    if (success)
+                    var clientId = GetClientIdFromUser(_currentUserLogin);
+                    if (clientId == 0)
                     {
-                        MessageBox.Show($"Ви успішно купили {vehicle.Brand} {vehicle.ModelName} за ${vehicle.Price}!\nЗамовлення створено в базі даних.", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Не знайдено клієнта для користувача");
+                        return;
                     }
-                    else
+
+                    // дані з діалогу + дані з продукту
+                    var dto = new BuyCarDto
                     {
-                        MessageBox.Show("Помилка при покупці автомобіля. Спробуйте ще раз.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                        Id = product.Id,
+                        CarType = product.CarType,
+                        CountryOfOrigin = product.CountryOfOrigin,
+                        AvailableFrom = product.AvailableFrom,
+                        ClientId = clientId,
+                        PaymentType = dialog.BuyCarDto.PaymentType, // з діалогу
+                        Delivery = dialog.BuyCarDto.Delivery        // з діалогу
+                    };
+
+                    _buyService.BuyCar(dto);
+
+                    MessageBox.Show("Замовлення успішно створено!");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при покупці: {ex.Message}\n\nДеталі: {ex.StackTrace}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка покупки: {ex.Message}");
+            }
+        }
+
+
+
+        private bool TestDatabaseConnection()
+        {
+            try
+            {
+                using var context = new DealershipContext();
+                var clientCount = context.Clients.Count();
+                var productCount = context.Products.Count();
+                var orderCount = context.Orders.Count();
+                
+                System.Diagnostics.Debug.WriteLine($"Database test: Clients={clientCount}, Products={productCount}, Orders={orderCount}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Database connection test failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        private int GetClientIdFromUser(string userLogin)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userLogin))
+                {
+                    System.Diagnostics.Debug.WriteLine("User login is null or empty");
+                    return 0;
+                }
+
+                using var context = new DealershipContext();
+                
+                // Find user by login
+                var user = context.Users.FirstOrDefault(u => u.Login == userLogin);
+                if (user == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"User not found with login: {userLogin}");
+                    return 0;
+                }
+
+                // Find client by user ID
+                var client = context.Clients.FirstOrDefault(c => c.User.Id == user.Id);
+                if (client == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Client not found for user: {userLogin}");
+                    return 0;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Found client ID: {client.Id} for user: {userLogin}");
+                return client.Id;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting client ID: {ex.Message}");
+                return 0;
+            }
+        }
+
+        private int GetProductIdFromDatabase(int carId)
+        {
+            try
+            {
+                using var context = new DealershipContext();
+                
+                // Find product by gasoline car ID
+                var product = context.Products.FirstOrDefault(p => p.GasolineCarId == carId);
+                if (product == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Product not found for car ID: {carId}");
+                    return 0;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Found product ID: {product.Id} for car ID: {carId}");
+                return product.Id;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting product ID: {ex.Message}");
+                return 0;
             }
         }
     }

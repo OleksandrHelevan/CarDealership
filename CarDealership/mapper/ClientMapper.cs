@@ -8,6 +8,7 @@ public class ClientMapper
     public static ClientDto ToDto(Client e)
     {
         return new ClientDto(
+            e.Id,
             e.User.Login,
             e.User.Password,
             e.User.AccessRight,
@@ -21,6 +22,7 @@ public class ClientMapper
         {
             User = new User
             {
+                Id = dto.Id,
                 Login = dto.Login,
                 Password = dto.Password,
                 AccessRight = dto.AccessRight

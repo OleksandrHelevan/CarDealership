@@ -4,6 +4,7 @@ namespace CarDealership.dto;
 
 public class OrderDto
 {
+    public int Id { get; set; }
     public ClientDto Client { get; set; }
     
     public ProductDto Product { get; set; }

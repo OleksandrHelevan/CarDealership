@@ -68,13 +68,13 @@ namespace CarDealership.config
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Client)
                 .WithMany()
-                .HasForeignKey("client_id")
+                .HasForeignKey("ClientId")
                 .IsRequired();
 
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Product)
                 .WithMany()
-                .HasForeignKey("product_id")
+                .HasForeignKey("ProductId")
                 .IsRequired();
             
             //Enums

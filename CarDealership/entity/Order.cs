@@ -13,11 +13,17 @@ namespace CarDealership.entity
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("client_id")]
-        public virtual Client Client { get; set; }
+        [Column("client_id")]
+        public int ClientId { get; set; }
 
         [Required]
-        [ForeignKey("product_id")]
+        [Column("product_id")]
+        public int ProductId { get; set; }
+
+        [ForeignKey("ClientId")]
+        public virtual Client Client { get; set; }
+
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
         [Required]

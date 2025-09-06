@@ -17,11 +17,6 @@
         <TextBlock Grid.Row="0" Text="Деталі покупки" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Клієнт ID:" Width="100" VerticalAlignment="Center"/>
-            <TextBox x:Name="ClientIdTextBox" Width="200" Text="1"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Тип оплати:" Width="100" VerticalAlignment="Center"/>
             <ComboBox x:Name="PaymentTypeComboBox" Width="200">
                 <ComboBoxItem Content="Готівка" IsSelected="True"/>
@@ -30,14 +25,9 @@
             </ComboBox>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Доставка:" Width="100" VerticalAlignment="Center"/>
             <CheckBox x:Name="DeliveryCheckBox" Content="Потрібна доставка" VerticalAlignment="Center"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Країна:" Width="100" VerticalAlignment="Center"/>
-            <TextBox x:Name="CountryTextBox" Width="200" Text="Україна"/>
         </StackPanel>
 
         <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">

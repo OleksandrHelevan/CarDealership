@@ -9,6 +9,7 @@ namespace CarDealership.mapper
         public static GasolineCarDto ToDto(GasolineCar e)
         {
             var dto = new GasolineCarDto(
+                e.Id,
                 e.Brand,
                 e.ModelName,
                 GasolineEngineMapper.ToDto(e.Engine),

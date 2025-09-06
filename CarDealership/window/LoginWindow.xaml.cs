@@ -44,7 +44,7 @@ namespace CarDealership.window
                 }
                 else if(user.AccessRight == AccessRight.Authorized)
                 {
-                    AuthorizedWindow authorizedWindow = new AuthorizedWindow();
+                    AuthorizedWindow authorizedWindow = new AuthorizedWindow(user.Login);
                     authorizedWindow.Show();
                     
                     DialogResult = true;

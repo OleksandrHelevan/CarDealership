@@ -16,6 +16,7 @@ namespace CarDealership.dto
         }
 
         public ElectroCarDto(
+            int id,
             string brand,
             string modelName,
             ElectroEngineDto engine,

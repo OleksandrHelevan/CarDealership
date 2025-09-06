@@ -7,14 +7,21 @@ public class ElectroEngineMapper
 {
     public static ElectroEngineDto ToDto(ElectroEngine entity)
     {
-        return new ElectroEngineDto(entity.Power, entity.BatteryCapacity, entity.Range, entity.MotorType);
+        return new ElectroEngineDto(
+            entity.Id,
+            entity.Power,
+            entity.BatteryCapacity,
+            entity.Range,
+            entity.MotorType
+        );
     }
 
     public static ElectroEngine ToEntity(ElectroEngineDto dto)
     {
         return new ElectroEngine
         {
-            Power = dto.Power,
+            Id = dto.Id,
+            Power = dto.Power,  
             BatteryCapacity = dto.BatteryCapacity,
             Range = dto.Range,
             MotorType = dto.MotorType

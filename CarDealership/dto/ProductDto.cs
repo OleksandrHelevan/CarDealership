@@ -4,6 +4,7 @@ namespace CarDealership.dto;
 
 public class ProductDto
 {
+    public int Id { get; set; }
     public string Number { get; set; }
  
     public string CountryOfOrigin { get; set; }
@@ -22,8 +23,9 @@ public class ProductDto
         _ => throw new InvalidOperationException("Unknown vehicle type")
     };
 
-    public ProductDto(string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, Vehicle vehicle)
+    public ProductDto(int id, string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, Vehicle vehicle)
     {
+        Id = id;
         Number = number;
         CountryOfOrigin = countryOfOrigin;
         InStock = inStock;

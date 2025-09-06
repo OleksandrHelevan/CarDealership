@@ -9,7 +9,9 @@ public class ElectroCarMapper
     {
         var engineDto = e.Engine != null ? ElectroEngineMapper.ToDto(e.Engine) : null;
     
-        var dto = new ElectroCarDto(e.Brand, e.ModelName,
+        var dto = new ElectroCarDto(
+            e.Id,
+            e.Brand, e.ModelName,
             engineDto,
             e.Color, e.Mileage, e.Price,
             e.Weight, e.DriveType, e.Transmission,

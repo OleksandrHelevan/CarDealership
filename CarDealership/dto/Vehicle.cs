@@ -4,6 +4,7 @@ namespace CarDealership.dto;
 
 public abstract class Vehicle
 {
+    public int Id { get; set; }
     public string Brand { get; set; }
 
     public int Weight { get; set; }

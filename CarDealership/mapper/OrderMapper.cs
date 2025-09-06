@@ -21,11 +21,11 @@ namespace CarDealership.mapper
         {
             return new Order
             {
-                Client = ClientMapper.ToEntity(dto.Client),
-                Product = ProductMapper.ToEntity(dto.Product),
                 OrderDate = dto.OrderDate,
                 PaymentType = dto.PaymentType,
-                Delivery = dto.Delivery
+                Delivery = dto.Delivery,
+                Client = ClientMapper.ToEntity(dto.Client),
+                Product = ProductMapper.ToEntity(dto.Product)
             };
         }
     }

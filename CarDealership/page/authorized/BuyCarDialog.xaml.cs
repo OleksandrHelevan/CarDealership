@@ -18,20 +18,13 @@ namespace CarDealership.page.authorized
         {
             try
             {
-                if (!int.TryParse(ClientIdTextBox.Text, out int clientId))
-                {
-                    MessageBox.Show("Будь ласка, введіть правильний ID клієнта", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 var paymentType = GetPaymentType();
                 
                 BuyCarDto = new BuyCarDto
                 {
-                    ClientId = clientId,
                     PaymentType = paymentType,
                     Delivery = DeliveryCheckBox.IsChecked ?? false,
-                    CountryOfOrigin = CountryTextBox.Text.Trim()
+                    CountryOfOrigin = "Україна" // Default country
                 };
 
                 DialogResult = true;

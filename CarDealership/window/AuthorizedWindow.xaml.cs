@@ -5,17 +5,17 @@ namespace CarDealership.window;
 
 public partial class AuthorizedWindow 
 {
+    private readonly string _currentUserLogin;
     
-    
-    public AuthorizedWindow()
+    public AuthorizedWindow(string login)
     {
         InitializeComponent();
+        _currentUserLogin = login;
     }
     
     private void BtnGasolineCar_Click(object sender, RoutedEventArgs e)
     {
-        InitializeComponent();
-        MainFrame.Navigate(new GasolineCarPage());
+        MainFrame.Navigate(new GasolineCarPage(_currentUserLogin));
     }
 
     private void BtnElectroCar_Click(object sender, RoutedEventArgs e)

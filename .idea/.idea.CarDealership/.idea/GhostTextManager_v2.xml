@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GhostTextManager">
+    <option name="inputs">
+      <map>
+        <entry key="buy button in product in authorized window -&gt; gasoline car page does not work it have to create order in datatbase and show notification about succes or error of buying">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757190718716" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="why when i clicked to buy button there namespace CarDealership.page.authorized&#10;{&#10;    public partial class GasolineCarPage &#10;, window which have to  show does not apears, fix it">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="3.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757192439827" />
+                  <option value="1757192214451" />
+                  <option value="1757192140224" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

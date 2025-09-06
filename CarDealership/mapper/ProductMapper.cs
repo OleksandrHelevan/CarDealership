@@ -10,7 +10,6 @@ public static class ProductMapper
     {
         Vehicle vehicle = null!;
 
-        // Determine car type based on which foreign key is set
         if (entity.ElectroCarId.HasValue && entity.ElectroCar != null)
         {
             vehicle = ElectroCarMapper.ToDto(entity.ElectroCar);
@@ -25,6 +24,7 @@ public static class ProductMapper
         }
 
         return new ProductDto(
+            entity.Id,
             entity.Number,
             entity.CountryOfOrigin,
             entity.InStock,

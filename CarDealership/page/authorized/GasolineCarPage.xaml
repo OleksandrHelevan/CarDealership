@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CarDealership.page.guest"
       xmlns:model="clr-namespace:CarDealership.dto"
       mc:Ignorable="d"
       Title="GasolineCarPage">
@@ -181,6 +180,7 @@
                                         Margin="0,10,0,0" Height="35"
                                         Command="{Binding DataContext.BuyCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                         CommandParameter="{Binding}"/>
+
                             </StackPanel>
                         </Border>
                     </DataTemplate>

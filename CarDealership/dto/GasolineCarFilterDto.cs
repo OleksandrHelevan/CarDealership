@@ -4,6 +4,7 @@ namespace CarDealership.dto
 {
     public class GasolineCarFilterDto
     {
+        public int? Id { get; set; }
         public string? SearchText { get; set; }
         public TransmissionType? TransmissionType { get; set; }
         public CarBodyType? BodyType { get; set; }

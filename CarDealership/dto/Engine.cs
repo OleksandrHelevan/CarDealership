@@ -2,6 +2,7 @@ namespace CarDealership.dto;
 
 public abstract class Engine
 {
+    public int Id { get; set; }
     public double Power { get; set; }
     private const double WattsPerHorsepower = 745.7;
 

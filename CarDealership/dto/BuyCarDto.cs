@@ -4,7 +4,7 @@ namespace CarDealership.dto
 {
     public class BuyCarDto
     {
-        public int CarId { get; set; }
+        public int Id { get; set; }
         public CarType CarType { get; set; }
         public string CountryOfOrigin { get; set; }
         public DateTime? AvailableFrom { get; set; }
