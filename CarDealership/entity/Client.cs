@@ -10,14 +10,20 @@ namespace CarDealership.entity
         [Column("id")]
         public int Id { get; set; }
 
+        // FK на keys (user)
         [Required]
-        [ForeignKey("keys")]
         [Column("user_id")]
-        public virtual User User { get; set; }
+        public int UserId { get; set; }
 
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; } = null!;
+
+        // FK на passport_data
         [Required]
-        [ForeignKey("passport_data")]
         [Column("passport_data_id")]
-        public virtual PassportData PassportData { get; set; }
+        public int PassportDataId { get; set; }
+
+        [ForeignKey(nameof(PassportDataId))]
+        public virtual PassportData PassportData { get; set; } = null!;
     }
 }

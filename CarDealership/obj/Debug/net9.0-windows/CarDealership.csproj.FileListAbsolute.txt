@@ -103,3 +103,5 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductC
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\BuyCarDialog.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\BuyCarDialog.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\RegisterWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\RegisterWindow.g.cs

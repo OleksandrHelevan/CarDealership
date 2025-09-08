@@ -66,17 +66,22 @@ namespace CarDealership.config
             
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.Client)
-                .WithMany()
-                .HasForeignKey("ClientId")
-                .IsRequired();
+                .ToTable("orders")
+                .HasOne(o => o.Client)      // Навігація
+                .WithMany()                 // Clients не має колекції Orders, тому просто WithMany()
+                .HasForeignKey(o => o.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.Product)
-                .WithMany()
-                .HasForeignKey("ProductId")
-                .IsRequired();
-            
+                .HasOne(o => o.Product)     // Навігація
+                .WithMany()                 // Products не має колекції Orders
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.OrderDate)
+                .HasColumnType("timestamp"); // PostgreSQL timestamp
+
             //Enums
 
             

@@ -212,27 +212,6 @@ namespace CarDealership.page.authorized
             }
         }
 
-
-
-        private bool TestDatabaseConnection()
-        {
-            try
-            {
-                using var context = new DealershipContext();
-                var clientCount = context.Clients.Count();
-                var productCount = context.Products.Count();
-                var orderCount = context.Orders.Count();
-                
-                System.Diagnostics.Debug.WriteLine($"Database test: Clients={clientCount}, Products={productCount}, Orders={orderCount}");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Database connection test failed: {ex.Message}");
-                return false;
-            }
-        }
-
         private int GetClientIdFromUser(string userLogin)
         {
             try

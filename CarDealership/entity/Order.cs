@@ -20,12 +20,6 @@ namespace CarDealership.entity
         [Column("product_id")]
         public int ProductId { get; set; }
 
-        [ForeignKey("ClientId")]
-        public virtual Client Client { get; set; }
-
-        [ForeignKey("ProductId")]
-        public virtual Product Product { get; set; }
-
         [Required]
         [Column("order_date")]
         public DateTime OrderDate { get; set; }
@@ -37,5 +31,10 @@ namespace CarDealership.entity
         [Required]
         [Column("delivery")]
         public bool Delivery { get; set; }
+
+        // Навігаційні властивості
+        public virtual Client? Client { get; set; }
+        public virtual Product? Product { get; set; }
     }
+
 }

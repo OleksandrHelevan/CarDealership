@@ -65,29 +65,10 @@ namespace CarDealership.window
             }
         }
 
-
-
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            string login = UsernameTextBox.Text.Trim();
-            string password = PasswordBox.Password;
-
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Введіть логін та пароль.", "Помилка");
-                return;
-            }
-
-            bool success = _userService.Register(login, password, AccessRight.Guest);
-
-            if (success)
-            {
-                MessageBox.Show("Реєстрація пройшла успішно! Рівень доступу - Гість", "Реєстрація");
-            }
-            else
-            {
-                MessageBox.Show("Логін вже існує.", "Не вдалося зареєструватися");
-            }
+            var registerWindow = new RegisterWindow();
+            registerWindow.ShowDialog();
         }
 
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)

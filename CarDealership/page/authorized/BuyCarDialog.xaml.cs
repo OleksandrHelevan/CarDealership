@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.enums;
 
@@ -7,6 +8,8 @@ namespace CarDealership.page.authorized
 {
     public partial class BuyCarDialog : Window
     {
+        
+        private DealershipContext _context;
         public BuyCarDto BuyCarDto { get; private set; }
 
         public BuyCarDialog()
@@ -19,12 +22,12 @@ namespace CarDealership.page.authorized
             try
             {
                 var paymentType = GetPaymentType();
-                
+
                 BuyCarDto = new BuyCarDto
                 {
                     PaymentType = paymentType,
-                    Delivery = DeliveryCheckBox.IsChecked ?? false,
-                    CountryOfOrigin = "Україна" // Default country
+                    Delivery = DeliveryCheckBox.IsChecked ?? false
+                    // CountryOfOrigin і ClientId підставляються у GasolineCarPage
                 };
 
                 DialogResult = true;
@@ -35,6 +38,7 @@ namespace CarDealership.page.authorized
                 MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
