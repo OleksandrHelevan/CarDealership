@@ -2,11 +2,56 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Купити автомобіль" Height="300" Width="400"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="White"
+        FontFamily="Segoe UI"
+        FontSize="14">
+
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="14"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#60A5FA"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#a0aec0"/>
+                                <Setter Property="Foreground" Value="#6b7280"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -14,25 +59,29 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Заголовок -->
         <TextBlock Grid.Row="0" Text="Деталі покупки" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
 
+        <!-- Тип оплати -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Тип оплати:" Width="100" VerticalAlignment="Center"/>
-            <ComboBox x:Name="PaymentTypeComboBox" Width="200">
+            <TextBlock Text="Тип оплати:" Width="120" VerticalAlignment="Center" FontWeight="SemiBold"/>
+            <ComboBox x:Name="PaymentTypeComboBox" Width="200" Height="35">
                 <ComboBoxItem Content="Готівка" IsSelected="True"/>
                 <ComboBoxItem Content="Кредитна карта"/>
                 <ComboBoxItem Content="Банківський переказ"/>
             </ComboBox>
         </StackPanel>
 
+        <!-- Доставка -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Доставка:" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="Доставка:" Width="120" VerticalAlignment="Center" FontWeight="SemiBold"/>
             <CheckBox x:Name="DeliveryCheckBox" Content="Потрібна доставка" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="BuyButton" Content="Купити" Width="80" Height="30" Margin="0,0,10,0" Click="BuyButton_Click"/>
-            <Button x:Name="CancelButton" Content="Скасувати" Width="80" Height="30" Click="CancelButton_Click"/>
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button x:Name="BuyButton" Content="Купити" Style="{StaticResource RoundedButtonStyle}" Click="BuyButton_Click"/>
+            <Button x:Name="CancelButton" Content="Скасувати" Style="{StaticResource RoundedButtonStyle}" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

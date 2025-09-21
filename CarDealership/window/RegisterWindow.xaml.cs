@@ -21,8 +21,7 @@ namespace CarDealership.window
         {
             string firstName = FirstNameBox.Text.Trim();
             string lastName = LastNameBox.Text.Trim();
-            string passportId = PassportIdBox.Text.Trim();
-            string passportData = PassportDataBox.Text.Trim();
+            string passportNumber = PassportNumberBox.Text.Trim();
             string login = LoginBox.Text.Trim();
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
@@ -44,7 +43,7 @@ namespace CarDealership.window
             {
                 FirstName = firstName,
                 LastName = lastName,
-                PassportNumber = passportId
+                PassportNumber = passportNumber
             };
             _context.PassportData.Add(passport);
             _context.SaveChanges();
