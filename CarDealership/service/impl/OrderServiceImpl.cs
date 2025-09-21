@@ -52,5 +52,13 @@ namespace CarDealership.service.impl
                 .Select(OrderMapper.ToDto)
                 .ToList();
         }
+
+        public List<OrderDto> FindOrdersByClientId(int clientId)
+        {
+            return _orderRepository
+                .FindOrdersByClientId(clientId)
+                .Select(OrderMapper.ToDto)
+                .ToList();
+        }
     }
 }

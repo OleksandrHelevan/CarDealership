@@ -9,5 +9,6 @@ namespace CarDealership.service
         void Delete(int id);
         OrderDto GetById(int id);
         List<OrderDto> GetAll();
+        List<OrderDto> FindOrdersByClientId(int clientId);
     }
 }

@@ -1,5 +1,6 @@
 using CarDealership.config;
 using CarDealership.entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.repo.impl
 {
@@ -38,6 +39,17 @@ namespace CarDealership.repo.impl
         public List<Order> GetAll()
         {
             return _context.Orders.ToList();
+        }
+        
+        public List<Order> FindOrdersByClientId(int clientId)
+        {
+            using var context = new DealershipContext();
+
+            return context.Orders
+                .Include(o => o.Client)
+                .Include(o => o.Product)
+                .Where(o => o.ClientId == clientId)
+                .ToList();
         }
     }
 }

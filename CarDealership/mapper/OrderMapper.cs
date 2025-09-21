@@ -9,9 +9,12 @@ namespace CarDealership.mapper
         {
             return new OrderDto
             {
+                Id = e.Id,
+                OrderId = e.Id,
                 Client = ClientMapper.ToDto(e.Client),
                 Product = ProductMapper.ToDto(e.Product),
                 OrderDate = e.OrderDate,
+                CreatedAt = e.OrderDate,
                 PaymentType = e.PaymentType,
                 Delivery = e.Delivery
             };

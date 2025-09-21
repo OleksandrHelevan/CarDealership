@@ -25,7 +25,6 @@ namespace CarDealership.config
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
-            //Entity
             
             modelBuilder.Entity<GasolineEngine>()
                 .ToTable("gasoline_engines");
@@ -124,8 +123,6 @@ namespace CarDealership.config
             modelBuilder.Entity<AuthorizationRequest>()
                 .Property(r => r.Status)
                 .HasConversion<string>();
-
-
 
             modelBuilder.Entity<GasolineEngine>()
                 .Property(e => e.FuelType)

@@ -9,5 +9,6 @@ namespace CarDealership.repo
         void Delete(Order order);
         Order GetById(int id);
         List<Order> GetAll();
+        List<Order> FindOrdersByClientId(int clientId);
     }
 }

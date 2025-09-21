@@ -1,0 +1,80 @@
+<Page x:Class="CarDealership.page.authorized.MyOrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:model="clr-namespace:CarDealership.dto"
+      mc:Ignorable="d"
+      Title="Мої покупки">
+
+    <Page.Resources>
+        <!-- Стиль кнопки Відмінити -->
+        <Style x:Key="CancelButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+        </Style>
+
+        <!-- Стиль картки замовлення -->
+        <Style x:Key="OrderCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Width" Value="320"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.2" BlurRadius="5"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#f0f2f5">
+        <StackPanel>
+            <!-- Заголовок по центру -->
+            <TextBlock Text="Мої покупки"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <!-- Картки замовлень вирівняні зліва -->
+                <ItemsControl x:Name="OrdersList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Left" IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type model:OrderDto}">
+                            <Border Style="{StaticResource OrderCardStyle}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding CarName}" 
+                                               FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
+                                    
+                                    <StackPanel Margin="0,0,0,10">
+                                        <TextBlock Text="{Binding PaymentType, StringFormat=Оплата: {0}}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Delivery, StringFormat=Доставка: {0}}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding CreatedAt, StringFormat=Дата замовлення: {0:dd.MM.yyyy}}" FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <Button Content="Відмінити" 
+                                            Style="{StaticResource CancelButtonStyle}"
+                                            Tag="{Binding Id}"
+                                            Click="CancelOrderButton_Click"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -59,10 +59,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
         <TextBlock Grid.Row="0" Text="Деталі покупки" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
 
-        <!-- Тип оплати -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Тип оплати:" Width="120" VerticalAlignment="Center" FontWeight="SemiBold"/>
             <ComboBox x:Name="PaymentTypeComboBox" Width="200" Height="35">
@@ -72,13 +70,11 @@
             </ComboBox>
         </StackPanel>
 
-        <!-- Доставка -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Доставка:" Width="120" VerticalAlignment="Center" FontWeight="SemiBold"/>
             <CheckBox x:Name="DeliveryCheckBox" Content="Потрібна доставка" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <!-- Кнопки -->
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button x:Name="BuyButton" Content="Купити" Style="{StaticResource RoundedButtonStyle}" Click="BuyButton_Click"/>
             <Button x:Name="CancelButton" Content="Скасувати" Style="{StaticResource RoundedButtonStyle}" Click="CancelButton_Click"/>

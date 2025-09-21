@@ -22,4 +22,9 @@ public partial class AuthorizedWindow
     {
        
     }
+    private void BtnMyOrders_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new MyOrdersPage(_currentUserLogin));
+    }
+
 }
