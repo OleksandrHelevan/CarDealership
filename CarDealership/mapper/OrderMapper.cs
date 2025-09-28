@@ -27,8 +27,8 @@ namespace CarDealership.mapper
                 OrderDate = dto.OrderDate,
                 PaymentType = dto.PaymentType,
                 Delivery = dto.Delivery,
-                Client = ClientMapper.ToEntity(dto.Client),
-                Product = ProductMapper.ToEntity(dto.Product)
+                ClientId = dto.Client.Id,
+                ProductId = dto.Product.Id
             };
         }
     }

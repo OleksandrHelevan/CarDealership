@@ -10,6 +10,7 @@ namespace CarDealership.page.authorized
     {
         
         private DealershipContext _context;
+        
         public BuyCarDto BuyCarDto { get; private set; }
 
         public BuyCarDialog()

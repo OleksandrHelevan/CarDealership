@@ -18,53 +18,53 @@ namespace CarDealership.repo.impl
             try
             {
                 System.Diagnostics.Debug.WriteLine("=== OrderRepositoryImpl.Add START ===");
-                System.Diagnostics.Debug.WriteLine($"Adding order: ClientId={order.ClientId}, ProductId={order.ProductId}");
-                
-                // Make sure Client and Product are properly set
-                if (order.Client == null)
+                System.Diagnostics.Debug.WriteLine(
+                    $"Adding order: ClientId={order.ClientId}, ProductId={order.ProductId}");
+
+                // Завантажуємо повного клієнта
+                var client = _context.Clients
+                    .Include(c => c.PassportData)
+                    .Include(c => c.User)
+                    .FirstOrDefault(c => c.Id == order.ClientId);
+
+                if (client == null)
                 {
-                    var client = _context.Clients.Find(order.ClientId);
-                    if (client != null)
-                    {
-                        order.Client = client;
-                        System.Diagnostics.Debug.WriteLine($"Client loaded: {client.PassportData.FirstName} {client.PassportData.LastName}");
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine($"WARNING: Client with ID {order.ClientId} not found");
-                    }
+                    throw new Exception($"Client with ID {order.ClientId} not found");
                 }
-                
-                if (order.Product == null)
+
+                System.Diagnostics.Debug.WriteLine(
+                    $"Client loaded: {client.PassportData.FirstName} {client.PassportData.LastName}");
+
+                var product = _context.Products
+                    .Include(p => p.GasolineCar)
+                    .Include(p => p.ElectroCar)
+                    .FirstOrDefault(p => p.Id == order.ProductId);
+
+                if (product == null)
                 {
-                    var product = _context.Products.Find(order.ProductId);
-                    if (product != null)
-                    {
-                        order.Product = product;
-                        System.Diagnostics.Debug.WriteLine($"Product loaded: {product.Number}");
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine($"WARNING: Product with ID {order.ProductId} not found");
-                    }
+                    throw new Exception($"Product with ID {order.ProductId} not found");
                 }
-                
-                // Create a new order with only the necessary properties
+
+                System.Diagnostics.Debug.WriteLine($"Product loaded: {product.Number}");
+
+                // Створюємо новий об’єкт Order з навігаційними властивостями
                 var newOrder = new Order
                 {
-                    ClientId = order.ClientId,
-                    ProductId = order.ProductId,
+                    Client = client,
+                    ClientId = client.Id,
+                    Product = product,
+                    ProductId = product.Id,
                     OrderDate = order.OrderDate,
                     PaymentType = order.PaymentType,
-                    Delivery = order.Delivery,
+                    Delivery = order.Delivery
                 };
-                
+
                 _context.Orders.Add(newOrder);
                 var changes = _context.SaveChanges();
-                
-                // Copy the generated ID back to the original order
+
+                // Копіюємо згенерований ID назад у оригінальний об’єкт
                 order.Id = newOrder.Id;
-                
+
                 System.Diagnostics.Debug.WriteLine($"SaveChanges result: {changes} changes saved");
                 System.Diagnostics.Debug.WriteLine($"Order ID after save: {order.Id}");
                 System.Diagnostics.Debug.WriteLine("=== OrderRepositoryImpl.Add END ===");
@@ -73,8 +73,10 @@ namespace CarDealership.repo.impl
             {
                 System.Diagnostics.Debug.WriteLine($"ERROR in OrderRepositoryImpl.Add: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw; // Пробросимо далі, щоб сервіс міг відреагувати
             }
         }
+
 
         public void Update(Order order)
         {
@@ -97,7 +99,7 @@ namespace CarDealership.repo.impl
         {
             return _context.Orders.ToList();
         }
-        
+
         public List<Order> FindOrdersByClientId(int clientId)
         {
             using var context = new DealershipContext();

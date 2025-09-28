@@ -30,7 +30,6 @@ namespace CarDealership.service.impl
                 System.Diagnostics.Debug.WriteLine($"CarId: {buyCarDto.Id}, CarType: {buyCarDto.CarType}, ClientId: {buyCarDto.ClientId}");
                 System.Diagnostics.Debug.WriteLine($"PaymentType: {buyCarDto.PaymentType}, Delivery: {buyCarDto.Delivery}");
 
-                // Get the product by Id and type
                 var product = _productRepository.GetById(buyCarDto.Id);
                 if (product == null)
                 {
@@ -43,8 +42,7 @@ namespace CarDealership.service.impl
                     System.Diagnostics.Debug.WriteLine($"GasolineCarId: {product.GasolineCarId}");
                 if (product.ElectroCarId != null)
                     System.Diagnostics.Debug.WriteLine($"ElectroCarId: {product.ElectroCarId}");
-
-                // Get the client by Id
+                
                 var client = _clientRepository.GetById(buyCarDto.ClientId);
                 if (client == null)
                 {
@@ -55,15 +53,19 @@ namespace CarDealership.service.impl
 
                 try
                 {
-                    // Create order DTO
                     var orderDto = new OrderDto
                     {
                         Client = ClientMapper.ToDto(client),
+                        ClientId = client.Id,
                         Product = ProductMapper.ToDto(product),
+                        ProductId = product.Id,
                         OrderDate = DateTime.Now,
                         PaymentType = buyCarDto.PaymentType,
                         Delivery = buyCarDto.Delivery
                     };
+
+
+                    System.Diagnostics.Debug.WriteLine($"OrderDto created: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product.Number}, PaymentType={orderDto.PaymentType}, Delivery={orderDto.Delivery}");
                     
                     System.Diagnostics.Debug.WriteLine($"OrderDto created: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product.Number}");
 

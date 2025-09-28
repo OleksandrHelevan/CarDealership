@@ -9,6 +9,7 @@ public class ClientMapper
     {
         return new ClientDto(
             e.Id,
+            e.UserId,
             e.User.Login,
             e.User.Password,
             e.User.AccessRight,
@@ -20,14 +21,9 @@ public class ClientMapper
     {
         return new Client
         {
-            User = new User
-            {
-                Id = dto.Id,
-                Login = dto.Login,
-                Password = dto.Password,
-                AccessRight = dto.AccessRight
-            },
-            PassportData = PassportDataMapper.ToEntity(dto.PassportData)
+            Id = dto.Id,
+            UserId = dto.UserId,
+            PassportDataId = dto.PassportData.Id
         };
     }
 }
