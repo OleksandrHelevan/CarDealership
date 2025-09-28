@@ -20,7 +20,7 @@ public partial class AuthorizedWindow
 
     private void BtnElectroCar_Click(object sender, RoutedEventArgs e)
     {
-       
+       MainFrame.Navigate(new ElectroCarPage(_currentUserLogin));
     }
     private void BtnMyOrders_Click(object sender, RoutedEventArgs e)
     {

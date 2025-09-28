@@ -19,6 +19,11 @@ namespace CarDealership.service.impl
             return _repository.GetAll().Select(ElectroCarMapper.ToDto).ToList();
         }
 
+        public IEnumerable<ElectroCarDto> GetFilteredCars(ElectroCarFilterDto filter)
+        {
+            return _repository.GetFiltered(filter).Select(ElectroCarMapper.ToDto).ToList();
+        }
+
         public ElectroCar? GetCarById(int id)
         {
             return _repository.GetById(id);

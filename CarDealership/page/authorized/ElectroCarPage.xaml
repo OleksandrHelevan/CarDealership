@@ -3,9 +3,178 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:model="clr-namespace:CarDealership.dto"
       mc:Ignorable="d"
-      Title="ElectroCarPage" Height="450" Width="800">
-    <Grid>
+      Title="Електромобілі">
+
+    <DockPanel Background="#f7f7f7">
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10"  HorizontalAlignment="Center">
+            <TextBox x:Name="SearchBox" Width="320" Height="30" 
+                     Margin="0,0,10,0" />
+            
+            <ComboBox x:Name="FilterTransmission" Width="150" Height="30" Margin="0,0,10,0">
+                <ComboBoxItem Content="КПП" IsSelected="True"/>
+                <ComboBoxItem Content="Механіка"/>
+                <ComboBoxItem Content="Автомат"/>
+                <ComboBoxItem Content="CVT"/>
+                <ComboBoxItem Content="Напівавтомат"/>
+            </ComboBox>
+            
+            <ComboBox x:Name="FilterBodyType" Width="150" Height="30" Margin="0,0,10,0">
+                <ComboBoxItem Content="Тип кузова" IsSelected="True"/>
+                <ComboBoxItem Content="Мікро"/>
+                <ComboBoxItem Content="Хетчбек"/>
+                <ComboBoxItem Content="Седан"/>
+                <ComboBoxItem Content="Кросовер"/>
+                <ComboBoxItem Content="Купе"/>
+                <ComboBoxItem Content="Купе SUV"/>
+                <ComboBoxItem Content="Гіперкар"/>
+                <ComboBoxItem Content="Позашляховик"/>
+                <ComboBoxItem Content="Підвищеної прохідності"/>
+                <ComboBoxItem Content="Пікап"/>
+                <ComboBoxItem Content="Кабріолет"/>
+                <ComboBoxItem Content="Спортивний"/>
+                <ComboBoxItem Content="Універсальний MUV"/>
+                <ComboBoxItem Content="Універсал"/>
+                <ComboBoxItem Content="Родстер"/>
+                <ComboBoxItem Content="Лімузин"/>
+                <ComboBoxItem Content="Формула-1"/>
+                <ComboBoxItem Content="Маскл-кар"/>
+                <ComboBoxItem Content="Фургон"/>
+            </ComboBox>
+            
+            <ComboBox x:Name="FilterColor" Width="150" Height="30" Margin="0,0,10,0">
+                <ComboBoxItem Content="Колір" IsSelected="True"/>
+                <ComboBoxItem Content="Червоний"/>
+                <ComboBoxItem Content="Синій"/>
+                <ComboBoxItem Content="Зелений"/>
+                <ComboBoxItem Content="Жовтий"/>
+                <ComboBoxItem Content="Білий"/>
+                <ComboBoxItem Content="Чорний"/>
+                <ComboBoxItem Content="Оранжевий"/>
+                <ComboBoxItem Content="Фіолетовий"/>
+                <ComboBoxItem Content="Коричневий"/>
+                <ComboBoxItem Content="Рожевий"/>
+                <ComboBoxItem Content="Сірий"/>
+                <ComboBoxItem Content="Блакитний"/>
+            </ComboBox>
+            
+            <ComboBox x:Name="FilterDriveType" Width="180" Height="30" Margin="0,0,10,0">
+                <ComboBoxItem Content="Привід" IsSelected="True"/>
+                <ComboBoxItem Content="Передній привід"/>
+                <ComboBoxItem Content="Задній привід"/>
+                <ComboBoxItem Content="Повний привід (AWD)"/>
+                <ComboBoxItem Content="Повний привід (4WD)"/>
+            </ComboBox>
+            
+            <ComboBox x:Name="FilterMotorType" Width="150" Height="30" Margin="0,0,10,0">
+                <ComboBoxItem Content="Тип двигуна" IsSelected="True"/>
+                <ComboBoxItem Content="Асинхронний"/>
+                <ComboBoxItem Content="Синхронний"/>
+                <ComboBoxItem Content="Гібридний"/>
+            </ComboBox>
+            
+        </StackPanel>
         
-    </Grid>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10" Background="Transparent" >
+    
+            <StackPanel Margin="5">
+                <TextBlock Text="Рік" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterYearFrom" Width="40" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterYearTo" Width="40"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Margin="5">
+                <TextBlock Text="Ціна ($)" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterPriceFrom" Width="40" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterPriceTo" Width="40"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Margin="5">
+                <TextBlock Text="Вага (кг)" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterWeightFrom" Width="40" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterWeightTo" Width="40"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Margin="5">
+                <TextBlock Text="Пробіг (км)" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterMileageFrom" Width="40" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterMileageTo" Width="40"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Margin="5">
+                <TextBlock Text="Двері" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterDoorsFrom" Width="40" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterDoorsTo" Width="40"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- Apply Filter Button -->
+            <StackPanel Margin="5" VerticalAlignment="Bottom">
+                <Button x:Name="ApplyFilterButton" Content="Застосувати фільтр" 
+                        Width="120" Height="30" Background="#3B82F6" Foreground="White"
+                        Click="ApplyFilterButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
+            <ItemsControl x:Name="ElectroCarsList">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type model:ProductDto}">
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="300">
+                            <StackPanel>
+                                <TextBlock Text="Електромобіль" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0,2"/>
+
+                                <Separator Margin="0,5"/>
+
+                                <TextBlock Text="{Binding Vehicle.Brand, StringFormat=Марка: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.ModelName, StringFormat=Модель: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Year, StringFormat=Рік: {0}}" Margin="0,2"/>
+                                
+                                <TextBlock Text="{Binding Vehicle.Engine.BatteryCapacity, StringFormat=Ємність батареї: {0} кВт/год}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Engine.Power, StringFormat=Потужність: {0} к.с.}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Engine.Range, StringFormat=Запас ходу: {0} км}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Engine.ElectroMotorTypeString, StringFormat=Тип мотора: {0}}" Margin="0,2"/>
+                                
+                                <TextBlock Text="{Binding Vehicle.ColorString, StringFormat=Колір: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Mileage, StringFormat=Пробіг: {0} км}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Price, StringFormat=Ціна: ${0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.Weight, StringFormat=Вага: {0} кг}" Margin="0,2"/>
+                                
+                                <TextBlock Text="{Binding Vehicle.TransmissionString, StringFormat=КПП: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.DriveTypeString, StringFormat=Привід: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.NumberOfDoors, StringFormat=Кількість дверей: {0}}" Margin="0,2"/>
+                                <TextBlock Text="{Binding Vehicle.BodyTypeString, StringFormat=Тип кузова: {0}}" Margin="0,2"/>
+
+                                <Button Content="Купити" Background="#3B82F6" Foreground="White" Height="35"
+                                        Margin="0,10,0,0"
+                                        Command="{Binding DataContext.BuyCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
 </Page>

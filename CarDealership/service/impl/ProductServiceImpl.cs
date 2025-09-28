@@ -57,28 +57,6 @@ namespace CarDealership.service.impl
         {
             return _productRepository.ExistsByNumber(number);
         }
-
-        // Test method to verify database connection
-        public bool TestDatabaseConnection()
-        {
-            try
-            {
-                var products = _productRepository.GetAll();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Database connection test failed: {ex.Message}");
-                return false;
-            }
-        }
-
-
-
-        private string GenerateProductNumber()
-        {
-            // Generate a unique product number with timestamp
-            return $"PROD-{DateTime.Now:yyyyMMdd}-{DateTime.Now:HHmmss}-{Guid.NewGuid().ToString().Substring(0, 8)}";
-        }
+        
     }
 }
