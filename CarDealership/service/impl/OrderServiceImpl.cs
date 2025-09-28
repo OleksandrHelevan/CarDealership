@@ -15,8 +15,24 @@ namespace CarDealership.service.impl
 
         public void Add(OrderDto orderDto)
         {
-            var order = OrderMapper.ToEntity(orderDto);
-            _orderRepository.Add(order);
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("=== OrderService.Add START ===");
+                System.Diagnostics.Debug.WriteLine($"OrderDto: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product?.Number}");
+                
+                var order = OrderMapper.ToEntity(orderDto);
+                System.Diagnostics.Debug.WriteLine($"Order entity created: ClientId={order.ClientId}, ProductId={order.ProductId}");
+                
+                _orderRepository.Add(order);
+                System.Diagnostics.Debug.WriteLine($"Order added to repository, ID={order.Id}");
+                System.Diagnostics.Debug.WriteLine("=== OrderService.Add END ===");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ERROR in OrderService.Add: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw; // Rethrow to let caller handle
+            }
         }
 
         public void Update(OrderDto orderDto, int id)

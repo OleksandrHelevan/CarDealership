@@ -29,23 +29,32 @@ namespace CarDealership.service.impl
 
                 foreach (var car in gasolineCars)
                 {
-                    // Check if product already exists for this car
-                    var existingProduct = _productRepository.GetAll()
-                        .FirstOrDefault(p => p.GasolineCarId == car.Id);
-
-                    if (existingProduct == null)
+                    try
                     {
-                        var product = new Product
-                        {
-                            Number = GenerateProductNumber(car.Id, "GAS"),
-                            CountryOfOrigin = "Україна",
-                            InStock = true,
-                            AvailableFrom = DateTime.Now,
-                            GasolineCarId = car.Id
-                        };
+                        // Check if product already exists for this car
+                        var existingProduct = _productRepository.GetAll()
+                            .FirstOrDefault(p => p.GasolineCarId == car.Id);
 
-                        _productRepository.Add(product);
-                        migratedCount++;
+                        if (existingProduct == null)
+                        {
+                            var product = new Product
+                            {
+                                Number = GenerateProductNumber(car.Id, "GAS"),
+                                CountryOfOrigin = "Україна",
+                                InStock = true,
+                                AvailableFrom = DateTime.Now,
+                                GasolineCarId = car.Id
+                            };
+
+                            _productRepository.Add(product);
+                            migratedCount++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log error but continue with next car
+                        System.Diagnostics.Debug.WriteLine($"Error migrating gasoline car ID {car.Id}: {ex.Message}");
+                        System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                     }
                 }
 
@@ -55,6 +64,7 @@ namespace CarDealership.service.impl
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Migration error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 return false;
             }
         }
@@ -68,23 +78,32 @@ namespace CarDealership.service.impl
 
                 foreach (var car in electroCars)
                 {
-                    // Check if product already exists for this car
-                    var existingProduct = _productRepository.GetAll()
-                        .FirstOrDefault(p => p.ElectroCarId == car.Id);
-
-                    if (existingProduct == null)
+                    try
                     {
-                        var product = new Product
-                        {
-                            Number = GenerateProductNumber(car.Id, "ELEC"),
-                            CountryOfOrigin = "Україна",
-                            InStock = true,
-                            AvailableFrom = DateTime.Now,
-                            ElectroCarId = car.Id
-                        };
+                        // Check if product already exists for this car
+                        var existingProduct = _productRepository.GetAll()
+                            .FirstOrDefault(p => p.ElectroCarId == car.Id);
 
-                        _productRepository.Add(product);
-                        migratedCount++;
+                        if (existingProduct == null)
+                        {
+                            var product = new Product
+                            {
+                                Number = GenerateProductNumber(car.Id, "ELEC"),
+                                CountryOfOrigin = "Україна",
+                                InStock = true,
+                                AvailableFrom = DateTime.Now,
+                                ElectroCarId = car.Id
+                            };
+
+                            _productRepository.Add(product);
+                            migratedCount++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log error but continue with next car
+                        System.Diagnostics.Debug.WriteLine($"Error migrating electro car ID {car.Id}: {ex.Message}");
+                        System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                     }
                 }
 
@@ -94,6 +113,7 @@ namespace CarDealership.service.impl
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Migration error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 return false;
             }
         }

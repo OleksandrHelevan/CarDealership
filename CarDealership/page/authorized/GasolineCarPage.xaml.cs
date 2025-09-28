@@ -4,6 +4,7 @@ using System.Windows.Input;
 using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.enums;
+using CarDealership.mapper;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
 
@@ -72,101 +73,107 @@ namespace CarDealership.page.authorized
         {
             try
             {
-                // Get all gasoline products
-                var allProducts = _productService.GetAll();
-                var gasolineProducts = allProducts.Where(p => p.CarType == CarType.Gasoline).ToList();
-
-                // Apply filters to products
-                var filteredProducts = gasolineProducts.Where(p =>
+                // Create filter object from UI inputs
+                var filter = new GasolineCarFilterDto
                 {
-                    var vehicle = p.Vehicle as GasolineCarDto;
-                    if (vehicle == null) return false;
+                    SearchText = SearchBox.Text,
+                    TransmissionType = GetSelectedTransmissionType(),
+                    BodyType = GetSelectedBodyType(),
+                    Color = GetSelectedColor(),
+                    DriveType = GetSelectedDriveType(),
+                    FuelType = GetSelectedFuelType(),
+                    YearFrom = GetIntValue(FilterYearFrom.Text),
+                    YearTo = GetIntValue(FilterYearTo.Text),
+                    PriceFrom = GetDoubleValue(FilterPriceFrom.Text),
+                    PriceTo = GetDoubleValue(FilterPriceTo.Text),
+                    WeightFrom = GetFloatValue(FilterWeightFrom.Text),
+                    WeightTo = GetFloatValue(FilterWeightTo.Text),
+                    MileageFrom = GetIntValue(FilterMileageFrom.Text),
+                    MileageTo = GetIntValue(FilterMileageTo.Text),
+                    DoorsFrom = GetIntValue(FilterDoorsFrom.Text),
+                    DoorsTo = GetIntValue(FilterDoorsTo.Text)
+                };
 
-                    // Search text filter
-                    if (!string.IsNullOrEmpty(SearchBox.Text.Trim()))
-                    {
-                        var searchText = SearchBox.Text.Trim().ToLower();
-                        if (!vehicle.Brand.ToLower().Contains(searchText) && 
-                            !vehicle.ModelName.ToLower().Contains(searchText))
-                            return false;
-                    }
-
-                    // Transmission filter
-                    var selectedTransmission = (FilterTransmission.SelectedItem as ComboBoxItem)?.Content.ToString();
-                    if (!string.IsNullOrEmpty(selectedTransmission) && selectedTransmission != "КПП")
-                    {
-                        var transmissionType = FilterHelper.GetTransmissionType(selectedTransmission);
-                        if (transmissionType.HasValue && vehicle.Transmission != transmissionType.Value)
-                            return false;
-                    }
-
-                    // Body type filter
-                    var selectedBodyType = (FilterBodyType.SelectedItem as ComboBoxItem)?.Content.ToString();
-                    if (!string.IsNullOrEmpty(selectedBodyType) && selectedBodyType != "Тип кузова")
-                    {
-                        var bodyType = FilterHelper.GetBodyType(selectedBodyType);
-                        if (bodyType.HasValue && vehicle.BodyType != bodyType.Value)
-                            return false;
-                    }
-
-                    // Color filter
-                    var selectedColor = (FilterColor.SelectedItem as ComboBoxItem)?.Content.ToString();
-                    if (!string.IsNullOrEmpty(selectedColor) && selectedColor != "Колір")
-                    {
-                        var color = FilterHelper.GetColor(selectedColor);
-                        if (color.HasValue && vehicle.Color != color.Value)
-                            return false;
-                    }
-
-                    // Drive type filter
-                    var selectedDriveType = (FilterDriveType.SelectedItem as ComboBoxItem)?.Content.ToString();
-                    if (!string.IsNullOrEmpty(selectedDriveType) && selectedDriveType != "Привід")
-                    {
-                        var driveType = FilterHelper.GetDriveType(selectedDriveType);
-                        if (driveType.HasValue && vehicle.DriveType != driveType.Value)
-                            return false;
-                    }
-
-                    // Fuel type filter
-                    var selectedFuelType = (FilterFuelType.SelectedItem as ComboBoxItem)?.Content.ToString();
-                    if (!string.IsNullOrEmpty(selectedFuelType) && selectedFuelType != "Тип пального")
-                    {
-                        var fuelType = FilterHelper.GetFuelType(selectedFuelType);
-                        if (fuelType.HasValue && vehicle.Engine is GasolineEngineDto engine && engine.FuelType != fuelType.Value)
-                            return false;
-                    }
-
-                    // Range filters
-                    if (int.TryParse(FilterYearFrom.Text, out int yearFrom) && yearFrom > 0 && vehicle.Year < yearFrom)
-                        return false;
-                    if (int.TryParse(FilterYearTo.Text, out int yearTo) && yearTo > 0 && vehicle.Year > yearTo)
-                        return false;
-                    if (double.TryParse(FilterPriceFrom.Text, out double priceFrom) && priceFrom > 0 && vehicle.Price < priceFrom)
-                        return false;
-                    if (double.TryParse(FilterPriceTo.Text, out double priceTo) && priceTo > 0 && vehicle.Price > priceTo)
-                        return false;
-                    if (float.TryParse(FilterWeightFrom.Text, out float weightFrom) && weightFrom > 0 && vehicle.Weight < weightFrom)
-                        return false;
-                    if (float.TryParse(FilterWeightTo.Text, out float weightTo) && weightTo > 0 && vehicle.Weight > weightTo)
-                        return false;
-                    if (int.TryParse(FilterMileageFrom.Text, out int mileageFrom) && mileageFrom > 0 && vehicle.Mileage < mileageFrom)
-                        return false;
-                    if (int.TryParse(FilterMileageTo.Text, out int mileageTo) && mileageTo > 0 && vehicle.Mileage > mileageTo)
-                        return false;
-                    if (int.TryParse(FilterDoorsFrom.Text, out int doorsFrom) && doorsFrom > 0 && vehicle.NumberOfDoors < doorsFrom)
-                        return false;
-                    if (int.TryParse(FilterDoorsTo.Text, out int doorsTo) && doorsTo > 0 && vehicle.NumberOfDoors > doorsTo)
-                        return false;
-
-                    return true;
-                }).ToList();
+                // Get filtered cars directly from database through service
+                var gasolineCarService = new GasolineCarServiceImpl(new GasolineCarRepository(new DealershipContext()));
+                var filteredCars = gasolineCarService.GetFiltered(filter);
+                
+                // Convert to product DTOs for display
+                var productRepo = new ProductRepositoryImpl(new DealershipContext());
+                var filteredProducts = productRepo.GetByVehicleIds(
+                    filteredCars.Select(c => c.Id).ToList(), 
+                    CarType.Gasoline
+                ).Select(ProductMapper.ToDto).ToList();
 
                 GasolineCarsList.ItemsSource = filteredProducts;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при застосуванні фільтра: {ex.Message}", "Помилка");
+                MessageBox.Show($"Помилка при застосуванні фільтра: {ex.Message}");
             }
+        }
+        
+        private TransmissionType? GetSelectedTransmissionType()
+        {
+            var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "КПП")
+                return null;
+                
+            return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
+        }
+        
+        private CarBodyType? GetSelectedBodyType()
+        {
+            var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Тип кузова")
+                return null;
+                
+            return FilterHelper.GetBodyType(selectedItem.Content.ToString());
+        }
+        
+        private Color? GetSelectedColor()
+        {
+            var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Колір")
+                return null;
+                
+            return FilterHelper.GetColor(selectedItem.Content.ToString());
+        }
+        
+        private DriveType? GetSelectedDriveType()
+        {
+            var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Привід")
+                return null;
+                
+            return FilterHelper.GetDriveType(selectedItem.Content.ToString());
+        }
+        
+        private FuelType? GetSelectedFuelType()
+        {
+            var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Тип пального")
+                return null;
+                
+            return FilterHelper.GetFuelType(selectedItem.Content.ToString());
+        }
+        
+        private int? GetIntValue(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return null;
+            return int.TryParse(text, out int value) ? value : null;
+        }
+        
+        private double? GetDoubleValue(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return null;
+            return double.TryParse(text, out double value) ? value : null;
+        }
+        
+        private float? GetFloatValue(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return null;
+            return float.TryParse(text, out float value) ? value : null;
         }
         
         private void BuyCar(ProductDto product)

@@ -1,4 +1,5 @@
 using CarDealership.entity;
+using CarDealership.enums;
 using System.Collections.Generic;
 
 namespace CarDealership.repo
@@ -13,5 +14,6 @@ namespace CarDealership.repo
         bool ExistsByNumber(string number);
         GasolineCar? GetGasolineCarById(int id);
         ElectroCar? GetElectroCarById(int id);
+        IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType);
     }
 }

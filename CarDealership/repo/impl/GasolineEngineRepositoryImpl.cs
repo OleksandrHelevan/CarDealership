@@ -19,7 +19,7 @@ namespace CarDealership.repo.impl
 
         public GasolineEngine GetById(int id)
         {
-            return _context.GasolineEngines.FirstOrDefault(e => e.Id == id);
+            return _context.GasolineEngines.FirstOrDefault(e => e.Id == id) ?? new GasolineEngine();
         }
 
         public void Add(GasolineEngine engine)

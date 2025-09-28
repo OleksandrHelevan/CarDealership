@@ -6,6 +6,7 @@ using System.Windows.Input;
 using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.enums;
+using CarDealership.mapper;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
 
@@ -95,16 +96,16 @@ namespace CarDealership.page.authorized
                     DoorsTo = GetIntValue(FilterDoorsTo.Text)
                 };
 
-                // Get filtered cars from repository through service
+                // Get filtered cars directly from database through service
                 var electroCarService = new ElectroCarServiceImpl(new ElectroCarRepositoryImpl(new DealershipContext()));
                 var filteredCars = electroCarService.GetFilteredCars(filter);
                 
                 // Convert to product DTOs for display
-                var allProducts = _productService.GetAll();
-                var filteredProducts = allProducts
-                    .Where(p => p.CarType == CarType.Electro)
-                    .Where(p => filteredCars.Any(c => c.Id == ((ElectroCarDto)p.Vehicle).Id))
-                    .ToList();
+                var productRepo = new ProductRepositoryImpl(new DealershipContext());
+                var filteredProducts = productRepo.GetByVehicleIds(
+                    filteredCars.Select(c => c.Id).ToList(), 
+                    CarType.Electro
+                ).Select(ProductMapper.ToDto).ToList();
 
                 ElectroCarsList.ItemsSource = filteredProducts;
             }

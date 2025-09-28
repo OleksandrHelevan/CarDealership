@@ -28,39 +28,64 @@ namespace CarDealership.service.impl
             {
                 System.Diagnostics.Debug.WriteLine($"=== BUY CAR START ===");
                 System.Diagnostics.Debug.WriteLine($"CarId: {buyCarDto.Id}, CarType: {buyCarDto.CarType}, ClientId: {buyCarDto.ClientId}");
+                System.Diagnostics.Debug.WriteLine($"PaymentType: {buyCarDto.PaymentType}, Delivery: {buyCarDto.Delivery}");
 
-                using var context = new DealershipContext();
+                // Get the product by Id and type
+                var product = _productRepository.GetById(buyCarDto.Id);
+                if (product == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"ERROR: Product not found: {buyCarDto.Id}");
+                    return false;
+                }
+                System.Diagnostics.Debug.WriteLine($"Product found: ID={product.Id}, Number={product.Number}, InStock={product.InStock}");
+                
+                if (product.GasolineCarId != null)
+                    System.Diagnostics.Debug.WriteLine($"GasolineCarId: {product.GasolineCarId}");
+                if (product.ElectroCarId != null)
+                    System.Diagnostics.Debug.WriteLine($"ElectroCarId: {product.ElectroCarId}");
 
                 // Get the client by Id
-                var client = context.Clients.FirstOrDefault(c => c.Id == buyCarDto.ClientId);
-                var product = buyCarDto.CarType == CarType.Gasoline
-                    ? context.Products.FirstOrDefault(p => p.GasolineCarId == buyCarDto.Id)
-                    : context.Products.FirstOrDefault(p => p.ElectroCarId == buyCarDto.Id);
-
-                if (client == null || product == null)
-                    return false;
-
-                var order = new Order
+                var client = _clientRepository.GetById(buyCarDto.ClientId);
+                if (client == null)
                 {
-                    Client = client,
-                    Product = product,
-                    ClientId = client.Id,
-                    ProductId = product.Id,
-                    OrderDate = DateTime.Now,
-                    PaymentType = buyCarDto.PaymentType,
-                    Delivery = buyCarDto.Delivery
-                };
+                    System.Diagnostics.Debug.WriteLine($"ERROR: Client not found: {buyCarDto.ClientId}");
+                    return false;
+                }
+                System.Diagnostics.Debug.WriteLine($"Client found: ID={client.Id}, Name={client.PassportData.FirstName} {client.PassportData.LastName}");
 
-                context.Orders.Add(order);
-                var changes = context.SaveChanges();
+                try
+                {
+                    // Create order DTO
+                    var orderDto = new OrderDto
+                    {
+                        Client = ClientMapper.ToDto(client),
+                        Product = ProductMapper.ToDto(product),
+                        OrderDate = DateTime.Now,
+                        PaymentType = buyCarDto.PaymentType,
+                        Delivery = buyCarDto.Delivery
+                    };
+                    
+                    System.Diagnostics.Debug.WriteLine($"OrderDto created: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product.Number}");
 
-                System.Diagnostics.Debug.WriteLine($"SaveChanges returned: {changes}");
-
-                return changes > 0;
+                    // Use order service to add the order
+                    System.Diagnostics.Debug.WriteLine("Calling OrderService.Add...");
+                    _orderService.Add(orderDto);
+                    
+                    System.Diagnostics.Debug.WriteLine("Order created successfully");
+                    
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"ERROR creating order: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                    throw; // Rethrow to outer catch
+                }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"BuyCar error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"BuyCar ERROR: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 return false;
             }
         }

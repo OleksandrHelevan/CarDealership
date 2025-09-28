@@ -1,8 +1,7 @@
 using CarDealership.config;
 using CarDealership.entity;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using CarDealership.enums;
 
 namespace CarDealership.repo.impl
 {
@@ -65,15 +64,37 @@ namespace CarDealership.repo.impl
         public GasolineCar? GetGasolineCarById(int id)
         {
             return _context.GasolineCars
-                .Include(c => c.Engine)
-                .FirstOrDefault(c => c.Id == id);
+                .Include(g => g.Engine)
+                .FirstOrDefault(g => g.Id == id);
         }
 
         public ElectroCar? GetElectroCarById(int id)
         {
             return _context.ElectroCars
-                .Include(c => c.Engine)
-                .FirstOrDefault(c => c.Id == id);
+                .Include(e => e.Engine)
+                .FirstOrDefault(e => e.Id == id);
+        }
+
+        public IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType)
+        {
+            if (carType == CarType.Gasoline)
+            {
+                return _context.Products
+                    .Include(p => p.GasolineCar)
+                    .ThenInclude(g => g.Engine)
+                    .Where(p => p.GasolineCar != null && vehicleIds.Contains(p.GasolineCar.Id))
+                    .ToList();
+            }
+            else if (carType == CarType.Electro)
+            {
+                return _context.Products
+                    .Include(p => p.ElectroCar)
+                    .ThenInclude(e => e.Engine)
+                    .Where(p => p.ElectroCar != null && vehicleIds.Contains(p.ElectroCar.Id))
+                    .ToList();
+            }
+            
+            return new List<Product>();
         }
     }
 }
