@@ -1,0 +1,62 @@
+<Page x:Class="CarDealership.page.admin.UserRequestsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="UserRequestsPage" Height="450" Width="800">
+
+    <Grid Background="#f5f5f5" Margin="10">
+        <StackPanel Orientation="Vertical">
+            <Button Content="Оновити" Margin="0,0,0,10" Width="120" Height="35" 
+                    HorizontalAlignment="Left" Click="RefreshRequests_Click"/>
+
+            <Border Background="White" CornerRadius="8" Padding="10">
+                <DataGrid x:Name="RequestsDataGrid"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="None"
+                          RowHeight="40"
+                          AlternatingRowBackground="#f0f0f0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          FontSize="14"
+                          FontWeight="SemiBold"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          BorderThickness="0"
+                          Background="White"
+                          RowBackground="White">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                        <DataGridTextColumn Header="Логін" Binding="{Binding Login}" Width="*"/>
+                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+
+                        <DataGridTemplateColumn Header="Дія" Width="240">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="Підтвердити"
+                                                Padding="5"
+                                                Margin="2,0"
+                                                Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Content="Відмовити"
+                                                Padding="5"
+                                                Margin="2,0"
+                                                Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>
