@@ -12,7 +12,7 @@ namespace CarDealership.service
 
         IEnumerable<AuthorizationRequest> GetAllRequests();
 
-        bool UpdateRequest(int id, string? message = null, RequestStatus? status = null);
+        bool UpdateRequest(AuthorizationRequest request);
 
         bool DeleteRequest(int id);
     }

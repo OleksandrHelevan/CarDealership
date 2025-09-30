@@ -1,4 +1,5 @@
 using CarDealership.dto;
+using CarDealership.entity;
 using CarDealership.enums;
 
 namespace CarDealership.service
@@ -9,5 +10,8 @@ namespace CarDealership.service
         UserDto? Login(string login, string password);
         
         bool UpdatePassword(string login, string newPassword);
+        public User LoadByUsername(string login);
+        public bool Update(User user);
+
     }
 }

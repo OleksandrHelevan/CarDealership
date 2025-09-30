@@ -17,7 +17,7 @@ namespace CarDealership.service.impl
 
         public AuthorizationRequest CreateRequest(string login)
         {
-            if(_repository.GetByLogin(login) != null)
+            if (_repository.GetByLogin(login) != null)
                 throw new RequestAlreadyExistException("Запит вже поданий, очікуйте відповіді");
             var request = new AuthorizationRequest
             {
@@ -38,16 +38,13 @@ namespace CarDealership.service.impl
             return _repository.GetAll();
         }
 
-        public bool UpdateRequest(int id, string? message = null, RequestStatus? status = null)
+        public bool UpdateRequest(AuthorizationRequest request)
         {
-            var request = _repository.GetById(id);
-            if (request == null)
-                return false;
+            var currentRequest = _repository.GetById(request.Id);
 
-            if (status != null)
-                request.Status = status.Value;
+            currentRequest.Status = request.Status;
 
-            _repository.Update(request);
+            _repository.Update(currentRequest);
             return true;
         }
 

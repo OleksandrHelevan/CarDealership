@@ -66,6 +66,11 @@
             <Button Name="BtnMyOrders"
                     Content="Виставити авто на продаж"
                     Style="{StaticResource RoundedButtonStyle}" />
+            
+            <Button Name="BtnShowRequest"
+                    Content="Запити на авторизацію"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnShowRequest_Click" />
 
         </StackPanel>
 

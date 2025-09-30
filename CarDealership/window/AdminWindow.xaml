@@ -58,7 +58,7 @@
 
             <Button Name="BtnGasolineCar"
                     Content="Запити на авторизацію"
-                    Style="{StaticResource RoundedButtonStyle}" />
+                    Style="{StaticResource RoundedButtonStyle}"/>
 
             <Button Name="BtnElectroCar"
                     Content="Додати новий продукт"

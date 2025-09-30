@@ -33,6 +33,26 @@ namespace CarDealership.service.impl
             _userRepository.Save(user);
             return true;
         }
+        public bool Update(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            try
+            {
+                _userRepository.Update(user); 
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public User LoadByUsername(string login)
+        {
+            return _userRepository.GetByLogin(login);
+        }
 
         public UserDto? Login(string login, string password)
         {
