@@ -107,3 +107,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\RegisterWindow.ba
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\RegisterWindow.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\MyOrdersPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\MyOrdersPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\OperatorWindow.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\AdminWindow.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\OperatorWindow.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\AdminWindow.baml

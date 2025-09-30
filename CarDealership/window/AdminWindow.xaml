@@ -5,7 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:CarDealership.window"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="450" Width="800">
+        Title="AdminWindow" 
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#3B82F6" />

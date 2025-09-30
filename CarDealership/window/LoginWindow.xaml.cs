@@ -32,8 +32,10 @@ namespace CarDealership.window
             {
                 UserDto user = _userService.Login(login, password)!;
 
-                MessageBox.Show($"Ласкаво просимо, {user.Login} (Права доступу - {user.AccessRight.ToFriendlyString()})!", "Вхід успішний");
-                
+                MessageBox.Show(
+                    $"Ласкаво просимо, {user.Login} (Права доступу - {user.AccessRight.ToFriendlyString()})!",
+                    "Вхід успішний");
+
                 if (user.AccessRight == AccessRight.Guest)
                 {
                     GuestWindow guestWindow = new GuestWindow(user.Login);
@@ -42,11 +44,27 @@ namespace CarDealership.window
                     DialogResult = true;
                     Close();
                 }
-                else if(user.AccessRight == AccessRight.Authorized)
+                else if (user.AccessRight == AccessRight.Authorized)
                 {
                     AuthorizedWindow authorizedWindow = new AuthorizedWindow(user.Login);
                     authorizedWindow.Show();
-                    
+
+                    DialogResult = true;
+                    Close();
+                }
+                else if (user.AccessRight == AccessRight.Operator)
+                {
+                    OperatorWindow operatorWindow = new OperatorWindow(user.Login);
+                    operatorWindow.Show();
+
+                    DialogResult = true;
+                    Close();
+                }
+                else if (user.AccessRight == AccessRight.Admin)
+                {
+                    AdminWindow adminWindow = new AdminWindow(user.Login);
+                    adminWindow.Show();
+
                     DialogResult = true;
                     Close();
                 }
