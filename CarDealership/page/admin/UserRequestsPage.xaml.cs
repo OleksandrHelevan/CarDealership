@@ -27,7 +27,7 @@ public partial class UserRequestsPage : Page
         InitializeComponent();
 
         _requestService = new AuthorizationRequestService(new AuthorizationRequestRepository(new DealershipContext()));
-        _userService = new UserService();
+        _userService = new UserServiceImpl();
 
         ApproveCommand = new RelayCommand<AuthorizationRequest>(ApproveRequest);
         RejectCommand = new RelayCommand<AuthorizationRequest>(RejectRequest);

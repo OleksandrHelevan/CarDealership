@@ -14,7 +14,7 @@ namespace CarDealership.window
         public LoginWindow()
         {
             InitializeComponent();
-            _userService = new UserService();
+            _userService = new UserServiceImpl();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace CarDealership.window
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            var registerWindow = new RegisterWindow();
+            var registerWindow = new RegisterWindow(AccessRight.Guest);
             registerWindow.ShowDialog();
         }
 

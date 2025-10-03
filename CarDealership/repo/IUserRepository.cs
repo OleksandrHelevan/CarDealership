@@ -18,4 +18,8 @@ public interface IUserRepository
     
     public void Update(User user);
     
+    IEnumerable<User> GetAll();
+    
+    IEnumerable<User> GetAllByAccessRight(AccessRight accessRight);
+    
 }

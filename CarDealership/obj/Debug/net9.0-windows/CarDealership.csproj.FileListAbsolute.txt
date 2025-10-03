@@ -113,3 +113,5 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\OperatorWindow.g.
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\AdminWindow.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\UserRequestsPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\UserRequestsPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\AddOperatorPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\AddOperatorPage.g.cs

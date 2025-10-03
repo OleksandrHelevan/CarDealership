@@ -56,9 +56,10 @@
                     HorizontalAlignment="Center"
                     Background="Transparent">
 
-            <Button Name="BtnGasolineCar"
-                    Content="Запити на авторизацію"
-                    Style="{StaticResource RoundedButtonStyle}"/>
+            <Button Name="BtnAddOperator"
+                    Content="Додати оператора"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnAddOperator_Click"/>
 
             <Button Name="BtnElectroCar"
                     Content="Додати новий продукт"

@@ -10,8 +10,11 @@ namespace CarDealership.service
         UserDto? Login(string login, string password);
         
         bool UpdatePassword(string login, string newPassword);
-        public User LoadByUsername(string login);
-        public bool Update(User user);
+        User LoadByUsername(string login);
+        bool Update(User user);
+        IEnumerable<User> GetAllUsers();
+        IEnumerable<User> GetAllByAccessRight(AccessRight accessRight);
 
     }
+    
 }

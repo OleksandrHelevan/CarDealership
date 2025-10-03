@@ -9,11 +9,11 @@ using CarDealership.repo.impl;
 
 namespace CarDealership.service.impl
 {
-    public class UserService : IUserService
+    public class UserServiceImpl : IUserService
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService()
+        public UserServiceImpl()
         {
             _userRepository = new UserRepositoryImpl();
         }
@@ -79,6 +79,15 @@ namespace CarDealership.service.impl
             user.Password = DealershipPasswordEncoder.Encode(password);
             _userRepository.Update(user);
             return true;
+        }
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _userRepository.GetAll();
+        }
+
+        public IEnumerable<User> GetAllByAccessRight(AccessRight accessRight)
+        {
+            return _userRepository.GetAllByAccessRight(accessRight);
         }
     }
 }

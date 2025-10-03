@@ -3,6 +3,7 @@ using System.Windows;
 using CarDealership.config;
 using CarDealership.config.decoder;
 using CarDealership.entity;
+using CarDealership.enums;
 using MessageBox = System.Windows.MessageBox;
 
 namespace CarDealership.window
@@ -11,10 +12,12 @@ namespace CarDealership.window
     {
         private readonly DealershipContext _context;
 
-        public RegisterWindow()
+        private AccessRight _accessRight;
+        public RegisterWindow(AccessRight accessRight)
         {
             InitializeComponent();
             _context = new DealershipContext();
+            _accessRight = accessRight;
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
@@ -38,7 +41,6 @@ namespace CarDealership.window
                 return;
             }
 
-            // save passport data
             var passport = new PassportData
             {
                 FirstName = firstName,
@@ -48,26 +50,26 @@ namespace CarDealership.window
             _context.PassportData.Add(passport);
             _context.SaveChanges();
 
-            // save keys
             var key = new User
             {
                 Login = login,
-                Password = DealershipPasswordEncoder.Encode(password)
+                Password = DealershipPasswordEncoder.Encode(password),
+                AccessRight = _accessRight
             };
             _context.Users.Add(key);
             _context.SaveChanges();
 
-            // create client
             var client = new Client
             {
-                UserId = key.Id,            // FK to keys
-                PassportDataId = passport.Id    // FK to passportData
+                UserId = key.Id,
+                PassportDataId = passport.Id
             };
+            
             _context.Clients.Add(client);
             _context.SaveChanges();
 
             MessageBox.Show("Registration successful!");
-            this.Close();
+            Close();
         }
         
     }

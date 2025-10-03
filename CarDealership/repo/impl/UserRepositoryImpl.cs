@@ -48,5 +48,15 @@ namespace CarDealership.repo.impl
         {
             return _context.Users.FirstOrDefault(u => u.Login == login);
         }
+        
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users.ToList();
+        }
+        
+        public IEnumerable<User> GetAllByAccessRight(AccessRight accessRight)
+        {
+            return _context.Users.Where(u => u.AccessRight == accessRight).ToList();
+        }
     }
 }

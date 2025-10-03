@@ -4,31 +4,92 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
-      Title="UserRequestsPage" Height="450" Width="800">
+      Title="UserRequestsPage">
 
-    <Grid Background="#f5f5f5" Margin="10">
+    <Page.Resources>
+        <!-- Основний стиль кнопки -->
+        <Style x:Key="MainButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1976D2"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#1565C0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Кнопки в таблиці -->
+        <Style x:Key="TableActionButton" TargetType="Button" BasedOn="{StaticResource MainButtonStyle}">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="Margin" Value="4,0"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#f5f5f5" Margin="20">
         <StackPanel Orientation="Vertical">
-            <Button Content="Оновити" Margin="0,0,0,10" Width="120" Height="35" 
-                    HorizontalAlignment="Left" Click="RefreshRequests_Click"/>
+            <Button Content="Оновити"
+                    Width="140" Height="40"
+                    Style="{StaticResource MainButtonStyle}"
+                    HorizontalAlignment="Left"
+                    Margin="0,0,0,10"
+                    Click="RefreshRequests_Click"/>
 
-            <Border Background="White" CornerRadius="8" Padding="10">
+            <Border Background="White" CornerRadius="10" Padding="10">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black"
+                                      BlurRadius="10"
+                                      ShadowDepth="2"
+                                      Opacity="0.2"/>
+                </Border.Effect>
+
                 <DataGrid x:Name="RequestsDataGrid"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
                           IsReadOnly="True"
                           HeadersVisibility="Column"
-                          GridLinesVisibility="None"
-                          RowHeight="40"
-                          AlternatingRowBackground="#f0f0f0"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
+                          GridLinesVisibility="Horizontal"
+                          RowHeight="50"
+                          AlternatingRowBackground="#f9f9f9"
+                          HorizontalGridLinesBrush="#ddd"
+                          VerticalGridLinesBrush="#ddd"
                           FontSize="14"
-                          FontWeight="SemiBold"
                           SelectionMode="Single"
                           SelectionUnit="FullRow"
                           BorderThickness="0"
-                          Background="White"
-                          RowBackground="White">
+                          Background="White">
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#2196F3"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="Height" Value="40"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
@@ -40,20 +101,17 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Content="Підтвердити"
-                                                Padding="5"
-                                                Margin="2,0"
+                                                Style="{StaticResource TableActionButton}"
                                                 Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                                 CommandParameter="{Binding}"/>
                                         <Button Content="Відмовити"
-                                                Padding="5"
-                                                Margin="2,0"
+                                                Style="{StaticResource TableActionButton}"
                                                 Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                                 CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>
