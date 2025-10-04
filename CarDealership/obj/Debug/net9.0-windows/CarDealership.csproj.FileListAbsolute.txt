@@ -115,3 +115,5 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\UserRequestsP
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\UserRequestsPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\AddOperatorPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\admin\AddOperatorPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\AddGasolineCarPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\AddGasolineCarPage.g.cs

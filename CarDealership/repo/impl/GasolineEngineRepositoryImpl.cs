@@ -25,6 +25,7 @@ namespace CarDealership.repo.impl
         public void Add(GasolineEngine engine)
         {
             _context.GasolineEngines.Add(engine);
+            _context.SaveChanges();
         }
 
         public void Update(GasolineEngine engine)

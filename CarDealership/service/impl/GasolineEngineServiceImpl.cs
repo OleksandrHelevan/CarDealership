@@ -1,6 +1,7 @@
 using CarDealership.config;
 using CarDealership.mapper;
 using CarDealership.dto;
+using CarDealership.entity;
 using CarDealership.repo.impl;
 
 namespace CarDealership.service.impl;
@@ -15,5 +16,10 @@ public class GasolineEngineServiceImpl : IGasolineEngineService
         var dtos = entities.Select(GasolineEngineMapper.ToDto).ToList();
       
         return dtos;
+    }
+
+    public void AddGasolineEngine(GasolineEngine gasolineEngine)
+    {
+        _repository.Add(gasolineEngine);
     }
 }

@@ -16,6 +16,7 @@ public class GasolineEngineDto : Engine
     }
     public GasolineEngineDto(int id, double power, FuelType fuelType, float fuelConsumption) : base(power)
     {
+        Id = id;
         FuelType = fuelType;
         FuelConsumption = fuelConsumption;
         FuelTypeString = fuelType.ToFriendlyString();

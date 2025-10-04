@@ -1,5 +1,6 @@
 using System.Windows;
 using CarDealership.page.admin;
+using CarDealership.page.@operator;
 
 namespace CarDealership.window;
 
@@ -15,5 +16,8 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new UserRequestsPage());
     }
-    
+    private void BtnAddGasolineCar_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new AddGasolineCarPage());
+    }
 }

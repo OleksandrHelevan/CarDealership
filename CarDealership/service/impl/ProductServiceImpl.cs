@@ -1,7 +1,6 @@
 using CarDealership.entity;
 using CarDealership.mapper;
 using CarDealership.dto;
-using CarDealership.enums;
 using CarDealership.repo;
 
 namespace CarDealership.service.impl
