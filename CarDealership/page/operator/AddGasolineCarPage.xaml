@@ -5,71 +5,161 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:enums="clr-namespace:CarDealership.enums"
       mc:Ignorable="d"
-      Title="AddGasolineCarPage">
+      Title="AddGasolineCarPage"
+      Background="White"
+      FontFamily="Segoe UI"
+      FontSize="14">
+
+    <Page.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="14"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#60A5FA"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#a0aec0"/>
+                                <Setter Property="Foreground" Value="#6b7280"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="20" Width="400">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <TextBlock Text="Додати Бензинове Авто" FontSize="24" FontWeight="Bold" Margin="0 0 0 20"/>
+            <!-- Заголовок -->
+            <TextBlock Grid.Row="0"
+                       Text="Додати Бензинове Авто"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,25"/>
 
             <!-- Основні поля -->
-            <TextBlock Text="Марка:"/>
-            <TextBox x:Name="BrandTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Модель:"/>
-            <TextBox x:Name="ModelTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Колір:"/>
-            <ComboBox x:Name="ColorComboBox" Margin="0 5"/>
-
-            <TextBlock Text="Привід:"/>
-            <ComboBox x:Name="DriveTypeComboBox" Margin="0 5"/>
-
-            <TextBlock Text="Коробка передач:"/>
-            <ComboBox x:Name="TransmissionTypeComboBox" Margin="0 5"/>
-
-            <TextBlock Text="Тип кузова:"/>
-            <ComboBox x:Name="CarBodyTypeComboBox" Margin="0 5"/>
-
-            <TextBlock Text="Рік:"/>
-            <TextBox x:Name="YearTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Ціна:"/>
-            <TextBox x:Name="PriceTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Пробіг:"/>
-            <TextBox x:Name="MileageTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Вага:"/>
-            <TextBox x:Name="WeightTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Кількість дверей:"/>
-            <TextBox x:Name="NumberOfDoorsTextBox" Margin="0 5"/>
-
-            <TextBlock Text="Оберіть двигун:" Margin="0 10 0 0"/>
-            <ComboBox x:Name="EnginesComboBox" Margin="0 5"/>
-
-            <!-- Додавання нового двигуна -->
-            <GroupBox Header="Додати новий двигун" Margin="0 15 0 0">
-                <StackPanel>
-                    <TextBlock Text="Потужність (Power):"/>
-                    <TextBox x:Name="EnginePowerTextBox" Margin="0 5"/>
-
-                    <TextBlock Text="Тип палива:"/>
-                    <ComboBox x:Name="EngineFuelTypeComboBox" Margin="0 5">
-                        <ComboBoxItem Content="Petrol" Tag="{x:Static enums:FuelType.Petrol}"/>
-                        <ComboBoxItem Content="Diesel" Tag="{x:Static enums:FuelType.Diesel}"/>
-                        <ComboBoxItem Content="Gas" Tag="{x:Static enums:FuelType.Gas}"/>
-                    </ComboBox>
-
-                    <TextBlock Text="Витрата палива (л/100км):"/>
-                    <TextBox x:Name="EngineConsumptionTextBox" Margin="0 5"/>
-
-                    <Button Content="Додати двигун" Margin="0 10 0 0" Click="AddEngine_Click"/>
+            <StackPanel Grid.Row="1" VerticalAlignment="Top" Width="520">
+                <!-- Кожен рядок -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Марка:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="BrandTextBox" Width="350" Height="35"/>
                 </StackPanel>
-            </GroupBox>
 
-            <Button Content="Додати авто" Margin="0 20 0 0" Click="AddGasolineCar_Click"/>
-        </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Модель:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="ModelTextBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Колір:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="ColorComboBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Привід:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="DriveTypeComboBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Коробка:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="TransmissionTypeComboBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Тип кузова:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="CarBodyTypeComboBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Рік:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="YearTextBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Ціна:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="PriceTextBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Пробіг:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="MileageTextBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Вага:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="WeightTextBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Двері:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="NumberOfDoorsTextBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Двигун:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="EnginesComboBox" Width="350" Height="35"/>
+                </StackPanel>
+
+                <GroupBox Header="Додати новий двигун" Margin="0,10,0,0" Padding="10">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
+                            <TextBlock Text="Потужність:" Width="150" VerticalAlignment="Center"/>
+                            <TextBox x:Name="EnginePowerTextBox" Width="350" Height="35"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
+                            <TextBlock Text="Тип палива:" Width="150" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="EngineFuelTypeComboBox" Width="350" Height="35">
+                                <ComboBoxItem Content="Petrol" Tag="{x:Static enums:FuelType.Petrol}"/>
+                                <ComboBoxItem Content="Diesel" Tag="{x:Static enums:FuelType.Diesel}"/>
+                                <ComboBoxItem Content="Gas" Tag="{x:Static enums:FuelType.Gas}"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,15">
+                            <TextBlock Text="Витрата:" Width="150" VerticalAlignment="Center"/>
+                            <TextBox x:Name="EngineConsumptionTextBox" Width="350" Height="35"/>
+                        </StackPanel>
+
+                        <Button Content="Додати двигун" Style="{StaticResource RoundedButtonStyle}" Click="AddEngine_Click"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Button Content="Додати авто" Style="{StaticResource RoundedButtonStyle}" Click="AddGasolineCar_Click"/>
+            </StackPanel>
+        </Grid>
     </ScrollViewer>
 </Page>
