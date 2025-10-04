@@ -15,6 +15,7 @@ public class ElectroEngineDto : Engine
         int id,
         double power, double batteryCapacity, int range, ElectroMotorType motorType) : base(power)
     {
+        Id = id;
         BatteryCapacity = batteryCapacity;
         Range = range;
         MotorType = motorType;
