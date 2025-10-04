@@ -25,6 +25,7 @@ namespace CarDealership.repo.impl
         public void Add(ElectroEngine engine)
         {
             _context.ElectroEngines.Add(engine);
+            _context.SaveChanges();
         }
 
         public void Update(ElectroEngine engine)

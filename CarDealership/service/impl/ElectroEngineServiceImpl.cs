@@ -1,7 +1,7 @@
 using CarDealership.config;
-using CarDealership.entity;
 using CarDealership.mapper;
 using CarDealership.dto;
+using CarDealership.entity;
 using CarDealership.repo;
 using CarDealership.repo.impl;
 
@@ -16,5 +16,20 @@ public class ElectroEngineServiceImpl : IElectroEngineService
         var result = entities.Select(ElectroEngineMapper.ToDto).ToList();
         
         return result;
+    }
+
+    public void AddElectroEngine(ElectroEngine engine)
+    {
+        _repository.Add(engine);
+    }
+
+
+    public void UpdateElectroEngine(ElectroEngineDto engine)
+    {
+        _repository.Update(ElectroEngineMapper.ToEntity(engine));
+    }
+    public void DeleteElectroEngine(int id)
+    {
+        _repository.Delete(id);
     }
 }

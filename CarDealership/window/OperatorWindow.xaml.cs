@@ -20,4 +20,8 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new AddGasolineCarPage());
     }
+    private void BtnAddElectroCar_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new AddElectroCarPage());
+    }
 }

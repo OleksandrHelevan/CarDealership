@@ -60,9 +60,10 @@
                     Style="{StaticResource RoundedButtonStyle}" 
                     Click="BtnAddGasolineCar_Click"/>
 
-            <Button Name="BtnElectroCar"
+            <Button Name="BtnAddElectroCar"
                     Content="Додати електромобіль"
-                    Style="{StaticResource RoundedButtonStyle}" />
+                    Style="{StaticResource RoundedButtonStyle}" 
+                    Click="BtnAddElectroCar_Click"/>
 
             <Button Name="BtnMyOrders"
                     Content="Виставити авто на продаж"

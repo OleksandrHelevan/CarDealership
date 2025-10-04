@@ -31,6 +31,7 @@ namespace CarDealership.dto
             CarBodyType bodyType
         ) : base(brand, modelName, engine, color, mileage, price, weight, year, numberOfDoors, bodyType)
         {
+            Id = id;
             DriveType = drive;
             Transmission = transmission;
             TransmissionString = transmission.ToFriendlyString();
