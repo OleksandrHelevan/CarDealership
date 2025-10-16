@@ -59,10 +59,9 @@ namespace CarDealership.page.authorized
         {
             try
             {
-                // Get only gasoline car products
+                // Load all products (both gasoline and electro)
                 var allProducts = _productService.GetAll();
-                var gasolineProducts = allProducts.Where(p => p.CarType == CarType.Gasoline).ToList();
-                GasolineCarsList.ItemsSource = gasolineProducts;
+                GasolineCarsList.ItemsSource = allProducts;
             }
             catch (Exception ex)
             {

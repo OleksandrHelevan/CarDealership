@@ -65,6 +65,6 @@ namespace CarDealership.entity
         [Required]
         [Column("body_type")]
         public CarBodyType BodyType { get; set; }
-        
+
     }
 }

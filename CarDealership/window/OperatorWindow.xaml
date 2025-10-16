@@ -7,7 +7,8 @@
         Title="OperatorWindow"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
-        <Window.Resources>
+
+    <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#3B82F6" />
             <Setter Property="Foreground" Value="White" />
@@ -56,7 +57,7 @@
                     Background="Transparent">
 
             <Button Name="BtnAddGasolineCar"
-                    Content="Додавти бензинове авто"
+                    Content="Додати бензинове авто"
                     Style="{StaticResource RoundedButtonStyle}" 
                     Click="BtnAddGasolineCar_Click"/>
 
@@ -65,15 +66,16 @@
                     Style="{StaticResource RoundedButtonStyle}" 
                     Click="BtnAddElectroCar_Click"/>
 
-            <Button Name="BtnMyOrders"
+            <Button Name="BtnPutOnSale"
                     Content="Виставити авто на продаж"
-                    Style="{StaticResource RoundedButtonStyle}" />
+                    Style="{StaticResource RoundedButtonStyle}" 
+                    Click="BtnUnboundCars_Click"/>
             
             <Button Name="BtnShowRequest"
                     Content="Запити на авторизацію"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnShowRequest_Click" />
-
+            
         </StackPanel>
 
         <Frame x:Name="MainFrame"
@@ -82,6 +84,5 @@
                Margin="20"
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch" />
-
     </DockPanel>
 </Window>

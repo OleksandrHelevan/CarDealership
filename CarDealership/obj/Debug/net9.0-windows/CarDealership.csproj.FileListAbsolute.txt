@@ -119,3 +119,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\AddGasolin
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\AddGasolineCarPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\AddElectroCarPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\AddElectroCarPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\PutOnSaleDialog.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\PutOnSaleDialog.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\UnboundCarsPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\UnboundCarsPage.baml

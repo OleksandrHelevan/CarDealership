@@ -145,7 +145,7 @@
                     <DataTemplate DataType="{x:Type model:ProductDto}">
                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="300">
                             <StackPanel>
-                                <TextBlock Text="Бензиновий автомобіль" FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
+                                <TextBlock FontSize="16" FontWeight="Bold" Margin="0 0 0 10" Text="{Binding CarType, StringFormat={}{0} автомобіль}"/>
                                 
                                 <!-- Product Info -->
                                 <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0 2" FontWeight="Bold"/>
@@ -159,19 +159,19 @@
                                 <TextBlock Text="{Binding Vehicle.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
 
-                                <TextBlock Text="{Binding Vehicle.Engine.FuelConsumption, StringFormat=Обʼєм двигуна: {0} л}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Vehicle.Engine.FuelTypeString, StringFormat=Тип пального: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Engine.HorsePower, StringFormat=Потужність: {0} к.с.}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Vehicle.Engine.Power, StringFormat=Потужність: {0} Вт}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.Engine.Power, StringFormat=Потужність: {0} кВт}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.Engine.FuelConsumption, StringFormat=Витрата пального: {0} л/100км}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.Engine.FuelTypeString, StringFormat=Тип пального: {0}}" Margin="0 2"/>
 
                                 <TextBlock Text="{Binding Vehicle.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Mileage, StringFormat=Пробіг: {0} км}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Price, StringFormat=Ціна: ${0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
                                 
-                                <!-- Cast to GasolineCarDto for specific properties -->
-                                <TextBlock Text="{Binding Vehicle.(model:GasolineCarDto.TransmissionString), StringFormat=КПП: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Vehicle.(model:GasolineCarDto.DriveTypeString), StringFormat=Привід: {0}}" Margin="0 2"/>
+                                <!-- Transmission/Drive common on both DTOs -->
+                                <TextBlock Text="{Binding Vehicle.TransmissionString, StringFormat=КПП: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Vehicle.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.NumberOfDoors, StringFormat=Кількість дверей: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.BodyTypeString, StringFormat=Тип кузова: {0}}" Margin="0 2"/>
 
