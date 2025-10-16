@@ -61,12 +61,12 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnAddOperator_Click"/>
 
-            <Button Name="BtnElectroCar"
-                    Content="Додати новий продукт"
+            <Button Name="BtnSqlCommands"
+                    Content="SQL команди"
                     Style="{StaticResource RoundedButtonStyle}" />
 
-            <Button Name="BtnMyOrders"
-                    Content="Мої покупки"
+            <Button Name="BtnCommandPrompt"
+                    Content="Командний рядок"
                     Style="{StaticResource RoundedButtonStyle}" />
 
         </StackPanel>

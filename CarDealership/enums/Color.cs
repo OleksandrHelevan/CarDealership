@@ -13,7 +13,8 @@ namespace CarDealership.enums
         Brown,
         Pink,
         Grey,
-        LightBlue
+        LightBlue,
+        Silver
     }
 
     public static class ColorExtensions
@@ -34,6 +35,7 @@ namespace CarDealership.enums
                 Color.Pink => "Рожевий",
                 Color.Grey => "Сірий",
                 Color.LightBlue => "Блакитний",
+                Color.Silver => "Срібний",
                 _ => color.ToString()
             };
         }

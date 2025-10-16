@@ -169,7 +169,6 @@
                                 <TextBlock Text="{Binding Vehicle.Price, StringFormat=Ціна: ${0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
                                 
-                                <!-- Transmission/Drive common on both DTOs -->
                                 <TextBlock Text="{Binding Vehicle.TransmissionString, StringFormat=КПП: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.NumberOfDoors, StringFormat=Кількість дверей: {0}}" Margin="0 2"/>

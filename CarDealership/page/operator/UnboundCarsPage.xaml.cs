@@ -1,12 +1,10 @@
-using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.EntityFrameworkCore; // важливо для Include
+using Microsoft.EntityFrameworkCore;
 using CarDealership.config;
 using CarDealership.dto;
-using CarDealership.enums;
 using CarDealership.mapper;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
@@ -32,20 +30,17 @@ namespace CarDealership.page.@operator
             {
                 // 🔹 Бензинові авто
                 var gasolineUnbound = context.GasolineCars
-                    .Include(gc => gc.Engine) // підвантажуємо двигун
+                    .Include(gc => gc.Engine)
                     .Where(gc => !context.Products.Any(p => p.GasolineCarId == gc.Id))
                     .ToList();
 
-                foreach (var gc in gasolineUnbound)
-                {
-                    if (gc.Engine == null)
-                        Debug.WriteLine($"⚠ GasolineCar Id={gc.Id}, Brand={gc.Brand} має NULL Engine!");
-                    else
-                        Debug.WriteLine($"✅ GasolineCar Id={gc.Id}, EngineId={gc.Engine.Id}");
-                }
-
                 var gasolineDto = gasolineUnbound
-                    .Select(gc => GasolineCarMapper.ToDto(gc)) // безпечний мапінг
+                    .Select(gc =>
+                    {
+                        var dto = GasolineCarMapper.ToDto(gc);
+                        dto.VehicleTypeName = "Бензиновий автомобіль";
+                        return dto;
+                    })
                     .ToList<Vehicle>();
 
                 // 🔹 Електроавто
@@ -54,16 +49,13 @@ namespace CarDealership.page.@operator
                     .Where(ec => !context.Products.Any(p => p.ElectroCarId == ec.Id))
                     .ToList();
 
-                foreach (var ec in electroUnbound)
-                {
-                    if (ec.Engine == null)
-                        Debug.WriteLine($"⚠ ElectroCar Id={ec.Id}, Brand={ec.Brand} має NULL Engine!");
-                    else
-                        Debug.WriteLine($"✅ ElectroCar Id={ec.Id}, EngineId={ec.Engine.Id}");
-                }
-
                 var electroDto = electroUnbound
-                    .Select(ec => ElectroCarMapper.ToDto(ec)) // безпечний мапінг
+                    .Select(ec =>
+                    {
+                        var dto = ElectroCarMapper.ToDto(ec);
+                        dto.VehicleTypeName = "Електромобіль";
+                        return dto;
+                    })
                     .ToList<Vehicle>();
 
                 // 🔹 Об’єднуємо усі авто
@@ -72,7 +64,7 @@ namespace CarDealership.page.@operator
 
                 Debug.WriteLine($"Ітого Unbound Cars: {all.Count}");
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Debug.WriteLine($"❌ Помилка у LoadUnboundCars: {ex}");
                 MessageBox.Show($"Помилка завантаження авто: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);

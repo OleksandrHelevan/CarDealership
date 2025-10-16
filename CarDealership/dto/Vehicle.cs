@@ -24,7 +24,7 @@ public abstract class Vehicle
 
     public string BodyTypeString { get; set; }
 
-
+    public string VehicleTypeName { get; set; } = string.Empty;
     public Vehicle()
     {
     }
