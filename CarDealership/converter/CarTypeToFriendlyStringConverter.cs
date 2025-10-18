@@ -16,7 +16,15 @@ namespace CarDealership.converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is string str)
+            {
+                foreach (CarType type in Enum.GetValues(typeof(CarType)))
+                {
+                    if (type.ToFriendlyString() == str)
+                        return type;
+                }                    
+            }
+            return CarType.Gasoline;
         }
     }
 }
