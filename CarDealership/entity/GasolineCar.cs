@@ -63,4 +63,17 @@ public class GasolineCar
     [Required]
     [Column("body_type")]
     public CarBodyType BodyType { get; set; }
+    
+    [NotMapped]
+    public string BodyTypeString => BodyType.ToFriendlyString();
+        
+    [NotMapped]
+    public string TransmissionString => Transmission.ToFriendlyString();
+        
+    [NotMapped]
+    public string DriveTypeString => DriveType.ToFriendlyString();
+        
+    [NotMapped]
+    public string ColorString => Color.ToFriendlyString();
+
 }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms.VisualStyles;
 using CarDealership.enums;
 
@@ -65,6 +66,18 @@ namespace CarDealership.entity
         [Required]
         [Column("body_type")]
         public CarBodyType BodyType { get; set; }
-
+        
+        [NotMapped]
+        public string BodyTypeString => BodyType.ToFriendlyString();
+        
+        [NotMapped]
+        public string TransmissionString => Transmission.ToFriendlyString();
+        
+        [NotMapped]
+        public string DriveTypeString => DriveType.ToFriendlyString();
+        
+        [NotMapped]
+        public string ColorString => Color.ToFriendlyString();
+        
     }
 }

@@ -28,5 +28,18 @@ namespace CarDealership.entity
         [Required]
         [Column("motor_type")]
         public ElectroMotorType MotorType { get; set; }
+        [NotMapped]
+        
+        public string EngineString 
+        {
+            get
+            {
+                return $"Тип двигуна: Електричний\n" +
+                    $"Батарея: {BatteryCapacity:F1} кВт·г\n" +
+                    $"Потужність: {Power:F1} кВт\n" +
+                    $"Мотор: {MotorType.ToFriendlyString()}\n" +
+                    $"Запас ходу: {Range} км";
+            }
+        }
     }
 }

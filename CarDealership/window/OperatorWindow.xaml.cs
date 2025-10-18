@@ -38,4 +38,9 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new AddElectroCarPage());
     }
+    
+    private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new EditProductPage());
+    }
 }

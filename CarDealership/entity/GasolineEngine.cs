@@ -23,6 +23,16 @@ namespace CarDealership.entity
         [Required] [Column("fuel_consumption")]
         public float FuelConsumption {get; set; }
         
+        public string EngineString 
+        {
+            get
+            {
+                return $"Тип двигуна: Бензиновий\n" +
+                    $"Паливо: {FuelType.ToFriendlyString()}\n" +
+                    $"Витрата: {FuelConsumption:F1} л/100км\n" +
+                    $"Потужність: {Power:F1} кВт";
+            }
+        }
     }
     
 }

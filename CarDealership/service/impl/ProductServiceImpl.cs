@@ -24,6 +24,10 @@ namespace CarDealership.service.impl
             return ProductMapper.ToDto(_productRepository.GetById(id));
         }
 
+        public List<Product> GetAllEntities()
+        {
+            return _productRepository.GetAll().ToList();
+        }
         public bool Create(Product product)
         {
             if (_productRepository.ExistsByNumber(product.Number))

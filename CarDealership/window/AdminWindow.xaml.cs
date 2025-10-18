@@ -23,6 +23,7 @@ public partial class AdminWindow : Window
     {
         MainFrame.Navigate(new OperatorWindow(_currentLogin));
     }
+    
     private void BtnUnboundCars_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new UnboundCarsPage());
@@ -42,9 +43,9 @@ public partial class AdminWindow : Window
     {
         MainFrame.Navigate(new AddElectroCarPage());
     }
-
-    private void BtnProducts_Click(object sender, RoutedEventArgs e)
+    
+    private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new ProductCarPage());
+        MainFrame.Navigate(new EditProductPage());
     }
 }

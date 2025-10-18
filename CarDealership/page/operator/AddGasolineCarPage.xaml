@@ -60,7 +60,6 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовок -->
             <TextBlock Grid.Row="0"
                        Text="Додати Бензинове Авто"
                        FontSize="26"
@@ -68,9 +67,7 @@
                        HorizontalAlignment="Center"
                        Margin="0,0,0,25"/>
 
-            <!-- Основні поля -->
             <StackPanel Grid.Row="1" VerticalAlignment="Top" Width="520">
-                <!-- Кожен рядок -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                     <TextBlock Text="Марка:" Width="150" VerticalAlignment="Center" FontWeight="SemiBold"/>
                     <TextBox x:Name="BrandTextBox" Width="350" Height="35"/>

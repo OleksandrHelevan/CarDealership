@@ -123,3 +123,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\Products
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductsPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\UpdateOrderDialog.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\UpdateOrderDialog.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductDialog.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductDialog.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductPage.baml

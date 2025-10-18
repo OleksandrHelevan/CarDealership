@@ -76,6 +76,11 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnShowRequest_Click" />
             
+            <Button Name="BtnEditProduct"
+                    Content="Продукти"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnEditProduct_Click" />
+            
         </StackPanel>
 
         <Frame x:Name="MainFrame"

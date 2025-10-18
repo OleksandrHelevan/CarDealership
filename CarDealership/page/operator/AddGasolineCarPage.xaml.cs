@@ -25,7 +25,6 @@ namespace CarDealership.page.@operator
             _repo = new GasolineCarRepository(context);
             _engineService = new GasolineEngineServiceImpl();
 
-            // Заповнення ComboBox Enum
             ColorComboBox.ItemsSource = Enum.GetValues(typeof(Color))
                 .Cast<Color>()
                 .Select(c => new ComboBoxItem { Content = c.ToFriendlyString(), Tag = c });
