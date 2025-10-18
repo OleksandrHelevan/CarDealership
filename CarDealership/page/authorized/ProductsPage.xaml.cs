@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,7 +10,7 @@ using CarDealership.service.impl;
 
 namespace CarDealership.page.authorized
 {
-    public partial class ElectroCarPage : Page
+    public partial class ProductsPage 
     {
         private readonly ProductServiceImpl _productService;
         private readonly BuyServiceImpl _buyService;
@@ -21,15 +19,15 @@ namespace CarDealership.page.authorized
 
         public ICommand BuyCommand { get; }
 
-        public ElectroCarPage(string userLogin = null)
+        public ProductsPage(string userLogin = null)
         {
             InitializeComponent();
             _currentUserLogin = userLogin;
-
+    
             var productRepo = new ProductRepositoryImpl(new DealershipContext());
             var gasolineCarRepo = new GasolineCarRepository(new DealershipContext());
             var electroCarRepo = new ElectroCarRepositoryImpl(new DealershipContext());
-
+    
             _productService = new ProductServiceImpl(productRepo);
             _migrationService = new MigrationServiceImpl(productRepo, gasolineCarRepo, electroCarRepo);
             var orderService = new OrderService(new OrderRepositoryImpl(new DealershipContext()));
@@ -62,28 +60,26 @@ namespace CarDealership.page.authorized
             try
             {
                 var allProducts = _productService.GetAll();
-                var electricProducts = allProducts.Where(p => p.CarType == CarType.Electro).ToList();
-                ElectroCarsList.ItemsSource = electricProducts;
+                GasolineCarsList.ItemsSource = allProducts;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void ApplyFilterButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Create filter object from UI inputs
-                var filter = new ElectroCarFilterDto
+                var filter = new GasolineCarFilterDto
                 {
                     SearchText = SearchBox.Text,
                     TransmissionType = GetSelectedTransmissionType(),
                     BodyType = GetSelectedBodyType(),
                     Color = GetSelectedColor(),
                     DriveType = GetSelectedDriveType(),
-                    MotorType = GetSelectedMotorType(),
+                    FuelType = GetSelectedFuelType(),
                     YearFrom = GetIntValue(FilterYearFrom.Text),
                     YearTo = GetIntValue(FilterYearTo.Text),
                     PriceFrom = GetDoubleValue(FilterPriceFrom.Text),
@@ -97,17 +93,17 @@ namespace CarDealership.page.authorized
                 };
 
                 // Get filtered cars directly from database through service
-                var electroCarService = new ElectroCarServiceImpl(new ElectroCarRepositoryImpl(new DealershipContext()));
-                var filteredCars = electroCarService.GetFilteredCars(filter);
+                var gasolineCarService = new GasolineCarServiceImpl(new GasolineCarRepository(new DealershipContext()));
+                var filteredCars = gasolineCarService.GetFiltered(filter);
                 
                 // Convert to product DTOs for display
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
                 var filteredProducts = productRepo.GetByVehicleIds(
                     filteredCars.Select(c => c.Id).ToList(), 
-                    CarType.Electro
+                    CarType.Gasoline
                 ).Select(ProductMapper.ToDto).ToList();
 
-                ElectroCarsList.ItemsSource = filteredProducts;
+                GasolineCarsList.ItemsSource = filteredProducts;
             }
             catch (Exception ex)
             {
@@ -117,116 +113,79 @@ namespace CarDealership.page.authorized
         
         private TransmissionType? GetSelectedTransmissionType()
         {
-            return FilterTransmission.SelectedIndex switch
-            {
-                1 => TransmissionType.Manual,
-                2 => TransmissionType.Automatic,
-                3 => TransmissionType.CVT,
-                4 => TransmissionType.SemiAutomatic,
-                _ => null
-            };
+            var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "КПП")
+                return null;
+                
+            return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
         }
-
+        
         private CarBodyType? GetSelectedBodyType()
         {
-            return FilterBodyType.SelectedIndex switch
-            {
-                1 => CarBodyType.Micro,
-                2 => CarBodyType.Hatchback,
-                3 => CarBodyType.Sedan,
-                4 => CarBodyType.Crossover,
-                5 => CarBodyType.Coupe,
-                6 => CarBodyType.CoupeSuv,
-                7 => CarBodyType.Hyper,
-                8 => CarBodyType.Suv,
-                9 => CarBodyType.OffRoader,
-                10 => CarBodyType.PickUp,
-                11 => CarBodyType.Cabriolet,
-                12 => CarBodyType.Sport,
-                13 => CarBodyType.Muv,
-                14 => CarBodyType.Wagon,
-                15 => CarBodyType.Roadster,
-                16 => CarBodyType.Limousine,
-                17 => CarBodyType.Formula1,
-                18 => CarBodyType.Muscle,
-                19 => CarBodyType.Van,
-                _ => null
-            };
+            var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Тип кузова")
+                return null;
+                
+            return FilterHelper.GetBodyType(selectedItem.Content.ToString());
         }
-
+        
         private Color? GetSelectedColor()
         {
-            return FilterColor.SelectedIndex switch
-            {
-                1 => Color.Red,
-                2 => Color.Blue,
-                3 => Color.Green,
-                4 => Color.Yellow,
-                5 => Color.White,
-                6 => Color.Black,
-                7 => Color.Orange,
-                8 => Color.Purple,
-                9 => Color.Brown,
-                10 => Color.Pink,
-                11 => Color.Grey,
-                12 => Color.LightBlue,
-                _ => null
-            };
+            var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Колір")
+                return null;
+                
+            return FilterHelper.GetColor(selectedItem.Content.ToString());
         }
-
+        
         private DriveType? GetSelectedDriveType()
         {
-            return FilterDriveType.SelectedIndex switch
-            {
-                1 => DriveType.FWD,
-                2 => DriveType.RWD,
-                3 => DriveType.AWD,
-                4 => DriveType.FourWD,
-                _ => null
-            };
+            var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Привід")
+                return null;
+                
+            return FilterHelper.GetDriveType(selectedItem.Content.ToString());
         }
-
-        private ElectroMotorType? GetSelectedMotorType()
+        
+        private FuelType? GetSelectedFuelType()
         {
-            return FilterMotorType.SelectedIndex switch
-            {
-                1 => ElectroMotorType.Asynchronous,
-                2 => ElectroMotorType.DirectCurrent,
-                3 => ElectroMotorType.Synchronous,
-                4 => ElectroMotorType.PermanentMagnet,
-                5 => ElectroMotorType.Induction,
-                _ => null
-            };
+            var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Тип пального")
+                return null;
+                
+            return FilterHelper.GetFuelType(selectedItem.Content.ToString());
         }
-
+        
         private int? GetIntValue(string text)
         {
-            if (string.IsNullOrWhiteSpace(text)) return null;
+            if (string.IsNullOrEmpty(text)) return null;
             return int.TryParse(text, out int value) ? value : null;
         }
-
+        
         private double? GetDoubleValue(string text)
         {
-            if (string.IsNullOrWhiteSpace(text)) return null;
+            if (string.IsNullOrEmpty(text)) return null;
             return double.TryParse(text, out double value) ? value : null;
         }
-
+        
         private float? GetFloatValue(string text)
         {
-            if (string.IsNullOrWhiteSpace(text)) return null;
+            if (string.IsNullOrEmpty(text)) return null;
             return float.TryParse(text, out float value) ? value : null;
         }
-
+        
         private void BuyCar(ProductDto product)
         {
+            System.Diagnostics.Debug.WriteLine($"BuyCar called for product: {product?.Number}");
             try
             {
+                // відкриваємо діалогове вікно
                 var dialog = new BuyCarDialog
                 {
-                    Owner = Window.GetWindow(this)
+                    Owner = Window.GetWindow(this) // щоб модальне вікно було поверх сторінки
                 };
 
-                if (dialog.ShowDialog() == true)
+                if (dialog.ShowDialog() == true) // користувач натиснув "Купити"
                 {
                     var clientId = GetClientIdFromUser(_currentUserLogin);
                     if (clientId == 0)
@@ -235,6 +194,7 @@ namespace CarDealership.page.authorized
                         return;
                     }
 
+                    // дані з діалогу + дані з продукту
                     var dto = new BuyCarDto
                     {
                         Id = product.Id,
@@ -242,8 +202,8 @@ namespace CarDealership.page.authorized
                         CountryOfOrigin = product.CountryOfOrigin,
                         AvailableFrom = product.AvailableFrom,
                         ClientId = clientId,
-                        PaymentType = dialog.BuyCarDto.PaymentType,
-                        Delivery = dialog.BuyCarDto.Delivery
+                        PaymentType = dialog.BuyCarDto.PaymentType, // з діалогу
+                        Delivery = dialog.BuyCarDto.Delivery        // з діалогу
                     };
 
                     _buyService.BuyCar(dto);
@@ -259,19 +219,66 @@ namespace CarDealership.page.authorized
 
         private int GetClientIdFromUser(string userLogin)
         {
-            using var context = new DealershipContext();
-            var user = context.Users.FirstOrDefault(u => u.Login == userLogin);
-            var client = user != null ? context.Clients.FirstOrDefault(c => c.User.Id == user.Id) : null;
-            return client?.Id ?? 0;
+            try
+            {
+                if (string.IsNullOrEmpty(userLogin))
+                {
+                    System.Diagnostics.Debug.WriteLine("User login is null or empty");
+                    return 0;
+                }
+
+                using var context = new DealershipContext();
+                
+                // Find user by login
+                var user = context.Users.FirstOrDefault(u => u.Login == userLogin);
+                if (user == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"User not found with login: {userLogin}");
+                    return 0;
+                }
+
+                // Find client by user ID
+                var client = context.Clients.FirstOrDefault(c => c.User.Id == user.Id);
+                if (client == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Client not found for user: {userLogin}");
+                    return 0;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Found client ID: {client.Id} for user: {userLogin}");
+                return client.Id;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting client ID: {ex.Message}");
+                return 0;
+            }
+        }
+
+        private int GetProductIdFromDatabase(int carId)
+        {
+            try
+            {
+                using var context = new DealershipContext();
+                
+                // Find product by gasoline car ID
+                var product = context.Products.FirstOrDefault(p => p.GasolineCarId == carId);
+                if (product == null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Product not found for car ID: {carId}");
+                    return 0;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Found product ID: {product.Id} for car ID: {carId}");
+                return product.Id;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting product ID: {ex.Message}");
+                return 0;
+            }
         }
     }
 
-    public class RelayCommand<T> : ICommand
-    {
-        private readonly Action<T> _execute;
-        public RelayCommand(Action<T> execute) => _execute = execute;
-        public bool CanExecute(object parameter) => true;
-        public void Execute(object parameter) { if (parameter is T t) _execute(t); }
-        public event EventHandler CanExecuteChanged;
-    }
+  
 }

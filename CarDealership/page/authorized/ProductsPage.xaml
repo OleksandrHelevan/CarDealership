@@ -1,12 +1,15 @@
-<Page x:Class="CarDealership.page.authorized.GasolineCarPage"
+<Page x:Class="CarDealership.page.authorized.ProductsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:model="clr-namespace:CarDealership.dto"
+      xmlns:converters="clr-namespace:CarDealership.converter"
       mc:Ignorable="d"
       Title="GasolineCarPage">
-
+    <Page.Resources>
+        <converters:CarTypeToFriendlyStringConverter x:Key="CarTypeConverter"/>
+    </Page.Resources>
     <DockPanel Background="#f7f7f7">
 
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10"  HorizontalAlignment="Center">
@@ -145,9 +148,12 @@
                     <DataTemplate DataType="{x:Type model:ProductDto}">
                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="300">
                             <StackPanel>
-                                <TextBlock FontSize="16" FontWeight="Bold" Margin="0 0 0 10" Text="{Binding CarType, StringFormat={}{0} автомобіль}"/>
+                                <TextBlock FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="0 0 0 10"
+                                           Text="{Binding CarType, Converter={StaticResource CarTypeConverter}, StringFormat={}{0} автомобіль}"/>
+
                                 
-                                <!-- Product Info -->
                                 <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0 2" FontWeight="Bold"/>
                                 <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0 2"/>

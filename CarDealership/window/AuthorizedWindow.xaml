@@ -58,16 +58,10 @@
                     Background="Transparent">
 
             <Button Name="BtnGasolineCar"
-                    Content="Бензинові автомобілі"
+                    Content="Купити автомобіль"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnGasolineCar_Click" />
 
-            <Button Name="BtnElectroCar"
-                    Content="Електромобілі"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnElectroCar_Click" />
-
-            <!-- Нова кнопка -->
             <Button Name="BtnMyOrders"
                     Content="Мої покупки"
                     Style="{StaticResource RoundedButtonStyle}"

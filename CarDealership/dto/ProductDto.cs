@@ -15,7 +15,6 @@ public class ProductDto
     
     public Vehicle Vehicle { get; set; }
 
-    // Computed property to determine car type based on Vehicle type
     public CarType CarType => Vehicle switch
     {
         GasolineCarDto => CarType.Gasoline,

@@ -19,7 +19,6 @@
                     <DataTemplate DataType="{x:Type model:Vehicle}">
                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="320">
                             <StackPanel>
-                                <!-- 🔹 Надпис типу авто -->
                                 <TextBlock Text="{Binding VehicleTypeName}" 
                                            FontWeight="Bold" FontSize="14" Foreground="#2563EB" Margin="0,0,0,5"/>
 

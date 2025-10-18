@@ -1,11 +1,7 @@
 using System.Windows;
-using CarDealership.config.decoder;
-using CarDealership.entity;
-using CarDealership.enums;
-using CarDealership.exception;
 using CarDealership.page.admin;
-using CarDealership.repo.impl;
-using CarDealership.service.impl;
+using CarDealership.page.authorized;
+using CarDealership.page.@operator;
 
 namespace CarDealership.window;
 
@@ -23,4 +19,32 @@ public partial class AdminWindow : Window
         MainFrame.Navigate(new AddOperatorPage());
     }
     
+    private void BtnOperatorFunc_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new OperatorWindow(_currentLogin));
+    }
+    private void BtnUnboundCars_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new UnboundCarsPage());
+    }
+
+    private void BtnShowRequest_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new UserRequestsPage());
+    }
+
+    private void BtnAddGasolineCar_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new AddGasolineCarPage());
+    }
+
+    private void BtnAddElectroCar_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new AddElectroCarPage());
+    }
+
+    private void BtnProducts_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new ProductCarPage());
+    }
 }

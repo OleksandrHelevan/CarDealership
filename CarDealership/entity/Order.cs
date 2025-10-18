@@ -32,7 +32,6 @@ namespace CarDealership.entity
         [Column("delivery")]
         public bool Delivery { get; set; }
 
-        // Навігаційні властивості
         public virtual Client? Client { get; set; }
         public virtual Product? Product { get; set; }
     }

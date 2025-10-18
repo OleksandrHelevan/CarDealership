@@ -95,10 +95,6 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\AuthorizedWindow.
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\guest\ElectroCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\guest\GasolineCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\window\AuthorizedWindow.baml
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ElectroCarPage.g.cs
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\GasolineCarPage.g.cs
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ElectroCarPage.baml
-D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\GasolineCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductCarPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductCarPage.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\BuyCarDialog.baml
@@ -123,3 +119,7 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\PutOnSaleD
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\PutOnSaleDialog.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\UnboundCarsPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\UnboundCarsPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductsPage.g.cs
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\ProductsPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\UpdateOrderDialog.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\authorized\UpdateOrderDialog.g.cs

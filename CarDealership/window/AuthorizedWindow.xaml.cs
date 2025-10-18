@@ -15,13 +15,9 @@ public partial class AuthorizedWindow
     
     private void BtnGasolineCar_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new GasolineCarPage(_currentUserLogin));
+        MainFrame.Navigate(new ProductsPage(_currentUserLogin));
     }
-
-    private void BtnElectroCar_Click(object sender, RoutedEventArgs e)
-    {
-       MainFrame.Navigate(new ElectroCarPage(_currentUserLogin));
-    }
+    
     private void BtnMyOrders_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new MyOrdersPage(_currentUserLogin));
