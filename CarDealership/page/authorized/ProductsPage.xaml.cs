@@ -71,7 +71,6 @@ namespace CarDealership.page.authorized
         {
             try
             {
-                // Create filter object from UI inputs
                 var filter = new GasolineCarFilterDto
                 {
                     SearchText = SearchBox.Text,
@@ -92,11 +91,9 @@ namespace CarDealership.page.authorized
                     DoorsTo = GetIntValue(FilterDoorsTo.Text)
                 };
 
-                // Get filtered cars directly from database through service
                 var gasolineCarService = new GasolineCarServiceImpl(new GasolineCarRepository(new DealershipContext()));
                 var filteredCars = gasolineCarService.GetFiltered(filter);
                 
-                // Convert to product DTOs for display
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
                 var filteredProducts = productRepo.GetByVehicleIds(
                     filteredCars.Select(c => c.Id).ToList(), 
@@ -179,13 +176,12 @@ namespace CarDealership.page.authorized
             System.Diagnostics.Debug.WriteLine($"BuyCar called for product: {product?.Number}");
             try
             {
-                // відкриваємо діалогове вікно
                 var dialog = new BuyCarDialog
                 {
-                    Owner = Window.GetWindow(this) // щоб модальне вікно було поверх сторінки
+                    Owner = Window.GetWindow(this)
                 };
 
-                if (dialog.ShowDialog() == true) // користувач натиснув "Купити"
+                if (dialog.ShowDialog() == true)
                 {
                     var clientId = GetClientIdFromUser(_currentUserLogin);
                     if (clientId == 0)
@@ -194,7 +190,6 @@ namespace CarDealership.page.authorized
                         return;
                     }
 
-                    // дані з діалогу + дані з продукту
                     var dto = new BuyCarDto
                     {
                         Id = product.Id,
@@ -202,8 +197,8 @@ namespace CarDealership.page.authorized
                         CountryOfOrigin = product.CountryOfOrigin,
                         AvailableFrom = product.AvailableFrom,
                         ClientId = clientId,
-                        PaymentType = dialog.BuyCarDto.PaymentType, // з діалогу
-                        Delivery = dialog.BuyCarDto.Delivery        // з діалогу
+                        PaymentType = dialog.BuyCarDto.PaymentType,
+                        Delivery = dialog.BuyCarDto.Delivery
                     };
 
                     _buyService.BuyCar(dto);
@@ -229,7 +224,6 @@ namespace CarDealership.page.authorized
 
                 using var context = new DealershipContext();
                 
-                // Find user by login
                 var user = context.Users.FirstOrDefault(u => u.Login == userLogin);
                 if (user == null)
                 {
@@ -237,7 +231,6 @@ namespace CarDealership.page.authorized
                     return 0;
                 }
 
-                // Find client by user ID
                 var client = context.Clients.FirstOrDefault(c => c.User.Id == user.Id);
                 if (client == null)
                 {
@@ -261,7 +254,6 @@ namespace CarDealership.page.authorized
             {
                 using var context = new DealershipContext();
                 
-                // Find product by gasoline car ID
                 var product = context.Products.FirstOrDefault(p => p.GasolineCarId == carId);
                 if (product == null)
                 {

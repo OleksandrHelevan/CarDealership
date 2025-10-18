@@ -1,3 +1,4 @@
+using CarDealership.entity;
 using CarDealership.enums;
 
 namespace CarDealership.dto;
@@ -25,6 +26,34 @@ public abstract class Vehicle
     public string BodyTypeString { get; set; }
 
     public string VehicleTypeName { get; set; } = string.Empty;
+    
+    public string EngineString
+    {
+        get
+        {
+            if (Engine == null)
+                return string.Empty;
+
+            return Engine switch
+            {
+                GasolineEngineDto g => 
+                    $"Тип двигуна: Бензиновий\n" +
+                    $"Паливо: {g.FuelTypeString} ({g.FuelType.ToFriendlyString()})\n" +
+                    $"Витрата: {g.FuelConsumption:F1} л/100км\n" +
+                    $"Потужність: {g.Power:F1} кВт",
+
+                ElectroEngineDto e => 
+                    $"Тип двигуна: Електричний\n" +
+                    $"Батарея: {e.BatteryCapacity:F1} кВт·г\n" +
+                    $"Потужність: {e.Power:F1} кВт\n" +
+                    $"Мотор: {e.ElectroMotorTypeString}\n" +
+                    $"Запас ходу: {e.Range} км",
+
+                _ => string.Empty
+            };
+        }
+    }
+
     public Vehicle()
     {
     }

@@ -6,16 +6,15 @@
       xmlns:model="clr-namespace:CarDealership.dto"
       xmlns:converters="clr-namespace:CarDealership.converter"
       mc:Ignorable="d"
-      Title="GasolineCarPage">
+      Title="ProductsPage">
+    
     <Page.Resources>
         <converters:CarTypeToFriendlyStringConverter x:Key="CarTypeConverter"/>
     </Page.Resources>
-    <DockPanel Background="#f7f7f7">
 
+    <DockPanel Background="#f7f7f7">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10"  HorizontalAlignment="Center">
-            <TextBox x:Name="SearchBox" Width="320" Height="30" 
-                     Margin="0,0,10,0" />
-            
+            <TextBox x:Name="SearchBox" Width="320" Height="30" Margin="0,0,10,0" />
             <ComboBox x:Name="FilterTransmission" Width="150" Height="30" Margin="0,0,10,0">
                 <ComboBoxItem Content="КПП" IsSelected="True"/>
                 <ComboBoxItem Content="Механіка"/>
@@ -23,7 +22,6 @@
                 <ComboBoxItem Content="CVT"/>
                 <ComboBoxItem Content="Напівавтомат"/>
             </ComboBox>
-            
             <ComboBox x:Name="FilterBodyType" Width="150" Height="30" Margin="0,0,10,0">
                 <ComboBoxItem Content="Тип кузова" IsSelected="True"/>
                 <ComboBoxItem Content="Мікро"/>
@@ -46,7 +44,6 @@
                 <ComboBoxItem Content="Маскл-кар"/>
                 <ComboBoxItem Content="Фургон"/>
             </ComboBox>
-            
             <ComboBox x:Name="FilterColor" Width="150" Height="30" Margin="0,0,10,0">
                 <ComboBoxItem Content="Колір" IsSelected="True"/>
                 <ComboBoxItem Content="Червоний"/>
@@ -62,7 +59,6 @@
                 <ComboBoxItem Content="Сірий"/>
                 <ComboBoxItem Content="Блакитний"/>
             </ComboBox>
-            
             <ComboBox x:Name="FilterDriveType" Width="180" Height="30" Margin="0,0,10,0">
                 <ComboBoxItem Content="Привід" IsSelected="True"/>
                 <ComboBoxItem Content="Передній привід"/>
@@ -70,77 +66,67 @@
                 <ComboBoxItem Content="Повний привід (AWD)"/>
                 <ComboBoxItem Content="Повний привід (4WD)"/>
             </ComboBox>
-            
             <ComboBox x:Name="FilterFuelType" Width="150" Height="30" Margin="0,0,10,0">
                 <ComboBoxItem Content="Тип пального" IsSelected="True"/>
                 <ComboBoxItem Content="Бензин"/>
                 <ComboBoxItem Content="Дизель"/>
                 <ComboBoxItem Content="Газ"/>
             </ComboBox>
-            
         </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10" Background="Transparent" >
-    
-    <StackPanel Margin="5">
-        <TextBlock Text="Рік" HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="FilterYearFrom" Width="60" Margin="0,0,5,0" />
-            <TextBox x:Name="FilterYearTo" Width="60"/>
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10" Background="Transparent">
+            <StackPanel Margin="5">
+                <TextBlock Text="Рік" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterYearFrom" Width="60" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterYearTo" Width="60"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Ціна ($)" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterPriceFrom" Width="60" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterPriceTo" Width="60"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Вага (кг)" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterWeightFrom" Width="60" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterWeightTo" Width="60"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Пробіг (км)" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterMileageFrom" Width="60" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterMileageTo" Width="60"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Двері" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="FilterDoorsFrom" Width="40" Margin="0,0,5,0"/>
+                    <TextBox x:Name="FilterDoorsTo" Width="40"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="5" VerticalAlignment="Bottom">
+                <Button x:Name="ApplyFilterButton" Content="Застосувати фільтр" 
+                        Width="120" Height="30" Background="#3B82F6" Foreground="White"
+                        Click="ApplyFilterButton_Click"/>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
-
-    <!-- Ціна -->
-    <StackPanel Margin="5">
-        <TextBlock Text="Ціна ($)" HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="FilterPriceFrom" Width="60" Margin="0,0,5,0" />
-            <TextBox x:Name="FilterPriceTo" Width="60"/>
-        </StackPanel>
-    </StackPanel>
-
-    <!-- Вага -->
-    <StackPanel Margin="5">
-        <TextBlock Text="Вага (кг)" HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="FilterWeightFrom" Width="60" Margin="0,0,5,0" />
-            <TextBox x:Name="FilterWeightTo" Width="60"/>
-        </StackPanel>
-    </StackPanel>
-
-    <!-- Пробіг -->
-    <StackPanel Margin="5">
-        <TextBlock Text="Пробіг (км)" HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="FilterMileageFrom" Width="60" Margin="0,0,5,0" />
-            <TextBox x:Name="FilterMileageTo" Width="60"/>
-        </StackPanel>
-    </StackPanel>
-
-    <!-- Кількість дверей -->
-    <StackPanel Margin="5">
-        <TextBlock Text="Двері" HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="FilterDoorsFrom" Width="40" Margin="0,0,5,0"/>
-            <TextBox x:Name="FilterDoorsTo" Width="40"/>
-        </StackPanel>
-    </StackPanel>
-
-    <!-- Apply Filter Button -->
-    <StackPanel Margin="5" VerticalAlignment="Bottom">
-        <Button x:Name="ApplyFilterButton" Content="Застосувати фільтр" 
-                Width="120" Height="30" Background="#3B82F6" Foreground="White"
-                Click="ApplyFilterButton_Click"/>
-    </StackPanel>
-
-</StackPanel>
-
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
             <ItemsControl x:Name="GasolineCarsList">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel />
+                        <WrapPanel/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
@@ -148,33 +134,25 @@
                     <DataTemplate DataType="{x:Type model:ProductDto}">
                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="300">
                             <StackPanel>
-                                <TextBlock FontSize="16"
-                                           FontWeight="Bold"
-                                           Margin="0 0 0 10"
+                                <TextBlock FontSize="16" FontWeight="Bold" Margin="0 0 0 10"
                                            Text="{Binding CarType, Converter={StaticResource CarTypeConverter}, StringFormat={}{0} автомобіль}"/>
-
-                                
                                 <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0 2" FontWeight="Bold"/>
                                 <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0 2"/>
-                                
+
                                 <Separator Margin="0,5"/>
-                                
-                                <!-- Car Info -->
+
                                 <TextBlock Text="{Binding Vehicle.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
-
-                                <TextBlock Text="{Binding Vehicle.Engine.HorsePower, StringFormat=Потужність: {0} к.с.}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Vehicle.Engine.Power, StringFormat=Потужність: {0} кВт}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Vehicle.Engine.FuelConsumption, StringFormat=Витрата пального: {0} л/100км}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Vehicle.Engine.FuelTypeString, StringFormat=Тип пального: {0}}" Margin="0 2"/>
+                                
+                                <TextBlock Text="{Binding Vehicle.EngineString}" Margin="0 2"/>
 
                                 <TextBlock Text="{Binding Vehicle.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Mileage, StringFormat=Пробіг: {0} км}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Price, StringFormat=Ціна: ${0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
-                                
+
                                 <TextBlock Text="{Binding Vehicle.TransmissionString, StringFormat=КПП: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding Vehicle.NumberOfDoors, StringFormat=Кількість дверей: {0}}" Margin="0 2"/>
@@ -185,7 +163,6 @@
                                         Margin="0,10,0,0" Height="35"
                                         Command="{Binding DataContext.BuyCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                         CommandParameter="{Binding}"/>
-
                             </StackPanel>
                         </Border>
                     </DataTemplate>
