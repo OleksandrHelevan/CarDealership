@@ -13,6 +13,7 @@ namespace CarDealership.page.@operator
     {
         private readonly DealershipContext _context;
         public ICommand EditCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public EditProductPage()
         {
@@ -20,6 +21,7 @@ namespace CarDealership.page.@operator
 
             _context = new DealershipContext();
             EditCommand = new RelayCommand<Product>(EditProduct);
+            DeleteCommand = new RelayCommand<Product>(DeleteProduct);
 
             DataContext = this;
 
@@ -65,6 +67,29 @@ namespace CarDealership.page.@operator
                 {
                     MessageBox.Show($"Помилка оновлення: {ex.Message}\n\nДеталі: {ex.InnerException?.Message}");
                 }
+            }
+        }
+
+        private void DeleteProduct(Product product)
+        {
+            if (product == null) return;
+
+            var result = MessageBox.Show(
+                "Видалити цей продукт?", "Підтвердження",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            try
+            {
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+                MessageBox.Show("Продукт видалено успішно.");
+                LoadData();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Помилка видалення: {ex.Message}\n\nДеталі: {ex.InnerException?.Message}");
             }
         }
     }

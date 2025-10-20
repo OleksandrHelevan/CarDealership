@@ -127,3 +127,5 @@ D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProduc
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductPage.g.cs
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductDialog.baml
 D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\operator\EditProductPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\UserDetailsPage.baml
+D:\CarDealership\CarDealership\obj\Debug\net9.0-windows\page\UserDetailsPage.g.cs

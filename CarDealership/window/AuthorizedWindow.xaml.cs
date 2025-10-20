@@ -1,4 +1,5 @@
 using System.Windows;
+using CarDealership.page;
 using CarDealership.page.authorized;
 
 namespace CarDealership.window;
@@ -21,6 +22,11 @@ public partial class AuthorizedWindow
     private void BtnMyOrders_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new MyOrdersPage(_currentUserLogin));
+    }
+
+    private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new UserDetailsPage(_currentUserLogin));
     }
 
 }

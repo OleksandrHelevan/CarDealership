@@ -1,4 +1,5 @@
 using System.Windows;
+using CarDealership.page;
 using CarDealership.page.admin;
 using CarDealership.page.@operator;
 
@@ -42,5 +43,9 @@ public partial class OperatorWindow : Window
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new EditProductPage());
+    }
+    private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new UserDetailsPage(_currentLogin));
     }
 }

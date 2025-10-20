@@ -59,7 +59,11 @@
             <Button Name="BtnCommandPrompt"
                     Content="Командний рядок"
                     Style="{StaticResource RoundedButtonStyle}" />
-        
+            
+            <Button Name="BtnMyAccount"
+                    Content="Мій акаунт"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnMyAccount_Click" />
         </StackPanel>
         <Frame x:Name="MainFrame"
                Grid.Row="1"
@@ -95,6 +99,8 @@
                     Content="Продукти"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnEditProduct_Click" />
+            
+
         </StackPanel>
        
     </Grid>

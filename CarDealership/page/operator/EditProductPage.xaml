@@ -73,6 +73,11 @@
                                         Margin="0,10,0,0" Height="35"
                                         Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=Page}}"
                                         CommandParameter="{Binding}"/>
+                                <Button Content="Видалити"
+                                        Background="#EF4444" Foreground="White" 
+                                        Margin="0,10,0,0" Height="35"
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

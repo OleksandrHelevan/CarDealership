@@ -1,4 +1,5 @@
 using System.Windows;
+using CarDealership.page;
 using CarDealership.page.admin;
 using CarDealership.page.authorized;
 using CarDealership.page.@operator;
@@ -47,5 +48,10 @@ public partial class AdminWindow : Window
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new EditProductPage());
+    }
+    
+    private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new UserDetailsPage(_currentLogin));
     }
 }
