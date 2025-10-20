@@ -1,0 +1,155 @@
+-- PostgreSQL DDL for CarDealership entities (TPH for cars)
+-- Run in a database created for the app (car_dealership)
+
+-- 1) users
+CREATE TABLE IF NOT EXISTS users (
+  id                INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  login             VARCHAR(100) NOT NULL,
+  password_hash     VARCHAR(255) NOT NULL,
+  access_right      TEXT NOT NULL,
+  is_active         BOOLEAN NOT NULL DEFAULT TRUE,
+  last_login_at     TIMESTAMP NULL,
+  created_at        TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMP NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_users_login ON users(login);
+
+-- 2) passport_data
+CREATE TABLE IF NOT EXISTS passport_data (
+  id                INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  first_name        VARCHAR(100) NOT NULL,
+  last_name         VARCHAR(100) NOT NULL,
+  middle_name       VARCHAR(100) NULL,
+  passport_number   VARCHAR(20)  NOT NULL,
+  issued_by         VARCHAR(100) NULL,
+  issued_date       TIMESTAMP NULL,
+  phone_number      VARCHAR(20)  NULL,
+  email             VARCHAR(255) NULL,
+  created_at        TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMP NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_passport_data_passport_number ON passport_data(passport_number);
+
+-- 3) clients
+CREATE TABLE IF NOT EXISTS clients (
+  id                INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  user_id           INTEGER NOT NULL,
+  passport_data_id  INTEGER NOT NULL,
+  created_at        TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMP NULL,
+  CONSTRAINT fk_clients_user      FOREIGN KEY (user_id)          REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT fk_clients_passport  FOREIGN KEY (passport_data_id) REFERENCES passport_data(id) ON DELETE RESTRICT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_clients_user_id ON clients(user_id);
+
+-- 4) gasoline_engines
+CREATE TABLE IF NOT EXISTS gasoline_engines (
+  id                 INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  power              NUMERIC(8,2)  NOT NULL,
+  fuel_type          TEXT          NOT NULL,
+  fuel_consumption   NUMERIC(5,2)  NOT NULL,
+  displacement       NUMERIC(4,2)  NULL,
+  cylinders          INTEGER       NULL,
+  created_at         TIMESTAMP     NOT NULL DEFAULT NOW(),
+  updated_at         TIMESTAMP     NULL,
+  CONSTRAINT ck_gasoline_engines_power_positive          CHECK (power > 0),
+  CONSTRAINT ck_gasoline_engines_fuel_consumption_pos    CHECK (fuel_consumption > 0)
+);
+
+-- 5) electro_engines
+CREATE TABLE IF NOT EXISTS electro_engines (
+  id                   INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  power                NUMERIC(8,2)  NOT NULL,
+  battery_capacity     NUMERIC(8,2)  NOT NULL,
+  range                INTEGER       NOT NULL,
+  motor_type           TEXT          NOT NULL,
+  charging_time        NUMERIC(5,2)  NULL,
+  max_charging_power   NUMERIC(8,2)  NULL,
+  created_at           TIMESTAMP     NOT NULL DEFAULT NOW(),
+  updated_at           TIMESTAMP     NULL,
+  CONSTRAINT ck_electro_engines_power_positive       CHECK (power > 0),
+  CONSTRAINT ck_electro_engines_battery_positive     CHECK (battery_capacity > 0),
+  CONSTRAINT ck_electro_engines_range_positive       CHECK (range > 0)
+);
+
+-- 6) cars (TPH table for both GasolineCar and ElectroCar)
+-- NOTE: Single engine_id column is used by both types in TPH mapping. It cannot
+-- have a static FK to two different engine tables at once, so we do not add an FK
+-- here. Application and EF mapping enforce correctness by discriminator (car_type).
+CREATE TABLE IF NOT EXISTS cars (
+  id                INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  brand             VARCHAR(100) NOT NULL,
+  model_name        VARCHAR(100) NOT NULL,
+  color             TEXT NOT NULL,
+  mileage           INTEGER NOT NULL,
+  price             NUMERIC(18,2) NOT NULL,
+  weight            INTEGER NOT NULL,
+  drive_type        TEXT NOT NULL,
+  transmission      TEXT NOT NULL,
+  year              INTEGER NOT NULL,
+  number_of_doors   INTEGER NOT NULL,
+  body_type         TEXT NOT NULL,
+  car_type          TEXT NOT NULL,
+  engine_id         INTEGER NOT NULL,
+  created_at        TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMP NULL,
+  CONSTRAINT ck_cars_price_positive     CHECK (price > 0),
+  CONSTRAINT ck_cars_year_range         CHECK (year >= 1900 AND year <= 2030),
+  CONSTRAINT ck_cars_mileage_nonneg     CHECK (mileage >= 0),
+  CONSTRAINT ck_cars_weight_positive    CHECK (weight > 0),
+  CONSTRAINT ck_cars_doors_positive     CHECK (number_of_doors > 0)
+);
+
+-- 7) products
+CREATE TABLE IF NOT EXISTS products (
+  id                 INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  product_number     VARCHAR(50)  NOT NULL,
+  country_of_origin  VARCHAR(100) NOT NULL,
+  in_stock           BOOLEAN NOT NULL,
+  available_from     TIMESTAMP NULL,
+  available_until    TIMESTAMP NULL,
+  car_id             INTEGER NOT NULL,
+  car_type           TEXT NOT NULL,
+  created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at         TIMESTAMP NULL,
+  CONSTRAINT fk_products_car FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE RESTRICT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_products_product_number ON products(product_number);
+
+-- 8) orders
+CREATE TABLE IF NOT EXISTS orders (
+  id                 INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  client_id          INTEGER NOT NULL,
+  product_id         INTEGER NOT NULL,
+  order_date         TIMESTAMP NOT NULL DEFAULT NOW(),
+  payment_type       TEXT NOT NULL,
+  delivery_required  BOOLEAN NOT NULL,
+  delivery_address   VARCHAR(500) NULL,
+  delivery_date      TIMESTAMP NULL,
+  status             TEXT NOT NULL DEFAULT 'Pending',
+  notes              VARCHAR(1000) NULL,
+  created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at         TIMESTAMP NULL,
+  CONSTRAINT fk_orders_client  FOREIGN KEY (client_id)  REFERENCES clients(id)  ON DELETE RESTRICT,
+  CONSTRAINT fk_orders_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
+);
+CREATE INDEX IF NOT EXISTS ix_orders_status ON orders(status);
+
+-- 9) authorization_requests
+CREATE TABLE IF NOT EXISTS authorization_requests (
+  id             INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  login          VARCHAR(100) NOT NULL,
+  status         TEXT NOT NULL,
+  requested_at   TIMESTAMP NOT NULL DEFAULT NOW(),
+  processed_at   TIMESTAMP NULL,
+  processed_by   INTEGER NULL,
+  notes          VARCHAR(500) NULL,
+  created_at     TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at     TIMESTAMP NULL,
+  CONSTRAINT fk_auth_requests_processed_by FOREIGN KEY (processed_by) REFERENCES users(id) ON DELETE SET NULL
+);
+CREATE INDEX IF NOT EXISTS ix_authorization_requests_status ON authorization_requests(status);
+
+-- Optional: seed minimal admin user (password hash must match your encoder)
+-- INSERT INTO users(login, password_hash, access_right, is_active) VALUES ('admin', '<hash>', 'Admin', TRUE);
+
