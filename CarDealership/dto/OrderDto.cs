@@ -14,7 +14,8 @@ public class OrderDto
     
     public DateTime OrderDate { get; set; }
     public PaymentType PaymentType { get; set; }
-    public bool Delivery { get; set; }
+    
+    public bool DeliveryRequired  { get; set; }
 
     // Additional properties for UI display
     public string CarName { get; set; }

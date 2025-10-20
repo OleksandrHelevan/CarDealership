@@ -14,7 +14,7 @@ namespace CarDealership.page.guest
         public GasolineCarPage()
         {
             InitializeComponent();
-            _service = new GasolineCarServiceImpl(new GasolineCarRepository(new DealershipContext()));
+            _service = new GasolineCarServiceImpl(new GasolineCarRepositoryImpl(new DealershipContext()));
             LoadData();
         }
 

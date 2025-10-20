@@ -32,7 +32,7 @@ namespace CarDealership.window
             }
 
             PaymentTypeComboBox.SelectedIndex = (int)_order.PaymentType;
-            DeliveryCheckBox.IsChecked = _order.Delivery;
+            DeliveryCheckBox.IsChecked = _order.DeliveryRequired;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -45,8 +45,8 @@ namespace CarDealership.window
             else if (selectedItem?.Tag is int tagInt)
                 _order.PaymentType = (PaymentType)tagInt;
 
-            _order.Delivery = DeliveryCheckBox.IsChecked ?? false;
-            _order.OrderDate = DateTime.Now; 
+            _order.DeliveryRequired = DeliveryCheckBox.IsChecked ?? false;
+            _order.OrderDate = DateTime.UtcNow; 
 
             _context.SaveChanges();
             MessageBox.Show("Замовлення оновлено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);

@@ -8,6 +8,8 @@ using CarDealership.dto;
 using CarDealership.mapper;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
+using CarDealership.enums;
+using CarDealership.entity;
 
 namespace CarDealership.page.@operator
 {
@@ -28,13 +30,25 @@ namespace CarDealership.page.@operator
 
             try
             {
-                // 🔹 Бензинові авто
-                var gasolineUnbound = context.GasolineCars
-                    .Include(gc => gc.Engine)
-                    .Where(gc => !context.Products.Any(p => p.GasolineCarId == gc.Id))
+                Debug.WriteLine("=== LoadUnboundCars START ===");
+
+                // 🔹 Завантажуємо усі машини, які ще не мають Product
+                var unboundCars = context.Cars
+                    .Include(c => (c as GasolineCar).Engine)
+                    .Include(c => (c as ElectroCar).Engine)
+                    .AsSplitQuery()
+                    .Where(c => !context.Products.Any(p => p.CarId == c.Id && p.CarType == c.CarType))
                     .ToList();
 
-                var gasolineDto = gasolineUnbound
+                Debug.WriteLine($"Found {unboundCars.Count} unbound cars total.");
+
+                // 🔹 Розділяємо по типах і мапимо у Vehicle DTO
+                var gasolineCars = unboundCars.OfType<GasolineCar>().ToList();
+                var electroCars = unboundCars.OfType<ElectroCar>().ToList();
+
+                Debug.WriteLine($"GasolineCars: {gasolineCars.Count}, ElectroCars: {electroCars.Count}");
+
+                var gasolineDtos = gasolineCars
                     .Select(gc =>
                     {
                         var dto = GasolineCarMapper.ToDto(gc);
@@ -43,13 +57,7 @@ namespace CarDealership.page.@operator
                     })
                     .ToList<Vehicle>();
 
-                // 🔹 Електроавто
-                var electroUnbound = context.ElectroCars
-                    .Include(ec => ec.Engine)
-                    .Where(ec => !context.Products.Any(p => p.ElectroCarId == ec.Id))
-                    .ToList();
-
-                var electroDto = electroUnbound
+                var electroDtos = electroCars
                     .Select(ec =>
                     {
                         var dto = ElectroCarMapper.ToDto(ec);
@@ -58,16 +66,18 @@ namespace CarDealership.page.@operator
                     })
                     .ToList<Vehicle>();
 
-                // 🔹 Об’єднуємо усі авто
-                var all = gasolineDto.Concat(electroDto).ToList();
-                UnboundCarsList.ItemsSource = all;
+                var all = gasolineDtos.Concat(electroDtos).ToList();
 
-                Debug.WriteLine($"Ітого Unbound Cars: {all.Count}");
+                UnboundCarsList.ItemsSource = all;
+                Debug.WriteLine($"Ітого Unbound Cars (after mapping): {all.Count}");
+
+                Debug.WriteLine("=== LoadUnboundCars END ===");
             }
             catch (System.Exception ex)
             {
                 Debug.WriteLine($"❌ Помилка у LoadUnboundCars: {ex}");
-                MessageBox.Show($"Помилка завантаження авто: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка завантаження авто: {ex.Message}",
+                    "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -76,8 +86,11 @@ namespace CarDealership.page.@operator
             if (sender is not Button btn) return;
             if (btn.DataContext is not Vehicle vehicle) return;
 
-            var dialog = new PutOnSaleDialog(vehicle);
-            dialog.Owner = Window.GetWindow(this);
+            var dialog = new PutOnSaleDialog(vehicle)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
             if (dialog.ShowDialog() == true)
             {
                 var product = dialog.CreatedProduct;
@@ -86,14 +99,15 @@ namespace CarDealership.page.@operator
                     MessageBox.Show("Не вдалося створити продукт");
                     return;
                 }
+
                 if (_productService.Create(product))
                 {
-                    MessageBox.Show("Авто виставлено на продаж");
+                    MessageBox.Show("✅ Авто виставлено на продаж");
                     LoadUnboundCars();
                 }
                 else
                 {
-                    MessageBox.Show("Продукт з таким номером вже існує");
+                    MessageBox.Show("⚠️ Продукт з таким номером вже існує");
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace CarDealership.service.impl
             var user = new User
             {
                 Login = login,
-                Password = DealershipPasswordEncoder.Encode(password),
+                PasswordHash = DealershipPasswordEncoder.Encode(password),
                 AccessRight = accessRight
             };
 
@@ -62,7 +62,7 @@ namespace CarDealership.service.impl
             {
                 throw new UserNotFoundException($"Користувач з логіном '{login}' не знайдений.");
             }
-            if (userFromDb.Password != DealershipPasswordEncoder.Encode(password))
+            if (userFromDb.PasswordHash != DealershipPasswordEncoder.Encode(password))
             {
                 throw new InvalidPasswordException("Невірний пароль.");
             }
@@ -76,7 +76,7 @@ namespace CarDealership.service.impl
             var user = _userRepository.GetByLogin(login);
             if (user == null)
                 throw new UserNotFoundException($"User with '{login}' not found.");
-            user.Password = DealershipPasswordEncoder.Encode(password);
+            user.PasswordHash = DealershipPasswordEncoder.Encode(password);
             _userRepository.Update(user);
             return true;
         }

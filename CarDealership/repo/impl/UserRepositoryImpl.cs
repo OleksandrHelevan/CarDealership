@@ -21,7 +21,21 @@ namespace CarDealership.repo.impl
 
         public void Update(User user)
         {
-            _context.Users.Update(user);
+            var existing = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+            if (existing == null)
+            {
+                // If not found, attach and mark modified as a fallback
+                _context.Users.Attach(user);
+                _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            else
+            {
+                existing.Login = user.Login;
+                existing.PasswordHash = user.PasswordHash;
+                existing.AccessRight = user.AccessRight;
+                existing.IsActive = user.IsActive;
+                existing.LastLoginAt = user.LastLoginAt;
+            }
             _context.SaveChanges();
         }
 
@@ -40,7 +54,7 @@ namespace CarDealership.repo.impl
         {
             return _context.Users.Any(u =>
                 u.Login == user.Login &&
-                u.Password == user.Password &&
+                u.PasswordHash == user.PasswordHash &&
                 u.AccessRight == user.AccessRight);
         }
 

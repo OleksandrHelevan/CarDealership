@@ -11,12 +11,15 @@ namespace CarDealership.mapper
             {
                 Id = e.Id,
                 OrderId = e.Id,
+                ClientId = e.ClientId,
+                ProductId = e.ProductId,
                 Client = ClientMapper.ToDto(e.Client),
                 Product = ProductMapper.ToDto(e.Product),
                 OrderDate = e.OrderDate,
-                CreatedAt = e.OrderDate,
+                CreatedAt = e.CreatedAt,
                 PaymentType = e.PaymentType,
-                Delivery = e.Delivery
+                DeliveryRequired = e.DeliveryRequired,
+                CarName = e.Product?.Car?.FullName ?? string.Empty
             };
         }
 
@@ -26,9 +29,9 @@ namespace CarDealership.mapper
             {
                 OrderDate = dto.OrderDate,
                 PaymentType = dto.PaymentType,
-                Delivery = dto.Delivery,
-                ClientId = dto.Client.Id,
-                ProductId = dto.Product.Id
+                DeliveryRequired = dto.DeliveryRequired,
+                ClientId = dto.ClientId != 0 ? dto.ClientId : dto.Client.Id,
+                ProductId = dto.ProductId != 0 ? dto.ProductId : dto.Product.Id
             };
         }
     }

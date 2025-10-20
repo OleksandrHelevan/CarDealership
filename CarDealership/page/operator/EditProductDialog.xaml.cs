@@ -1,114 +1,250 @@
-
+using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using CarDealership.entity;
 using CarDealership.enums;
+using Microsoft.EntityFrameworkCore;
+using Color = CarDealership.enums.Color;
 
 namespace CarDealership.page.@operator
 {
-    public partial class EditProductDialog : Window
+    public partial class EditProductDialog : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string? name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
         public Product ProductToEdit { get; private set; }
+        private readonly CarDealership.config.DealershipContext _ctx = new CarDealership.config.DealershipContext();
+
+        public ElectroCar? ElectroCarView =>
+            ProductToEdit?.CarType == CarType.Electro ? ProductToEdit.Car as ElectroCar : null;
+
+        public GasolineCar? GasolineCarView =>
+            ProductToEdit?.CarType == CarType.Gasoline ? ProductToEdit.Car as GasolineCar : null;
+
+        public ICommand CancelCommand { get; }
+        public ICommand SaveCommand { get; }
 
         public EditProductDialog(Product product)
         {
             InitializeComponent();
             ProductToEdit = product;
             DataContext = this;
+
+            Log("=== EditProductDialog OPENED ===");
+            Log($"ProductToEdit.CarType = {ProductToEdit?.CarType}");
+            Log($"Car is null? {ProductToEdit?.Car == null}");
+
+            EnsureCarWithEngineLoaded();
             LoadComboBoxData();
+
+            CancelCommand = new CarDealership.dto.RelayCommand<object>(_ =>
+            {
+                DialogResult = false;
+                Close();
+            });
+
+            SaveCommand = new CarDealership.dto.RelayCommand<object>(_ =>
+            {
+                Log("=== SAVE BUTTON CLICKED ===");
+                ForceUpdateAllBindings(this);
+                UpdateProductFromUI();
+                ClearIrrelevantFields();
+                DialogResult = true;
+                Close();
+            });
+        }
+
+        private void EnsureCarWithEngineLoaded()
+        {
+            Log("EnsureCarWithEngineLoaded()");
+            if (ProductToEdit?.Car == null)
+            {
+                Log("ProductToEdit.Car == null, skip load.");
+                return;
+            }
+
+            if (ProductToEdit.CarType == CarType.Electro)
+            {
+                var ecar = _ctx.Cars
+                    .OfType<ElectroCar>()
+                    .Include(c => c.Engine)
+                    .FirstOrDefault(c => c.Id == ProductToEdit.Car.Id);
+                if (ecar != null)
+                {
+                    ProductToEdit.Car = ecar;
+                    Log($"Loaded ElectroCar with engine: {ecar.Engine?.MotorType}");
+                }
+                else Log("⚠️ ElectroCar not found in DB!");
+            }
+            else if (ProductToEdit.CarType == CarType.Gasoline)
+            {
+                var gcar = _ctx.Cars
+                    .OfType<GasolineCar>()
+                    .Include(c => c.Engine)
+                    .FirstOrDefault(c => c.Id == ProductToEdit.Car.Id);
+                if (gcar != null)
+                {
+                    ProductToEdit.Car = gcar;
+                    Log($"Loaded GasolineCar with engine: {gcar.Engine?.FuelType}");
+                }
+                else Log("⚠️ GasolineCar not found in DB!");
+            }
+
+            // 🔄 Оновлюємо DataContext
+            OnPropertyChanged(nameof(ProductToEdit));
+            OnPropertyChanged(nameof(ElectroCarView));
+            OnPropertyChanged(nameof(GasolineCarView));
         }
 
         private void LoadComboBoxData()
         {
-            if (ProductToEdit.ElectroCar != null)
-            {
-                var electroColorItems = Enum.GetValues(typeof(Color)).Cast<Color>()
-                    .Select(c => new ComboBoxItem { Content = c.ToFriendlyString(), Tag = c }).ToList();
-                ElectroCarColorComboBox.ItemsSource = electroColorItems;
-                ElectroCarColorComboBox.SelectedItem = electroColorItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.ElectroCar.Color));
+            Log("LoadComboBoxData() started");
 
-                var electroDriveItems = Enum.GetValues(typeof(DriveType)).Cast<DriveType>()
+            try
+            {
+                var colorItems = Enum.GetValues(typeof(Color)).Cast<Color>()
+                    .Select(c => new ComboBoxItem { Content = c.ToFriendlyString(), Tag = c }).ToList();
+                var driveItems = Enum.GetValues(typeof(DriveType)).Cast<DriveType>()
                     .Select(d => new ComboBoxItem { Content = d.ToFriendlyString(), Tag = d }).ToList();
-                ElectroCarDriveTypeComboBox.ItemsSource = electroDriveItems;
-                ElectroCarDriveTypeComboBox.SelectedItem = electroDriveItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.ElectroCar.DriveType));
-                
-                var electroTransItems = Enum.GetValues(typeof(TransmissionType)).Cast<TransmissionType>()
+                var transItems = Enum.GetValues(typeof(TransmissionType)).Cast<TransmissionType>()
                     .Select(t => new ComboBoxItem { Content = t.ToFriendlyString(), Tag = t }).ToList();
-                ElectroCarTransmissionComboBox.ItemsSource = electroTransItems;
-                ElectroCarTransmissionComboBox.SelectedItem = electroTransItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.ElectroCar.Transmission));
-                
-                var electroBodyItems = Enum.GetValues(typeof(CarBodyType)).Cast<CarBodyType>()
+                var bodyItems = Enum.GetValues(typeof(CarBodyType)).Cast<CarBodyType>()
                     .Select(b => new ComboBoxItem { Content = b.ToFriendlyString(), Tag = b }).ToList();
-                ElectroCarBodyTypeComboBox.ItemsSource = electroBodyItems;
-                ElectroCarBodyTypeComboBox.SelectedItem = electroBodyItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.ElectroCar.BodyType));
-                
-                var motorItems = Enum.GetValues(typeof(ElectroMotorType)).Cast<ElectroMotorType>()
-                    .Select(m => new ComboBoxItem { Content = m.ToFriendlyString(), Tag = m }).ToList();
-                ElectroMotorTypeComboBox.ItemsSource = motorItems;
-                ElectroMotorTypeComboBox.SelectedItem = motorItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.ElectroCar.Engine.MotorType));
+
+                var car = ProductToEdit.Car;
+                Log($"Car = {(car == null ? "NULL" : "OK")}");
+
+                SetCombo("CarColorComboBox", colorItems, car?.Color);
+                SetCombo("CarDriveTypeComboBox", driveItems, car?.DriveType);
+                SetCombo("CarTransmissionComboBox", transItems, car?.Transmission);
+                SetCombo("CarBodyTypeComboBox", bodyItems, car?.BodyType);
+
+                var motorCombo = this.FindName("ElectroMotorTypeComboBox") as ComboBox;
+                if (motorCombo != null)
+                {
+                    var motorItems = Enum.GetValues(typeof(ElectroMotorType)).Cast<ElectroMotorType>()
+                        .Select(m => new ComboBoxItem { Content = m.ToFriendlyString(), Tag = m }).ToList();
+                    motorCombo.ItemsSource = motorItems;
+
+                    var selected = ElectroCarView?.Engine?.MotorType;
+                    motorCombo.SelectedItem = motorItems.FirstOrDefault(i => Equals(i.Tag, selected));
+                    Log($"Motor combo set, selected: {selected}");
+                }
+
+                var fuelCombo = this.FindName("FuelTypeComboBox") as ComboBox;
+                if (fuelCombo != null)
+                {
+                    var fuelItems = Enum.GetValues(typeof(FuelType)).Cast<FuelType>()
+                        .Select(f => new ComboBoxItem { Content = f.ToFriendlyString(), Tag = f }).ToList();
+                    fuelCombo.ItemsSource = fuelItems;
+
+                    var selectedFuel = GasolineCarView?.Engine?.FuelType;
+                    fuelCombo.SelectedItem = fuelItems.FirstOrDefault(i => Equals(i.Tag, selectedFuel));
+                    Log($"Fuel combo set, selected: {selectedFuel}");
+                }
             }
-            
-            if (ProductToEdit.GasolineCar != null)
+            catch (Exception ex)
             {
-                var gasolineColorItems = Enum.GetValues(typeof(Color)).Cast<Color>()
-                    .Select(c => new ComboBoxItem { Content = c.ToFriendlyString(), Tag = c }).ToList();
-                GasolineCarColorComboBox.ItemsSource = gasolineColorItems;
-                GasolineCarColorComboBox.SelectedItem = gasolineColorItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.GasolineCar.Color));
-
-                var gasolineDriveItems = Enum.GetValues(typeof(DriveType)).Cast<DriveType>()
-                    .Select(d => new ComboBoxItem { Content = d.ToFriendlyString(), Tag = d }).ToList();
-                GasolineCarDriveTypeComboBox.ItemsSource = gasolineDriveItems;
-                GasolineCarDriveTypeComboBox.SelectedItem = gasolineDriveItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.GasolineCar.DriveType));
-                
-                var gasolineTransItems = Enum.GetValues(typeof(TransmissionType)).Cast<TransmissionType>()
-                    .Select(t => new ComboBoxItem { Content = t.ToFriendlyString(), Tag = t }).ToList();
-                GasolineCarTransmissionComboBox.ItemsSource = gasolineTransItems;
-                GasolineCarTransmissionComboBox.SelectedItem = gasolineTransItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.GasolineCar.Transmission));
-                
-                var gasolineBodyItems = Enum.GetValues(typeof(CarBodyType)).Cast<CarBodyType>()
-                    .Select(b => new ComboBoxItem { Content = b.ToFriendlyString(), Tag = b }).ToList();
-                GasolineCarBodyTypeComboBox.ItemsSource = gasolineBodyItems;
-                GasolineCarBodyTypeComboBox.SelectedItem = gasolineBodyItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.GasolineCar.BodyType));
-                
-                var fuelItems = Enum.GetValues(typeof(FuelType)).Cast<FuelType>()
-                    .Select(f => new ComboBoxItem { Content = f.ToFriendlyString(), Tag = f }).ToList();
-                FuelTypeComboBox.ItemsSource = fuelItems;
-                FuelTypeComboBox.SelectedItem = fuelItems.FirstOrDefault(item => item.Tag.Equals(ProductToEdit.GasolineCar.Engine.FuelType));
+                Log($"❌ ERROR in LoadComboBoxData: {ex}");
             }
         }
-        
-        private void Save_Click(object sender, RoutedEventArgs e)
+
+        private void SetCombo(string name, System.Collections.IEnumerable items, object? selectedValue)
         {
-            UpdateProductFromUI();
-            DialogResult = true;
-            Close();
+            if (this.FindName(name) is not ComboBox combo)
+            {
+                Log($"⚠️ ComboBox {name} not found!");
+                return;
+            }
+
+            combo.ItemsSource = items;
+            var selectedItem = items.Cast<ComboBoxItem>().FirstOrDefault(i => Equals(i.Tag, selectedValue));
+            combo.SelectedItem = selectedItem;
+            Log($"{name} set: Selected = {selectedItem?.Content ?? "null"}");
         }
-        
+
         private void UpdateProductFromUI()
         {
-            if (ProductToEdit.ElectroCar != null)
+            Log("UpdateProductFromUI()");
+            var car = ProductToEdit.Car;
+            if (car == null)
             {
-                if (ElectroCarColorComboBox.SelectedItem is ComboBoxItem colorItem) ProductToEdit.ElectroCar.Color = (Color)colorItem.Tag;
-                if (ElectroCarDriveTypeComboBox.SelectedItem is ComboBoxItem driveItem) ProductToEdit.ElectroCar.DriveType = (DriveType)driveItem.Tag;
-                if (ElectroCarTransmissionComboBox.SelectedItem is ComboBoxItem transItem) ProductToEdit.ElectroCar.Transmission = (TransmissionType)transItem.Tag;
-                if (ElectroCarBodyTypeComboBox.SelectedItem is ComboBoxItem bodyItem) ProductToEdit.ElectroCar.BodyType = (CarBodyType)bodyItem.Tag;
-                if (ElectroMotorTypeComboBox.SelectedItem is ComboBoxItem motorItem) ProductToEdit.ElectroCar.Engine.MotorType = (ElectroMotorType)motorItem.Tag;
+                Log("⚠️ ProductToEdit.Car == null, skip Update.");
+                return;
             }
-            
-            if (ProductToEdit.GasolineCar != null)
+
+            TryUpdateCombo("CarColorComboBox", val => car.Color = (Color)val);
+            TryUpdateCombo("CarDriveTypeComboBox", val => car.DriveType = (DriveType)val);
+            TryUpdateCombo("CarTransmissionComboBox", val => car.Transmission = (TransmissionType)val);
+            TryUpdateCombo("CarBodyTypeComboBox", val => car.BodyType = (CarBodyType)val);
+
+            if (ProductToEdit.CarType == CarType.Electro && ElectroCarView?.Engine != null)
+                TryUpdateCombo("ElectroMotorTypeComboBox", val => ElectroCarView.Engine.MotorType = (ElectroMotorType)val);
+            else if (ProductToEdit.CarType == CarType.Gasoline && GasolineCarView?.Engine != null)
+                TryUpdateCombo("FuelTypeComboBox", val => GasolineCarView.Engine.FuelType = (FuelType)val);
+        }
+
+        private void TryUpdateCombo(string name, Action<object> setter)
+        {
+            if (this.FindName(name) is ComboBox combo && combo.SelectedItem is ComboBoxItem item)
             {
-                if (GasolineCarColorComboBox.SelectedItem is ComboBoxItem colorItem) ProductToEdit.GasolineCar.Color = (Color)colorItem.Tag;
-                if (GasolineCarDriveTypeComboBox.SelectedItem is ComboBoxItem driveItem) ProductToEdit.GasolineCar.DriveType = (DriveType)driveItem.Tag;
-                if (GasolineCarTransmissionComboBox.SelectedItem is ComboBoxItem transItem) ProductToEdit.GasolineCar.Transmission = (TransmissionType)transItem.Tag;
-                if (GasolineCarBodyTypeComboBox.SelectedItem is ComboBoxItem bodyItem) ProductToEdit.GasolineCar.BodyType = (CarBodyType)bodyItem.Tag;
-                if (FuelTypeComboBox.SelectedItem is ComboBoxItem fuelItem) ProductToEdit.GasolineCar.Engine.FuelType = (FuelType)fuelItem.Tag;
+                setter(item.Tag);
+                Log($"Updated {name}: {item.Content}");
+            }
+            else Log($"⚠️ {name} is null or no selected item");
+        }
+
+        private void ClearIrrelevantFields()
+        {
+            if (ProductToEdit.CarType == CarType.Electro && GasolineCarView?.Engine != null)
+            {
+                Log("Clearing Gasoline engine fields (Electro active)");
+                GasolineCarView.Engine.Power = 0;
+                GasolineCarView.Engine.FuelConsumption = 0;
+                GasolineCarView.Engine.FuelType = default;
+            }
+            else if (ProductToEdit.CarType == CarType.Gasoline && ElectroCarView?.Engine != null)
+            {
+                Log("Clearing Electro engine fields (Gasoline active)");
+                ElectroCarView.Engine.BatteryCapacity = 0;
+                ElectroCarView.Engine.Power = 0;
+                ElectroCarView.Engine.Range = 0;
+                ElectroCarView.Engine.MotorType = default;
             }
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private static void ForceUpdateAllBindings(DependencyObject root)
         {
-            DialogResult = false;
-            Close();
+            foreach (var tb in FindVisualChildren<TextBox>(root))
+                tb.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+
+            foreach (var cb in FindVisualChildren<ComboBox>(root))
+                cb.GetBindingExpression(ComboBox.SelectedItemProperty)?.UpdateSource();
+        }
+
+        private static System.Collections.Generic.IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) yield break;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+                if (child is T t) yield return t;
+                foreach (var childOfChild in FindVisualChildren<T>(child))
+                    yield return childOfChild;
+            }
+        }
+
+        private static void Log(string message)
+        {
+            Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] {message}");
+            System.Diagnostics.Debug.WriteLine(message);
         }
     }
 }

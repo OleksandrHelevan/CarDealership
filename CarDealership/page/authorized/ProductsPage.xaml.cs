@@ -10,11 +10,11 @@ using CarDealership.service.impl;
 
 namespace CarDealership.page.authorized
 {
-    public partial class ProductsPage 
+    public partial class ProductsPage
     {
         private readonly ProductServiceImpl _productService;
         private readonly BuyServiceImpl _buyService;
-        private readonly MigrationServiceImpl _migrationService;
+        private readonly MigrationService _migrationService;
         private readonly string _currentUserLogin;
 
         public ICommand BuyCommand { get; }
@@ -23,13 +23,10 @@ namespace CarDealership.page.authorized
         {
             InitializeComponent();
             _currentUserLogin = userLogin;
-    
+
             var productRepo = new ProductRepositoryImpl(new DealershipContext());
-            var gasolineCarRepo = new GasolineCarRepository(new DealershipContext());
-            var electroCarRepo = new ElectroCarRepositoryImpl(new DealershipContext());
-    
             _productService = new ProductServiceImpl(productRepo);
-            _migrationService = new MigrationServiceImpl(productRepo, gasolineCarRepo, electroCarRepo);
+            _migrationService = new MigrationService(new DealershipContext());
             var orderService = new OrderService(new OrderRepositoryImpl(new DealershipContext()));
             var clientRepo = new ClientRepository(new DealershipContext());
             _buyService = new BuyServiceImpl(productRepo, orderService, clientRepo);
@@ -51,7 +48,7 @@ namespace CarDealership.page.authorized
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Migration error: {ex.Message}");
+                Log($"❌ Migration error: {ex.Message}");
             }
         }
 
@@ -59,18 +56,35 @@ namespace CarDealership.page.authorized
         {
             try
             {
-                var allProducts = _productService.GetAll();
+                Log("=== Loading Products from DB ===");
+
+                var allProducts = _productService.GetAll()?.ToList() ?? new List<ProductDto>();
                 GasolineCarsList.ItemsSource = allProducts;
+
+                Log($"✅ Loaded {allProducts.Count} products total.");
+
+                foreach (var p in allProducts)
+                {
+                    Log(
+                        $"→ Product ID: {p.Id}, CarType: {p.CarType}, Car: {p.CountryOfOrigin} {p.Id}, Price: {p.CarType}");
+                }
+
+                if (allProducts.Count == 0)
+                    Log("⚠️ No products found in DB.");
             }
             catch (Exception ex)
             {
+                Log($"❌ Error loading products: {ex.Message}");
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void ApplyFilterButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Log("=== Applying filter ===");
+
                 var filter = new GasolineCarFilterDto
                 {
                     SearchText = SearchBox.Text,
@@ -91,89 +105,36 @@ namespace CarDealership.page.authorized
                     DoorsTo = GetIntValue(FilterDoorsTo.Text)
                 };
 
-                var gasolineCarService = new GasolineCarServiceImpl(new GasolineCarRepository(new DealershipContext()));
+                Log(
+                    $"Filter → Search: '{filter.SearchText}', Color: {filter.Color}, Year: {filter.YearFrom}-{filter.YearTo}, Price: {filter.PriceFrom}-{filter.PriceTo}");
+
+                var gasolineCarService = new GasolineCarServiceImpl(new GasolineCarRepositoryImpl(new DealershipContext()));
                 var filteredCars = gasolineCarService.GetFiltered(filter);
-                
+
+                Log($"Found {filteredCars.Count()} matching cars from DB.");
+
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
                 var filteredProducts = productRepo.GetByVehicleIds(
-                    filteredCars.Select(c => c.Id).ToList(), 
+                    filteredCars.Select(c => c.Id).ToList(),
                     CarType.Gasoline
                 ).Select(ProductMapper.ToDto).ToList();
 
+                Log($"Filtered {filteredProducts.Count} products matched the filter.");
                 GasolineCarsList.ItemsSource = filteredProducts;
+
+                foreach (var fp in filteredProducts)
+                    Log($"→ {fp.CarType} {fp.Id}, {fp.CountryOfOrigin} ₴");
             }
             catch (Exception ex)
             {
+                Log($"❌ Filter error: {ex.Message}");
                 MessageBox.Show($"Помилка при застосуванні фільтра: {ex.Message}");
             }
         }
-        
-        private TransmissionType? GetSelectedTransmissionType()
-        {
-            var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "КПП")
-                return null;
-                
-            return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
-        }
-        
-        private CarBodyType? GetSelectedBodyType()
-        {
-            var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Тип кузова")
-                return null;
-                
-            return FilterHelper.GetBodyType(selectedItem.Content.ToString());
-        }
-        
-        private Color? GetSelectedColor()
-        {
-            var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Колір")
-                return null;
-                
-            return FilterHelper.GetColor(selectedItem.Content.ToString());
-        }
-        
-        private DriveType? GetSelectedDriveType()
-        {
-            var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Привід")
-                return null;
-                
-            return FilterHelper.GetDriveType(selectedItem.Content.ToString());
-        }
-        
-        private FuelType? GetSelectedFuelType()
-        {
-            var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Тип пального")
-                return null;
-                
-            return FilterHelper.GetFuelType(selectedItem.Content.ToString());
-        }
-        
-        private int? GetIntValue(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return null;
-            return int.TryParse(text, out int value) ? value : null;
-        }
-        
-        private double? GetDoubleValue(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return null;
-            return double.TryParse(text, out double value) ? value : null;
-        }
-        
-        private float? GetFloatValue(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return null;
-            return float.TryParse(text, out float value) ? value : null;
-        }
-        
+
         private void BuyCar(ProductDto product)
         {
-            System.Diagnostics.Debug.WriteLine($"BuyCar called for product: {product?.Number}");
+            Log($"🛒 BuyCar() called for product: {product?.Number ?? "null"}");
             try
             {
                 var dialog = new BuyCarDialog
@@ -187,6 +148,7 @@ namespace CarDealership.page.authorized
                     if (clientId == 0)
                     {
                         MessageBox.Show("Не знайдено клієнта для користувача");
+                        Log("⚠️ Client not found for user.");
                         return;
                     }
 
@@ -198,16 +160,30 @@ namespace CarDealership.page.authorized
                         AvailableFrom = product.AvailableFrom,
                         ClientId = clientId,
                         PaymentType = dialog.BuyCarDto.PaymentType,
-                        Delivery = dialog.BuyCarDto.Delivery
+                        DeliveryRequired = dialog.BuyCarDto.DeliveryRequired
                     };
 
-                    _buyService.BuyCar(dto);
+                    var success = _buyService.BuyCar(dto);
+                    if (success)
+                    {
+                        MessageBox.Show("✅ Автомобіль успішно придбано!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("❌ Не вдалося здійснити покупку. Спробуйте ще раз.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
-                    MessageBox.Show("Замовлення успішно створено!");
+
+                    Log($"✅ Purchase complete for Product ID {product.Id} ({product.Id} {product.CarType})");
+                }
+                else
+                {
+                    Log("❌ BuyCarDialog cancelled by user.");
                 }
             }
             catch (Exception ex)
             {
+                Log($"❌ Error during purchase: {ex.Message}");
                 MessageBox.Show($"Помилка покупки: {ex.Message}");
             }
         }
@@ -218,32 +194,32 @@ namespace CarDealership.page.authorized
             {
                 if (string.IsNullOrEmpty(userLogin))
                 {
-                    System.Diagnostics.Debug.WriteLine("User login is null or empty");
+                    Log("⚠️ User login is null or empty.");
                     return 0;
                 }
 
                 using var context = new DealershipContext();
-                
+
                 var user = context.Users.FirstOrDefault(u => u.Login == userLogin);
                 if (user == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"User not found with login: {userLogin}");
+                    Log($"⚠️ User not found with login: {userLogin}");
                     return 0;
                 }
 
-                var client = context.Clients.FirstOrDefault(c => c.User.Id == user.Id);
+                var client = context.Clients.FirstOrDefault(c => c.UserId == user.Id);
                 if (client == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Client not found for user: {userLogin}");
+                    Log($"⚠️ Client not found for user: {userLogin}");
                     return 0;
                 }
 
-                System.Diagnostics.Debug.WriteLine($"Found client ID: {client.Id} for user: {userLogin}");
+                Log($"✅ Found client ID {client.Id} for user {userLogin}");
                 return client.Id;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error getting client ID: {ex.Message}");
+                Log($"❌ Error getting client ID: {ex.Message}");
                 return 0;
             }
         }
@@ -253,24 +229,77 @@ namespace CarDealership.page.authorized
             try
             {
                 using var context = new DealershipContext();
-                
-                var product = context.Products.FirstOrDefault(p => p.GasolineCarId == carId);
+
+                var product = context.Products.FirstOrDefault(p => p.CarId == carId && p.CarType == CarType.Gasoline);
                 if (product == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Product not found for car ID: {carId}");
+                    Log($"⚠️ Product not found for car ID {carId}");
                     return 0;
                 }
 
-                System.Diagnostics.Debug.WriteLine($"Found product ID: {product.Id} for car ID: {carId}");
+                Log($"✅ Found product ID {product.Id} for car ID {carId}");
                 return product.Id;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error getting product ID: {ex.Message}");
+                Log($"❌ Error getting product ID: {ex.Message}");
                 return 0;
             }
         }
-    }
 
-  
+        private void Log(string message)
+        {
+            var time = DateTime.Now.ToString("HH:mm:ss");
+            Console.WriteLine($"[{time}] {message}");
+            System.Diagnostics.Debug.WriteLine($"[{time}] {message}");
+        }
+
+        #region Helper Methods (unchanged)
+
+        private TransmissionType? GetSelectedTransmissionType()
+        {
+            var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "КПП")
+                return null;
+            return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
+        }
+
+        private CarBodyType? GetSelectedBodyType()
+        {
+            var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Тип кузова")
+                return null;
+            return FilterHelper.GetBodyType(selectedItem.Content.ToString());
+        }
+
+        private Color? GetSelectedColor()
+        {
+            var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Колір")
+                return null;
+            return FilterHelper.GetColor(selectedItem.Content.ToString());
+        }
+
+        private DriveType? GetSelectedDriveType()
+        {
+            var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Привід")
+                return null;
+            return FilterHelper.GetDriveType(selectedItem.Content.ToString());
+        }
+
+        private FuelType? GetSelectedFuelType()
+        {
+            var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
+            if (selectedItem == null || selectedItem.Content.ToString() == "Тип пального")
+                return null;
+            return FilterHelper.GetFuelType(selectedItem.Content.ToString());
+        }
+
+        private int? GetIntValue(string text) => int.TryParse(text, out var v) ? v : null;
+        private double? GetDoubleValue(string text) => double.TryParse(text, out var v) ? v : null;
+        private float? GetFloatValue(string text) => float.TryParse(text, out var v) ? v : null;
+
+        #endregion
+    }
 }

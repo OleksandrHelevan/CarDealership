@@ -14,9 +14,9 @@ namespace CarDealership.mapper
 
             return new GasolineEngineDto(
                 entity.Id,
-                entity.Power,
+                (double)entity.Power,
                 entity.FuelType,
-                entity.FuelConsumption
+                (float)entity.FuelConsumption
             );
         }
         
@@ -25,9 +25,9 @@ namespace CarDealership.mapper
             return new GasolineEngine
             {
                 Id = dto.Id,
-                Power = dto.Power,
+                Power = (decimal)dto.Power,
                 FuelType = dto.FuelType,
-                FuelConsumption = dto.FuelConsumption
+                FuelConsumption = (decimal)dto.FuelConsumption
             };
         }
     }

@@ -36,8 +36,10 @@ namespace CarDealership.repo.impl
                     $"Client loaded: {client.PassportData.FirstName} {client.PassportData.LastName}");
 
                 var product = _context.Products
-                    .Include(p => p.GasolineCar)
-                    .Include(p => p.ElectroCar)
+                    .Include(p => p.Car)
+                    .ThenInclude(c => (c as GasolineCar).Engine)
+                    .Include(p => p.Car)
+                    .ThenInclude(c => (c as ElectroCar).Engine)
                     .FirstOrDefault(p => p.Id == order.ProductId);
 
                 if (product == null)
@@ -45,7 +47,7 @@ namespace CarDealership.repo.impl
                     throw new Exception($"Product with ID {order.ProductId} not found");
                 }
 
-                System.Diagnostics.Debug.WriteLine($"Product loaded: {product.Number}");
+                System.Diagnostics.Debug.WriteLine($"Product loaded: {product.ProductNumber}");
 
                 // Створюємо новий об’єкт Order з навігаційними властивостями
                 var newOrder = new Order
@@ -56,7 +58,7 @@ namespace CarDealership.repo.impl
                     ProductId = product.Id,
                     OrderDate = order.OrderDate,
                     PaymentType = order.PaymentType,
-                    Delivery = order.Delivery
+                    DeliveryRequired = order.DeliveryRequired,
                 };
 
                 _context.Orders.Add(newOrder);

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
@@ -77,8 +78,8 @@ namespace CarDealership.page.@operator
 
         private void AddEngine_Click(object sender, RoutedEventArgs e)
         {
-            if (!double.TryParse(EnginePowerTextBox.Text, out double power) ||
-                !double.TryParse(BatteryCapacityTextBox.Text, out double battery) ||
+            if (!decimal.TryParse(EnginePowerTextBox.Text, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal power) ||
+                !decimal.TryParse(BatteryCapacityTextBox.Text, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal battery) ||
                 !int.TryParse(RangeTextBox.Text, out int range) ||
                 MotorTypeComboBox.SelectedItem is not ComboBoxItem motorItem)
             {
@@ -115,8 +116,8 @@ namespace CarDealership.page.@operator
 
             string sql = @"
                 SELECT setval(
-                    'electro_cars_id_seq',
-                    COALESCE((SELECT MAX(id) FROM electro_cars), 0) + 1,
+                    'cars_id_seq',
+                    COALESCE((SELECT MAX(id) FROM cars), 0) + 1,
                     false
                 );
             ";
@@ -136,7 +137,7 @@ namespace CarDealership.page.@operator
                 }
 
                 if (!int.TryParse(YearTextBox.Text, out int year) ||
-                    !double.TryParse(PriceTextBox.Text, out double price) ||
+                    !decimal.TryParse(PriceTextBox.Text, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal price) ||
                     !int.TryParse(MileageTextBox.Text, out int mileage) ||
                     !int.TryParse(WeightTextBox.Text, out int weight) ||
                     !int.TryParse(NumberOfDoorsTextBox.Text, out int doors))
@@ -195,3 +196,4 @@ namespace CarDealership.page.@operator
         }
     }
 }
+

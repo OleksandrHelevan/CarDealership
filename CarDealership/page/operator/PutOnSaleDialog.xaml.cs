@@ -33,7 +33,7 @@ public partial class PutOnSaleDialog
 
         var product = new Product
         {
-            Number = TbNumber.Text.Trim(),
+            ProductNumber = TbNumber.Text.Trim(),
             CountryOfOrigin = string.IsNullOrWhiteSpace(TbCountry.Text) ? "Ukraine" : TbCountry.Text.Trim(),
             InStock = CbInStock.IsChecked == true,
             AvailableFrom = DateTime.UtcNow
@@ -41,11 +41,13 @@ public partial class PutOnSaleDialog
 
         if (_vehicle is GasolineCarDto g)
         {
-            product.GasolineCarId = g.Id;
+            product.CarId = g.Id;
+            product.CarType = CarType.Gasoline;
         }
         else if (_vehicle is ElectroCarDto ecar)
         {
-            product.ElectroCarId = ecar.Id;
+            product.CarId = ecar.Id;
+            product.CarType = CarType.Electro;
         }
         else
         {

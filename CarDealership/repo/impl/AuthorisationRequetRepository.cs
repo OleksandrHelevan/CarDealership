@@ -35,7 +35,20 @@ namespace CarDealership.repo.impl
 
         public void Update(AuthorizationRequest request)
         {
-            _context.Set<AuthorizationRequest>().Update(request);
+            var existing = _context.Set<AuthorizationRequest>().FirstOrDefault(r => r.Id == request.Id);
+            if (existing == null)
+            {
+                _context.Set<AuthorizationRequest>().Attach(request);
+                _context.Entry(request).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            else
+            {
+                existing.Login = request.Login;
+                existing.Status = request.Status;
+                existing.ProcessedAt = request.ProcessedAt;
+                existing.ProcessedBy = request.ProcessedBy;
+                existing.Notes = request.Notes;
+            }
             _context.SaveChanges();
         }
 

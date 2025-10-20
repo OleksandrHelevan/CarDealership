@@ -2,7 +2,9 @@ namespace CarDealership.service
 {
     public interface IMigrationService
     {
-        bool MigrateGasolineCarsToProducts();
-        bool MigrateElectroCarsToProducts();
+        Task EnsureDatabaseCreatedAsync();
+        Task ApplyMigrationsAsync();
+        Task SeedInitialDataAsync();
+        
     }
 }

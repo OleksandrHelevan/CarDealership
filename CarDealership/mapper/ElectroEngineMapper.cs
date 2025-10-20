@@ -9,8 +9,8 @@ public class ElectroEngineMapper
     {
         return new ElectroEngineDto(
             entity.Id,
-            entity.Power,
-            entity.BatteryCapacity,
+            (double)entity.Power,
+            (double)entity.BatteryCapacity,
             entity.Range,
             entity.MotorType
         );
@@ -21,8 +21,8 @@ public class ElectroEngineMapper
         return new ElectroEngine
         {
             Id = dto.Id,
-            Power = dto.Power,  
-            BatteryCapacity = dto.BatteryCapacity,
+            Power = (decimal)dto.Power,  
+            BatteryCapacity = (decimal)dto.BatteryCapacity,
             Range = dto.Range,
             MotorType = dto.MotorType
         };

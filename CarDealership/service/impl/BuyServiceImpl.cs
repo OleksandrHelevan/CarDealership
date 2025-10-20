@@ -1,10 +1,10 @@
+using System.Windows.Forms;
 using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.entity;
 using CarDealership.enums;
 using CarDealership.mapper;
 using CarDealership.repo;
-using CarDealership.repo.impl;
 using CarDealership.service;
 
 namespace CarDealership.service.impl
@@ -26,72 +26,70 @@ namespace CarDealership.service.impl
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"=== BUY CAR START ===");
+                System.Diagnostics.Debug.WriteLine("=== BUY CAR START ===");
                 System.Diagnostics.Debug.WriteLine($"CarId: {buyCarDto.Id}, CarType: {buyCarDto.CarType}, ClientId: {buyCarDto.ClientId}");
-                System.Diagnostics.Debug.WriteLine($"PaymentType: {buyCarDto.PaymentType}, Delivery: {buyCarDto.Delivery}");
+                System.Diagnostics.Debug.WriteLine($"PaymentType: {buyCarDto.PaymentType}, DeliveryRequired: {buyCarDto.DeliveryRequired}");
 
+                // 1️⃣ Знаходимо продукт
                 var product = _productRepository.GetById(buyCarDto.Id);
                 if (product == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"ERROR: Product not found: {buyCarDto.Id}");
+                    System.Diagnostics.Debug.WriteLine($"❌ Product not found: {buyCarDto.Id}");
                     return false;
                 }
-                System.Diagnostics.Debug.WriteLine($"Product found: ID={product.Id}, Number={product.Number}, InStock={product.InStock}");
-                
-                if (product.GasolineCarId != null)
-                    System.Diagnostics.Debug.WriteLine($"GasolineCarId: {product.GasolineCarId}");
-                if (product.ElectroCarId != null)
-                    System.Diagnostics.Debug.WriteLine($"ElectroCarId: {product.ElectroCarId}");
-                
+
+                System.Diagnostics.Debug.WriteLine($"✅ Product found: ID={product.Id}, Number={product.ProductNumber}, InStock={product.InStock}");
+
+                if (!product.InStock)
+                {
+                    System.Diagnostics.Debug.WriteLine("⚠️ Product already sold or unavailable.");
+                    return false;
+                }
+
+                // 2️⃣ Знаходимо клієнта
                 var client = _clientRepository.GetById(buyCarDto.ClientId);
                 if (client == null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"ERROR: Client not found: {buyCarDto.ClientId}");
+                    System.Diagnostics.Debug.WriteLine($"❌ Client not found: {buyCarDto.ClientId}");
                     return false;
                 }
-                System.Diagnostics.Debug.WriteLine($"Client found: ID={client.Id}, Name={client.PassportData.FirstName} {client.PassportData.LastName}");
 
-                try
+                System.Diagnostics.Debug.WriteLine($"✅ Client found: ID={client.Id}, Name={client.PassportData.FirstName} {client.PassportData.LastName}");
+
+                // 3️⃣ Формуємо замовлення
+                var orderDto = new OrderDto
                 {
-                    var orderDto = new OrderDto
-                    {
-                        Client = ClientMapper.ToDto(client),
-                        ClientId = client.Id,
-                        Product = ProductMapper.ToDto(product),
-                        ProductId = product.Id,
-                        OrderDate = DateTime.Now,
-                        PaymentType = buyCarDto.PaymentType,
-                        Delivery = buyCarDto.Delivery
-                    };
+                    Client = ClientMapper.ToDto(client),
+                    ClientId = client.Id,
+                    Product = ProductMapper.ToDto(product),
+                    ProductId = product.Id,
+                    OrderDate = DateTime.UtcNow,
+                    PaymentType = buyCarDto.PaymentType,
+                    DeliveryRequired = buyCarDto.DeliveryRequired
+                };
 
+                System.Diagnostics.Debug.WriteLine($"🧾 OrderDto: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product.Number}, DeliveryRequired={orderDto.DeliveryRequired}");
 
-                    System.Diagnostics.Debug.WriteLine($"OrderDto created: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product.Number}, PaymentType={orderDto.PaymentType}, Delivery={orderDto.Delivery}");
-                    
-                    System.Diagnostics.Debug.WriteLine($"OrderDto created: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product.Number}");
+                // 4️⃣ Зберігаємо замовлення
+                _orderService.Add(orderDto);
+                System.Diagnostics.Debug.WriteLine("✅ Order created successfully.");
 
-                    // Use order service to add the order
-                    System.Diagnostics.Debug.WriteLine("Calling OrderService.Add...");
-                    _orderService.Add(orderDto);
-                    
-                    System.Diagnostics.Debug.WriteLine("Order created successfully");
-                    
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"ERROR creating order: {ex.Message}");
-                    System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
-                    throw; // Rethrow to outer catch
-                }
+                // 5️⃣ Оновлюємо статус товару (вже не в наявності)
+                product.InStock = false;
+                _productRepository.Update(product);
+                System.Diagnostics.Debug.WriteLine("🟢 Product marked as sold (InStock = false)");
+
+                return true;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"BuyCar ERROR: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                System.Diagnostics.Debug.WriteLine($"❌ BuyCar ERROR: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"STACK TRACE: {ex.StackTrace}");
+                MessageBox.Show($"Помилка при створенні замовлення: {ex.Message}");
                 return false;
             }
-        }
 
+        }
 
         private string GenerateProductNumber()
         {

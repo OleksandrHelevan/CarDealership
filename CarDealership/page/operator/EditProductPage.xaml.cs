@@ -1,4 +1,3 @@
-
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,11 +31,12 @@ namespace CarDealership.page.@operator
         {
             try
             {
+                // Preload engines for both car types (TPH)
+                _context.Cars.OfType<ElectroCar>().Include(c => c.Engine).Load();
+                _context.Cars.OfType<GasolineCar>().Include(c => c.Engine).Load();
+
                 var allProducts = _context.Products
-                    .Include(p => p.ElectroCar)
-                    .ThenInclude(ec => ec.Engine)
-                    .Include(p => p.GasolineCar)
-                    .ThenInclude(gc => gc.Engine)
+                    .Include(p => p.Car)
                     .ToList();
 
                 ProductsList.ItemsSource = allProducts;
@@ -82,12 +82,24 @@ namespace CarDealership.page.@operator
 
             try
             {
-                _context.Products.Remove(product);
+                var trackedEntry = _context.ChangeTracker.Entries<Product>()
+                    .FirstOrDefault(e => e.Entity.Id == product.Id);
+
+                if (trackedEntry != null)
+                {
+                    _context.Entry(trackedEntry.Entity).State = EntityState.Detached;
+                }
+
+                var productToDelete = new Product { Id = product.Id };
+
+                _context.Attach(productToDelete);
+                _context.Products.Remove(productToDelete);
                 _context.SaveChanges();
+
                 MessageBox.Show("Продукт видалено успішно.");
                 LoadData();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Помилка видалення: {ex.Message}\n\nДеталі: {ex.InnerException?.Message}");
             }

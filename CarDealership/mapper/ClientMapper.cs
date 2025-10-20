@@ -11,7 +11,7 @@ public class ClientMapper
             e.Id,
             e.UserId,
             e.User.Login,
-            e.User.Password,
+            "",
             e.User.AccessRight,
             PassportDataMapper.ToDto(e.PassportData)
         );

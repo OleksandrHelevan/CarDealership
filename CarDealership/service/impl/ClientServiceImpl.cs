@@ -34,7 +34,7 @@ public class ClientServiceImpl : IClientService
             User = new User
             {
                 Login = clientDto.Login,
-                Password = clientDto.Password.GetHashCode().ToString(),
+                PasswordHash = CarDealership.config.decoder.DealershipPasswordEncoder.Encode(clientDto.Password),
                 AccessRight = clientDto.AccessRight
             },
             PassportData = new PassportData
@@ -54,7 +54,7 @@ public class ClientServiceImpl : IClientService
         if (existingClient == null) return;
 
         existingClient.User.Login = clientDto.Login;
-        existingClient.User.Password = clientDto.Password;
+        existingClient.User.PasswordHash = CarDealership.config.decoder.DealershipPasswordEncoder.Encode(clientDto.Password);
         existingClient.User.AccessRight = clientDto.AccessRight;
 
         existingClient.PassportData.FirstName = clientDto.PassportData.FirstName;

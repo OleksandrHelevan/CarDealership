@@ -31,6 +31,7 @@ namespace CarDealership.repo.impl
         public void Update(GasolineEngine engine)
         {
             _context.GasolineEngines.Update(engine);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
@@ -39,6 +40,7 @@ namespace CarDealership.repo.impl
             if (engine != null)
             {
                 _context.GasolineEngines.Remove(engine);
+                _context.SaveChanges();
             }
         }
 

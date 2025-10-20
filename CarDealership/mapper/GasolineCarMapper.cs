@@ -15,7 +15,7 @@ namespace CarDealership.mapper
                 GasolineEngineMapper.ToDto(e.Engine),
                 e.Color,
                 e.Mileage,
-                e.Price,
+                (double)e.Price,
                 e.Weight,
                 e.DriveType,
                 e.Transmission,
@@ -41,13 +41,14 @@ namespace CarDealership.mapper
                 Engine = GasolineEngineMapper.ToEntity(gasolineEngineDto),
                 Color = dto.Color,
                 Mileage = dto.Mileage,
-                Price = dto.Price,
+                Price = (decimal)dto.Price,
                 Weight = dto.Weight,
                 DriveType = dto.DriveType,
                 Transmission = dto.Transmission,
                 Year = dto.Year,
                 NumberOfDoors = dto.NumberOfDoors,
-                BodyType = dto.BodyType
+                BodyType = dto.BodyType,
+                CarType = CarDealership.enums.CarType.Gasoline
             };
         }
     }

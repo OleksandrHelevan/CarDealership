@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
@@ -13,7 +14,7 @@ namespace CarDealership.page.@operator
 {
     public partial class AddGasolineCarPage : Page
     {
-        private readonly GasolineCarRepository _repo;
+        private readonly GasolineCarRepositoryImpl _repo;
         private readonly GasolineEngineServiceImpl _engineService;
         private readonly string _connectionString = "Host=localhost;Port=5432;Database=car_dealership;Username=postgres;Password=1234qwer";
 
@@ -22,7 +23,7 @@ namespace CarDealership.page.@operator
             InitializeComponent();
 
             var context = new DealershipContext();
-            _repo = new GasolineCarRepository(context);
+            _repo = new GasolineCarRepositoryImpl(context);
             _engineService = new GasolineEngineServiceImpl();
 
             ColorComboBox.ItemsSource = Enum.GetValues(typeof(Color))
@@ -68,9 +69,9 @@ namespace CarDealership.page.@operator
         {
             try
             {
-                if (!int.TryParse(EnginePowerTextBox.Text, out int power) ||
+                if (!decimal.TryParse(EnginePowerTextBox.Text, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal power) ||
                     EngineFuelTypeComboBox.SelectedItem is not ComboBoxItem fuelItem ||
-                    !float.TryParse(EngineConsumptionTextBox.Text, out float consumption))
+                    !decimal.TryParse(EngineConsumptionTextBox.Text, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal consumption))
                 {
                     MessageBox.Show("Некоректні значення для двигуна!", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -79,7 +80,7 @@ namespace CarDealership.page.@operator
                 var engine = new GasolineEngine
                 {
                     Power = power,
-                    FuelType = (FuelType)fuelItem.Tag,
+                    FuelType = (EngineFuelTypeComboBox.SelectedItem is ComboBoxItem fi ? (FuelType)fi.Tag : FuelType.Petrol),
                     FuelConsumption = consumption
                 };
                 _engineService.AddGasolineEngine(engine);
@@ -110,8 +111,8 @@ namespace CarDealership.page.@operator
 
                 string sql = @"
                     SELECT setval(
-                        'gasoline_cars_id_seq',
-                        COALESCE((SELECT MAX(id) FROM gasoline_cars), 0) + 1,
+                        'cars_id_seq',
+                        COALESCE((SELECT MAX(id) FROM cars), 0) + 1,
                         false
                     );
                 ";
@@ -119,7 +120,7 @@ namespace CarDealership.page.@operator
                 using var cmd = new NpgsqlCommand(sql, connection);
                 cmd.ExecuteNonQuery();
 
-                Console.WriteLine("Sequence gasoline_cars_id_seq synchronized successfully.");
+                Console.WriteLine("Sequence cars_id_seq synchronized successfully.");
             }
             catch (Exception ex)
             {
@@ -138,7 +139,7 @@ namespace CarDealership.page.@operator
                 }
 
                 if (!int.TryParse(YearTextBox.Text, out int year) ||
-                    !double.TryParse(PriceTextBox.Text, out double price) ||
+                    !decimal.TryParse(PriceTextBox.Text, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal price) ||
                     !int.TryParse(MileageTextBox.Text, out int mileage) ||
                     !int.TryParse(WeightTextBox.Text, out int weight) ||
                     !int.TryParse(NumberOfDoorsTextBox.Text, out int doors))
@@ -188,3 +189,5 @@ namespace CarDealership.page.@operator
         }
     }
 }
+
+

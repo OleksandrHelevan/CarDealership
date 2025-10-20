@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 using CarDealership.enums;
 
 namespace CarDealership.entity
@@ -13,25 +12,52 @@ namespace CarDealership.entity
         [Column("id")]
         public int Id { get; set; }
 
-        [Required] [Column("number")] public string Number { get; set; } = null!;
+        [Required]
+        [MaxLength(50)]
+        [Column("product_number")]
+        public string ProductNumber { get; set; } = null!;
 
         [Required]
+        [MaxLength(100)]
         [Column("country_of_origin")]
         public string CountryOfOrigin { get; set; } = null!;
 
-        [Required] [Column("in_stock")] public bool InStock { get; set; }
+        [Required]
+        [Column("in_stock")]
+        public bool InStock { get; set; }
 
-        [Column("available_from")] public DateTime? AvailableFrom { get; set; }
+        [Column("available_from")]
+        public DateTime? AvailableFrom { get; set; }
 
-        [NotMapped] public object? Vehicle => (object?)ElectroCar ?? GasolineCar;
+        [Column("available_until")]
+        public DateTime? AvailableUntil { get; set; }
 
-        [Column("electro_car_id")] public int? ElectroCarId { get; set; }
+        [Required]
+        [Column("car_id")]
+        public int CarId { get; set; }
 
-        [Column("gasoline_car_id")] public int? GasolineCarId { get; set; }
+        [Required]
+        [Column("car_type")]
+        public CarType CarType { get; set; }
 
-        public ElectroCar? ElectroCar { get; set; }
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public GasolineCar? GasolineCar { get; set; }
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
+        // Navigation properties
+        [ForeignKey(nameof(CarId))]
+        public virtual Car Car { get; set; } = null!;
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        // Computed properties
+        [NotMapped]
+        public string CarDisplayName => Car?.FullName ?? "Unknown Car";
+
+        [NotMapped]
+        public bool IsAvailable => InStock && (AvailableFrom == null || AvailableFrom <= DateTime.UtcNow) && 
+                                  (AvailableUntil == null || AvailableUntil >= DateTime.UtcNow);
     }
-
 }

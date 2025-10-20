@@ -1,7 +1,7 @@
 using CarDealership.config;
 using CarDealership.entity;
-using Microsoft.EntityFrameworkCore;
 using CarDealership.enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.repo.impl
 {
@@ -16,21 +16,23 @@ namespace CarDealership.repo.impl
 
         public IEnumerable<Product> GetAll()
         {
+            // EF сам підвантажить GasolineCar або ElectroCar через дискримінатор
             return _context.Products
-                .Include(p => p.ElectroCar)
-                .ThenInclude(e => e.Engine)
-                .Include(p => p.GasolineCar)
-                .ThenInclude(g => g.Engine)
+                .Include(p => p.Car)
+                .ThenInclude(c => (c as GasolineCar).Engine)
+                .Include(p => p.Car)
+                .ThenInclude(c => (c as ElectroCar).Engine)
+                .AsSplitQuery() // уникнення картезіанського вибуху
+                .AsNoTracking()
                 .ToList();
         }
 
         public Product? GetById(int id)
         {
             return _context.Products
-                .Include(p => p.ElectroCar)
-                .ThenInclude(e => e.Engine)
-                .Include(p => p.GasolineCar)
-                .ThenInclude(g => g.Engine)
+                .Include(p => p.Car)
+                .AsSplitQuery()
+                .AsNoTracking()
                 .FirstOrDefault(p => p.Id == id);
         }
 
@@ -58,43 +60,36 @@ namespace CarDealership.repo.impl
 
         public bool ExistsByNumber(string number)
         {
-            return _context.Products.Any(p => p.Number == number);
+            return _context.Products.Any(p => p.ProductNumber == number);
         }
 
         public GasolineCar? GetGasolineCarById(int id)
         {
-            return _context.GasolineCars
-                .Include(g => g.Engine)
-                .FirstOrDefault(g => g.Id == id);
+            // У TPH — усі авто в Cars, тому використовуємо OfType
+            return _context.Cars
+                .OfType<GasolineCar>()
+                .Include(c => c.Engine)
+                .AsNoTracking()
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public ElectroCar? GetElectroCarById(int id)
         {
-            return _context.ElectroCars
-                .Include(e => e.Engine)
-                .FirstOrDefault(e => e.Id == id);
+            return _context.Cars
+                .OfType<ElectroCar>()
+                .Include(c => c.Engine)
+                .AsNoTracking()
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType)
         {
-            if (carType == CarType.Gasoline)
-            {
-                return _context.Products
-                    .Include(p => p.GasolineCar)
-                    .ThenInclude(g => g.Engine)
-                    .Where(p => p.GasolineCar != null && vehicleIds.Contains(p.GasolineCar.Id))
-                    .ToList();
-            }
-            else if (carType == CarType.Electro)
-            {
-                return _context.Products
-                    .Include(p => p.ElectroCar)
-                    .ThenInclude(e => e.Engine)
-                    .Where(p => p.ElectroCar != null && vehicleIds.Contains(p.ElectroCar.Id))
-                    .ToList();
-            }
-            
-            return new List<Product>();
+            return _context.Products
+                .Include(p => p.Car)
+                .Where(p => p.CarType == carType && vehicleIds.Contains(p.CarId))
+                .AsSplitQuery()
+                .AsNoTracking()
+                .ToList();
         }
     }
 }

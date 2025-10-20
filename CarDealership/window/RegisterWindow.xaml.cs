@@ -53,7 +53,7 @@ namespace CarDealership.window
             var key = new User
             {
                 Login = login,
-                Password = DealershipPasswordEncoder.Encode(password),
+                PasswordHash = DealershipPasswordEncoder.Encode(password),
                 AccessRight = _accessRight
             };
             _context.Users.Add(key);

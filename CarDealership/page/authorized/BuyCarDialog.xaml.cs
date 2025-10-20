@@ -4,6 +4,7 @@ using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.enums;
 
+
 namespace CarDealership.page.authorized
 {
     public partial class BuyCarDialog : Window
@@ -27,10 +28,9 @@ namespace CarDealership.page.authorized
                 BuyCarDto = new BuyCarDto
                 {
                     PaymentType = paymentType,
-                    Delivery = DeliveryCheckBox.IsChecked ?? false
-                    // CountryOfOrigin і ClientId підставляються у GasolineCarPage
+                    DeliveryRequired = DeliveryCheckBox.IsChecked ?? false
                 };
-
+                
                 DialogResult = true;
                 Close();
             }

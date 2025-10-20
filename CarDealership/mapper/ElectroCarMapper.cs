@@ -13,7 +13,7 @@ public class ElectroCarMapper
             e.Id,
             e.Brand, e.ModelName,
             engineDto,
-            e.Color, e.Mileage, e.Price,
+            e.Color, e.Mileage, (double)e.Price,
             e.Weight, e.DriveType, e.Transmission,
             e.Year, e.NumberOfDoors, e.BodyType);
         dto.Id = e.Id;
@@ -34,13 +34,14 @@ public class ElectroCarMapper
             Engine = ElectroEngineMapper.ToEntity(electroEngineDto),
             Color = dto.Color,
             Mileage = dto.Mileage,
-            Price = dto.Price,
+            Price = (decimal)dto.Price,
             Weight = dto.Weight,
             DriveType = dto.DriveType,
             Transmission = dto.Transmission,
             Year = dto.Year,
             NumberOfDoors = dto.NumberOfDoors,
-            BodyType = dto.BodyType
+            BodyType = dto.BodyType,
+            CarType = CarDealership.enums.CarType.Electro
         };
     }
 

@@ -35,20 +35,16 @@ namespace CarDealership.page.authorized
             var ordersList = _context.Orders
                 .Where(o => o.ClientId == client.Id)
                 .Include(o => o.Product)
-                .ThenInclude(p => p.ElectroCar)
-                .Include(o => o.Product)
-                .ThenInclude(p => p.GasolineCar)
+                .ThenInclude(p => p.Car)
                 .Select(o => new OrderDto
                 {
                     Id = o.Id,
                     OrderId = o.Id,
-                    CarName = o.Product.ElectroCar != null
-                        ? $"{o.Product.ElectroCar.Brand} {o.Product.ElectroCar.ModelName}"
-                        : o.Product.GasolineCar != null
-                            ? $"{o.Product.GasolineCar.Brand} {o.Product.GasolineCar.ModelName}"
-                            : "Невідомо",
+                    CarName = o.Product.Car != null
+                        ? $"{o.Product.Car.Brand} {o.Product.Car.ModelName}"
+                        : "Невідомо",
                     PaymentType = o.PaymentType,
-                    Delivery = o.Delivery,
+                    DeliveryRequired = o.DeliveryRequired,
                     OrderDate = o.OrderDate,
                     CreatedAt = o.OrderDate,
                     

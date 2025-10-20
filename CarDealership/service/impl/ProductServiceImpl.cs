@@ -30,7 +30,7 @@ namespace CarDealership.service.impl
         }
         public bool Create(Product product)
         {
-            if (_productRepository.ExistsByNumber(product.Number))
+            if (_productRepository.ExistsByNumber(product.ProductNumber))
                 return false;
 
             _productRepository.Add(product);
@@ -39,7 +39,7 @@ namespace CarDealership.service.impl
 
         public bool Update(Product product)
         {
-            if (!_productRepository.ExistsByNumber(product.Number))
+            if (!_productRepository.ExistsByNumber(product.ProductNumber))
                 return false;
 
             _productRepository.Update(product);
