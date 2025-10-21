@@ -28,11 +28,9 @@ namespace CarDealership.page.@operator
         {
             try
             {
-                var carIdsWithProducts = _context.Products.Select(p => p.CarId).ToList();
-
                 var cars = _context.Cars
                     .Include(c => c.Engine)
-                    .Where(c => !carIdsWithProducts.Contains(c.Id))
+                    .Where(c => !c.OnSale)
                     .ToList();
 
                 CarsList.ItemsSource = cars;
@@ -65,6 +63,13 @@ namespace CarDealership.page.@operator
 
                 if (_productService.Create(product))
                 {
+                    // mark car as on sale
+                    var carToUpdate = _context.Cars.FirstOrDefault(x => x.Id == car.Id);
+                    if (carToUpdate != null)
+                    {
+                        carToUpdate.OnSale = true;
+                        _context.SaveChanges();
+                    }
                     MessageBox.Show("Авто виставлено на продаж");
                     LoadUnboundCars();
                 }
@@ -113,4 +118,3 @@ namespace CarDealership.page.@operator
         }
     }
 }
-

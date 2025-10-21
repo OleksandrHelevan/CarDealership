@@ -58,7 +58,7 @@ namespace CarDealership.page.authorized
             try
             {
                 var allProducts = _productService.GetAll();
-                GasolineCarsList.ItemsSource = allProducts;
+                GasolineCarsList.ItemsSource = allProducts.Where(p => p.InStock).ToList();
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace CarDealership.page.authorized
             {
                 // TODO: Implement unified Car filtering; for now, reload all
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
-                var allProducts = productRepo.GetAll().Select(ProductMapper.ToDto).ToList();
+                var allProducts = productRepo.GetAll().Select(ProductMapper.ToDto).Where(p => p.InStock).ToList();
                 GasolineCarsList.ItemsSource = allProducts;
             }
             catch (Exception ex)
@@ -173,9 +173,36 @@ namespace CarDealership.page.authorized
                         Delivery = dialog.BuyCarDto.Delivery
                     };
 
-                    _buyService.BuyCar(dto);
-
-                    MessageBox.Show("Замовлення успішно створено!");
+                    var ok = _buyService.BuyCar(dto);
+                    if (ok)
+                    {
+                        MessageBox.Show("Замовлення успішно створено!");
+                    }
+                    else
+                    {
+                        // Try to provide a more specific reason
+                        try
+                        {
+                            using var ctx = new DealershipContext();
+                            var pr = new ProductRepositoryImpl(ctx).GetById(product.Id);
+                            if (pr == null)
+                            {
+                                MessageBox.Show($"Продукт не знайдено: ID={product.Id}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else if (!pr.InStock)
+                            {
+                                MessageBox.Show($"Продукт №{pr.Number} відсутній на складі.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Не вдалося створити замовлення", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                        catch (Exception innerEx)
+                        {
+                            MessageBox.Show($"Не вдалося створити замовлення: {innerEx.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -203,7 +230,7 @@ namespace CarDealership.page.authorized
                     return 0;
                 }
 
-                var client = context.Clients.FirstOrDefault(c => c.User.Id == user.Id);
+                var client = context.Clients.FirstOrDefault(c => c.UserId == user.Id);
                 if (client == null)
                 {
                     System.Diagnostics.Debug.WriteLine($"Client not found for user: {userLogin}");

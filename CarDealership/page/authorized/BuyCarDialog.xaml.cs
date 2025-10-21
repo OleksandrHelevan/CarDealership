@@ -28,7 +28,6 @@ namespace CarDealership.page.authorized
                 {
                     PaymentType = paymentType,
                     Delivery = DeliveryCheckBox.IsChecked ?? false
-                    // CountryOfOrigin і ClientId підставляються у GasolineCarPage
                 };
 
                 DialogResult = true;

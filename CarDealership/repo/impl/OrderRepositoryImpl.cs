@@ -15,65 +15,33 @@ namespace CarDealership.repo.impl
 
         public void Add(Order order)
         {
+            // Minimal FK write: rely on existing IDs; avoids heavy includes
+            if (order.ClientId <= 0) throw new ArgumentException("Invalid ClientId");
+            if (order.ProductId <= 0) throw new ArgumentException("Invalid ProductId");
+
+            var existsClient = _context.Clients.Any(c => c.Id == order.ClientId);
+            if (!existsClient) throw new Exception($"Client with ID {order.ClientId} not found");
+
+            var existsProduct = _context.Products.Any(p => p.Id == order.ProductId);
+            if (!existsProduct) throw new Exception($"Product with ID {order.ProductId} not found");
+
             try
             {
-                System.Diagnostics.Debug.WriteLine("=== OrderRepositoryImpl.Add START ===");
-                System.Diagnostics.Debug.WriteLine(
-                    $"Adding order: ClientId={order.ClientId}, ProductId={order.ProductId}");
-
-                // Завантажуємо повного клієнта
-                var client = _context.Clients
-                    .Include(c => c.PassportData)
-                    .Include(c => c.User)
-                    .FirstOrDefault(c => c.Id == order.ClientId);
-
-                if (client == null)
+                _context.Orders.Add(new Order
                 {
-                    throw new Exception($"Client with ID {order.ClientId} not found");
-                }
-
-                System.Diagnostics.Debug.WriteLine(
-                    $"Client loaded: {client.PassportData.FirstName} {client.PassportData.LastName}");
-
-                var product = _context.Products
-                    .Include(p => p.Car)
-                    .ThenInclude(c => c.Engine)
-                    .FirstOrDefault(p => p.Id == order.ProductId);
-
-                if (product == null)
-                {
-                    throw new Exception($"Product with ID {order.ProductId} not found");
-                }
-
-                System.Diagnostics.Debug.WriteLine($"Product loaded: {product.Number}");
-
-                // Створюємо новий об’єкт Order з навігаційними властивостями
-                var newOrder = new Order
-                {
-                    Client = client,
-                    ClientId = client.Id,
-                    Product = product,
-                    ProductId = product.Id,
+                    ClientId = order.ClientId,
+                    ProductId = order.ProductId,
                     OrderDate = order.OrderDate,
                     PaymentType = order.PaymentType,
                     Delivery = order.Delivery
-                };
+                });
 
-                _context.Orders.Add(newOrder);
-                var changes = _context.SaveChanges();
-
-                // Копіюємо згенерований ID назад у оригінальний об’єкт
-                order.Id = newOrder.Id;
-
-                System.Diagnostics.Debug.WriteLine($"SaveChanges result: {changes} changes saved");
-                System.Diagnostics.Debug.WriteLine($"Order ID after save: {order.Id}");
-                System.Diagnostics.Debug.WriteLine("=== OrderRepositoryImpl.Add END ===");
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"ERROR in OrderRepositoryImpl.Add: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
-                throw; // Пробросимо далі, щоб сервіс міг відреагувати
+                var msg = ex.InnerException?.Message ?? ex.Message;
+                throw new InvalidOperationException($"Не вдалося зберегти замовлення: {msg}", ex);
             }
         }
 

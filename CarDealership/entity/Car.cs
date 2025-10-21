@@ -69,6 +69,10 @@ public class Car
     [Column("body_type")]
     public CarBodyType BodyType { get; set; }
 
+    [Required]
+    [Column("on_sale")]
+    public bool OnSale { get; set; } = false;
+
     [NotMapped]
     public string BodyTypeString => BodyType.ToFriendlyString();
 

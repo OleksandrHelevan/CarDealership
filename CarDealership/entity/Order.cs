@@ -28,7 +28,7 @@ public class Order
     public Product Product { get; set; } = null!;
 
     [Required]
-    [Column("order_date", TypeName = "timestamp")]
+    [Column("order_date", TypeName = "timestamptz")]
     public DateTime OrderDate { get; set; }
 
     [Required]

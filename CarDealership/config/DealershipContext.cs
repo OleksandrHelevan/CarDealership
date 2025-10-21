@@ -32,6 +32,7 @@ namespace CarDealership.config
                 v => v.ToString().ToLower(),
                 v => (EngineType)Enum.Parse(typeof(EngineType), v, true));
 
+            // Use UTC for timestamptz columns (Npgsql requires Kind=Utc)
             var utcConverter = new ValueConverter<DateTime, DateTime>(
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
@@ -100,6 +101,10 @@ namespace CarDealership.config
             modelBuilder.Entity<Car>()
                 .Property(c => c.CarType)
                 .HasConversion(carTypeConverter);
+
+            modelBuilder.Entity<Car>()
+                .Property(c => c.OnSale)
+                .HasDefaultValue(false);
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentType)

@@ -18,19 +18,21 @@ namespace CarDealership.service.impl
             try
             {
                 System.Diagnostics.Debug.WriteLine("=== OrderService.Add START ===");
-                System.Diagnostics.Debug.WriteLine($"OrderDto: Client={orderDto.Client.PassportData.FirstName}, Product={orderDto.Product?.Number}");
-                
+                System.Diagnostics.Debug.WriteLine($"OrderDto: ClientId={orderDto.ClientId}, Product={orderDto.Product?.Number}");
+
                 var order = OrderMapper.ToEntity(orderDto);
                 System.Diagnostics.Debug.WriteLine($"Order entity created: ClientId={order.ClientId}, ProductId={order.ProductId}");
-                
+
                 _orderRepository.Add(order);
                 System.Diagnostics.Debug.WriteLine($"Order added to repository, ID={order.Id}");
                 System.Diagnostics.Debug.WriteLine("=== OrderService.Add END ===");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"ERROR in OrderService.Add: {ex.Message}");
+                var msg = ex.InnerException?.Message ?? ex.Message;
+                System.Diagnostics.Debug.WriteLine($"ERROR in OrderService.Add: {msg}");
                 System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                System.Windows.MessageBox.Show($"Помилка створення замовлення: {msg}", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 throw; // Rethrow to let caller handle
             }
         }
