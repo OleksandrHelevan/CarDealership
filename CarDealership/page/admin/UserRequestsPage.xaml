@@ -93,7 +93,7 @@
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
-                        <DataGridTextColumn Header="Логін" Binding="{Binding Login}" Width="*"/>
+                        <DataGridTextColumn Header="Логін" Binding="{Binding User.Login}" Width="*"/>
                         <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
 
                         <DataGridTemplateColumn Header="Дія" Width="240">

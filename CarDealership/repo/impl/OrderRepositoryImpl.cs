@@ -36,8 +36,8 @@ namespace CarDealership.repo.impl
                     $"Client loaded: {client.PassportData.FirstName} {client.PassportData.LastName}");
 
                 var product = _context.Products
-                    .Include(p => p.GasolineCar)
-                    .Include(p => p.ElectroCar)
+                    .Include(p => p.Car)
+                    .ThenInclude(c => c.Engine)
                     .FirstOrDefault(p => p.Id == order.ProductId);
 
                 if (product == null)

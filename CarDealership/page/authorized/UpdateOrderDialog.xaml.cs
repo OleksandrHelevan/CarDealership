@@ -46,7 +46,7 @@ namespace CarDealership.window
                 _order.PaymentType = (PaymentType)tagInt;
 
             _order.Delivery = DeliveryCheckBox.IsChecked ?? false;
-            _order.OrderDate = DateTime.Now; 
+            _order.OrderDate = DateTime.UtcNow; 
 
             _context.SaveChanges();
             MessageBox.Show("Замовлення оновлено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);

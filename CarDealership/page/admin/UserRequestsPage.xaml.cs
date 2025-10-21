@@ -53,18 +53,18 @@ public partial class UserRequestsPage : Page
         {
             if (_requestService.UpdateRequest(request))
             {
-                var user = _userService.LoadByUsername(request.Login);
+                var user = _userService.LoadByUsername(request.User.Login);
                 if (user != null)
                 {
                     user.AccessRight = AccessRight.Authorized;
                     _userService.Update(user);
                 }
 
-                MessageBox.Show($"Запит {request.Login} підтверджено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Запит {request.User.Login} підтверджено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show($"Помилка при підтвердженні запиту {request.Login}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка при підтвердженні запиту {request.User.Login}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         catch (System.Exception ex)
@@ -87,11 +87,11 @@ public partial class UserRequestsPage : Page
         {
             if (_requestService.UpdateRequest(request))
             {
-                MessageBox.Show($"Запит {request.Login} відхилено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Запит {request.User.Login} відхилено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show($"Помилка при відмові запиту {request.Login}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка при відмові запиту {request.User.Login}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         catch (System.Exception ex)

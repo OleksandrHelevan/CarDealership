@@ -57,7 +57,7 @@ namespace CarDealership.dto
                 "Фіолетовий" => Color.Purple,
                 "Коричневий" => Color.Brown,
                 "Рожевий" => Color.Pink,
-                "Сірий" => Color.Grey,
+                "Сірий" => Color.Gray,
                 "Блакитний" => Color.LightBlue,
                 _ => null
             };

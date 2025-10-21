@@ -1,234 +1,103 @@
 <Window x:Class="CarDealership.page.operator.EditProductDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:converters="clr-namespace:CarDealership.converter"
-        Title="Редагування Продукту"
-        Width="550" Height="720"
+        Title="Редагування продукту"
+        Width="600" Height="780"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize"
-        Background="White"
-        FontFamily="Segoe UI"
-        FontSize="14">
+        ResizeMode="NoResize">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            <TextBlock Text="Продукт" FontSize="20" FontWeight="Bold" Margin="0,0,0,12"/>
 
-    <Window.Resources>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <UniformGrid Columns="2" Rows="4" Margin="0,0,0,10">
+                <TextBlock Text="Номер:" VerticalAlignment="Center"/>
+                <TextBox x:Name="TbNumber"/>
 
-        <Style x:Key="RoundedButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#3B82F6" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Padding" Value="10,5" />
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Width" Value="140" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="14">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#60A5FA" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#1E40AF" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
+                <TextBlock Text="Країна:" VerticalAlignment="Center"/>
+                <TextBox x:Name="TbCountry"/>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+                <TextBlock Text="В наявності:" VerticalAlignment="Center"/>
+                <CheckBox x:Name="CbInStock"/>
 
-        <TextBlock Grid.Row="0" Text="Редагування Продукту" FontSize="26" FontWeight="Bold"
-                   HorizontalAlignment="Center" Margin="0,20,0,20" />
+                <TextBlock Text="Доступно з:" VerticalAlignment="Center"/>
+                <DatePicker x:Name="DpAvailableFrom"/>
+            </UniformGrid>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="600" Padding="20,0,20,0">
-            <StackPanel>
-                <GroupBox Header="Дані Продукту" Padding="10" FontWeight="SemiBold">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                            <TextBlock Text="Номер продукту:" Width="150" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ProductToEdit.Number}" Width="320" Height="35" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Країна:" Width="150" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding ProductToEdit.CountryOfOrigin}" Width="320" Height="35" />
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
+            <Separator Margin="0,8"/>
+            <TextBlock Text="Авто" FontSize="20" FontWeight="Bold" Margin="0,8,0,12"/>
 
-                <StackPanel
-                    Visibility="{Binding ProductToEdit.ElectroCar, Converter={StaticResource NullToVisibilityConverter}}">
-                    <GroupBox Header="Характеристики Електромобіля" Margin="0,10,0,0" Padding="10"
-                              FontWeight="SemiBold">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Марка:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.Brand}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Модель:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.ModelName}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Рік:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.Year}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Ціна:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.Price}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Пробіг:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.Mileage}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Вага:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.Weight}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Двері:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.ElectroCar.NumberOfDoors}" Width="320"
-                                         Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Колір:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="ElectroCarColorComboBox" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Привід:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="ElectroCarDriveTypeComboBox" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Коробка:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="ElectroCarTransmissionComboBox" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Тип кузова:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="ElectroCarBodyTypeComboBox" Width="320" Height="35" />
-                            </StackPanel>
+            <UniformGrid Columns="2" Rows="8" Margin="0,0,0,10">
+                <TextBlock Text="Марка:"/>
+                <TextBox x:Name="TbBrand"/>
 
-                            <GroupBox Header="Електродвигун" Padding="10">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Батарея (кВт·год):" Width="130" VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding ProductToEdit.ElectroCar.Engine.BatteryCapacity}"
-                                                 Width="320" Height="35" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Потужність (кВт):" Width="130" VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding ProductToEdit.ElectroCar.Engine.Power}" Width="320"
-                                                 Height="35" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Запас ходу (км):" Width="130" VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding ProductToEdit.ElectroCar.Engine.Range}" Width="320"
-                                                 Height="35" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Тип мотору:" Width="130" VerticalAlignment="Center" />
-                                        <ComboBox x:Name="ElectroMotorTypeComboBox" Width="320" Height="35" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
+                <TextBlock Text="Модель:"/>
+                <TextBox x:Name="TbModel"/>
 
-                <StackPanel
-                    Visibility="{Binding ProductToEdit.GasolineCar, Converter={StaticResource NullToVisibilityConverter}}">
-                    <GroupBox Header="Характеристики Бензинового Авто" Margin="0,10,0,0" Padding="10"
-                              FontWeight="SemiBold">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Марка:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.Brand}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Модель:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.ModelName}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Рік:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.Year}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Ціна:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.Price}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Пробіг:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.Mileage}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Вага:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.Weight}" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Двері:" Width="150" VerticalAlignment="Center" />
-                                <TextBox Text="{Binding ProductToEdit.GasolineCar.NumberOfDoors}" Width="320"
-                                         Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Колір:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="GasolineCarColorComboBox" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Привід:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="GasolineCarDriveTypeComboBox" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Коробка:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="GasolineCarTransmissionComboBox" Width="320" Height="35" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <TextBlock Text="Тип кузова:" Width="150" VerticalAlignment="Center" />
-                                <ComboBox x:Name="GasolineCarBodyTypeComboBox" Width="320" Height="35" />
-                            </StackPanel>
+                <TextBlock Text="Рік:"/>
+                <TextBox x:Name="TbYear"/>
 
-                            <GroupBox Header="Бензиновий Двигун" Padding="10">
-                                <StackPanel>
-                                    
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Потужність (к.с.):" Width="130" VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding ProductToEdit.GasolineCar.Engine.Power}" Width="320"
-                                                 Height="35" />
-                                    </StackPanel>
+                <TextBlock Text="Ціна:"/>
+                <TextBox x:Name="TbPrice"/>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Витрата (л/100км):" Width="130" VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding ProductToEdit.GasolineCar.Engine.FuelConsumption}"
-                                                 Width="320" Height="35" />
-                                    </StackPanel>
+                <TextBlock Text="Пробіг (км):"/>
+                <TextBox x:Name="TbMileage"/>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
-                                        <TextBlock Text="Тип палива:" Width="130" VerticalAlignment="Center" />
-                                        <ComboBox x:Name="FuelTypeComboBox" Width="320" Height="35" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
+                <TextBlock Text="Вага (кг):"/>
+                <TextBox x:Name="TbWeight"/>
+
+                <TextBlock Text="Двері (шт):"/>
+                <TextBox x:Name="TbDoors"/>
+            </UniformGrid>
+
+            <UniformGrid Columns="2" Rows="5" Margin="0,0,0,10">
+                <TextBlock Text="Колір:"/>
+                <ComboBox x:Name="ColorCombo"/>
+
+                <TextBlock Text="Привід:"/>
+                <ComboBox x:Name="DriveTypeCombo"/>
+
+                <TextBlock Text="Трансмісія:"/>
+                <ComboBox x:Name="TransmissionCombo"/>
+
+                <TextBlock Text="Тип кузова:"/>
+                <ComboBox x:Name="BodyTypeCombo"/>
+            </UniformGrid>
+
+            <Separator Margin="0,8"/>
+            <TextBlock Text="Двигун" FontSize="20" FontWeight="Bold" Margin="0,8,0,12"/>
+
+            <UniformGrid Columns="2" Rows="2" Margin="0,0,0,8">
+                <TextBlock Text="Тип двигуна:"/>
+                <ComboBox x:Name="EngineTypeCombo" SelectionChanged="EngineTypeCombo_SelectionChanged"/>
+                <TextBlock Text="Потужність (кВт):"/>
+                <TextBox x:Name="TbPower"/>
+            </UniformGrid>
+
+            <StackPanel x:Name="GasFieldsPanel">
+                <UniformGrid Columns="2" Rows="2">
+                    <TextBlock Text="Пальне:"/>
+                    <ComboBox x:Name="FuelTypeCombo"/>
+                    <TextBlock Text="Витрата (л/100км):"/>
+                    <TextBox x:Name="TbFuelConsumption"/>
+                </UniformGrid>
             </StackPanel>
-        </ScrollViewer>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,20">
-            <Button Content="Скасувати" Style="{StaticResource RoundedButtonStyle}" Background="#E5E7EB"
-                    Foreground="Black" Click="Cancel_Click" />
-            <Button Content="Зберегти" Style="{StaticResource RoundedButtonStyle}" Click="Save_Click" />
+            <StackPanel x:Name="ElectroFieldsPanel">
+                <UniformGrid Columns="2" Rows="3">
+                    <TextBlock Text="Батарея (кВт·г):"/>
+                    <TextBox x:Name="TbBatteryCapacity"/>
+                    <TextBlock Text="Запас ходу (км):"/>
+                    <TextBox x:Name="TbRange"/>
+                    <TextBlock Text="Тип мотору:"/>
+                    <ComboBox x:Name="MotorTypeCombo"/>
+                </UniformGrid>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,16,0,0">
+                <Button Content="Зберегти" Width="140" Height="40" Margin="8" Click="Save_Click"/>
+                <Button Content="Скасувати" Width="140" Height="40" Margin="8" Click="Cancel_Click"/>
+            </StackPanel>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Window>
+

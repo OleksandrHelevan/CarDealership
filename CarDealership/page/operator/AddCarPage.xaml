@@ -1,0 +1,101 @@
+<Page x:Class="CarDealership.page.operator.AddCarPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="AddCarPage">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Додати автомобіль" FontSize="24" FontWeight="Bold"
+                       HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" Width="520">
+                <UniformGrid Columns="2" Rows="8" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                    
+                    <TextBlock Text="Марка:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbBrand" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Модель:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbModel" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Рік:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbYear" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Ціна:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbPrice" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Пробіг (км):" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbMileage" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Вага (кг):" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbWeight" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Двері (шт):" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TbDoors" Margin="0,0,0,8"/>
+                    
+                    <TextBlock Text="Тип двигуна:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="EngineTypeCombo" Margin="0,0,0,8" SelectionChanged="EngineTypeCombo_SelectionChanged"/>
+
+                </UniformGrid>
+
+                <UniformGrid Columns="2" Rows="5" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Колір:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="ColorCombo" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Привід:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="DriveTypeCombo" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Трансмісія:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="TransmissionCombo" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Тип кузова:" Margin="0,0,8,8" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="BodyTypeCombo" Margin="0,0,0,8"/>
+                </UniformGrid>
+
+                <GroupBox Header="Двигун" Padding="10" Margin="0,0,0,10">
+                    <StackPanel>
+                        <UniformGrid Columns="2" Rows="1" Margin="0,0,0,10">
+                            <TextBlock Text="Потужність (кВт):" Margin="0,0,8,8"/>
+                            <TextBox x:Name="TbPower"/>
+                        </UniformGrid>
+
+                        <StackPanel x:Name="GasFieldsPanel">
+                            <UniformGrid Columns="2" Rows="2">
+                                <TextBlock Text="Пальне:" Margin="0,0,8,8"/>
+                                <ComboBox x:Name="FuelTypeCombo"/>
+
+                                <TextBlock Text="Витрата (л/100км):" Margin="0,0,8,8"/>
+                                <TextBox x:Name="TbFuelConsumption"/>
+                            </UniformGrid>
+                        </StackPanel>
+
+                        <StackPanel x:Name="ElectroFieldsPanel">
+                            <UniformGrid Columns="2" Rows="3">
+                                <TextBlock Text="Батарея (кВт·г):" Margin="0,0,8,8"/>
+                                <TextBox x:Name="TbBatteryCapacity"/>
+
+                                <TextBlock Text="Запас ходу (км):" Margin="0,0,8,8"/>
+                                <TextBox x:Name="TbRange"/>
+
+                                <TextBlock Text="Тип мотору:" Margin="0,0,8,0"/>
+                                <ComboBox x:Name="MotorTypeCombo"/>
+                            </UniformGrid>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Зберегти" Width="140" Height="40" Margin="10" Click="Save_Click"/>
+                    <Button Content="Очистити" Width="140" Height="40" Margin="10" Click="Clear_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

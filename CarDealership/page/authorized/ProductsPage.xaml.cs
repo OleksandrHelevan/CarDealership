@@ -25,11 +25,9 @@ namespace CarDealership.page.authorized
             _currentUserLogin = userLogin;
     
             var productRepo = new ProductRepositoryImpl(new DealershipContext());
-            var gasolineCarRepo = new GasolineCarRepository(new DealershipContext());
-            var electroCarRepo = new ElectroCarRepositoryImpl(new DealershipContext());
-    
+
             _productService = new ProductServiceImpl(productRepo);
-            _migrationService = new MigrationServiceImpl(productRepo, gasolineCarRepo, electroCarRepo);
+            _migrationService = new MigrationServiceImpl(productRepo);
             var orderService = new OrderService(new OrderRepositoryImpl(new DealershipContext()));
             var clientRepo = new ClientRepository(new DealershipContext());
             _buyService = new BuyServiceImpl(productRepo, orderService, clientRepo);
@@ -71,36 +69,10 @@ namespace CarDealership.page.authorized
         {
             try
             {
-                var filter = new GasolineCarFilterDto
-                {
-                    SearchText = SearchBox.Text,
-                    TransmissionType = GetSelectedTransmissionType(),
-                    BodyType = GetSelectedBodyType(),
-                    Color = GetSelectedColor(),
-                    DriveType = GetSelectedDriveType(),
-                    FuelType = GetSelectedFuelType(),
-                    YearFrom = GetIntValue(FilterYearFrom.Text),
-                    YearTo = GetIntValue(FilterYearTo.Text),
-                    PriceFrom = GetDoubleValue(FilterPriceFrom.Text),
-                    PriceTo = GetDoubleValue(FilterPriceTo.Text),
-                    WeightFrom = GetFloatValue(FilterWeightFrom.Text),
-                    WeightTo = GetFloatValue(FilterWeightTo.Text),
-                    MileageFrom = GetIntValue(FilterMileageFrom.Text),
-                    MileageTo = GetIntValue(FilterMileageTo.Text),
-                    DoorsFrom = GetIntValue(FilterDoorsFrom.Text),
-                    DoorsTo = GetIntValue(FilterDoorsTo.Text)
-                };
-
-                var gasolineCarService = new GasolineCarServiceImpl(new GasolineCarRepository(new DealershipContext()));
-                var filteredCars = gasolineCarService.GetFiltered(filter);
-                
+                // TODO: Implement unified Car filtering; for now, reload all
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
-                var filteredProducts = productRepo.GetByVehicleIds(
-                    filteredCars.Select(c => c.Id).ToList(), 
-                    CarType.Gasoline
-                ).Select(ProductMapper.ToDto).ToList();
-
-                GasolineCarsList.ItemsSource = filteredProducts;
+                var allProducts = productRepo.GetAll().Select(ProductMapper.ToDto).ToList();
+                GasolineCarsList.ItemsSource = allProducts;
             }
             catch (Exception ex)
             {
@@ -254,7 +226,7 @@ namespace CarDealership.page.authorized
             {
                 using var context = new DealershipContext();
                 
-                var product = context.Products.FirstOrDefault(p => p.GasolineCarId == carId);
+                var product = context.Products.FirstOrDefault(p => p.CarId == carId);
                 if (product == null)
                 {
                     System.Diagnostics.Debug.WriteLine($"Product not found for car ID: {carId}");

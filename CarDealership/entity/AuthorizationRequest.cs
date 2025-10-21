@@ -9,19 +9,17 @@ namespace CarDealership.entity;
 [Table("requests")]
 public class AuthorizationRequest : INotifyPropertyChanged
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    private string _login;
     [Required]
-    [MaxLength(100)]
-    [Column("login")]
-    public string Login
-    {
-        get => _login;
-        set { _login = value; OnPropertyChanged(); }
-    }
+    [ForeignKey(nameof(User))]
+    [Column("user_id")]
+    public int UserId { get; set; }
+
+    public User User { get; set; }
 
     private RequestStatus _status;
     [Required]

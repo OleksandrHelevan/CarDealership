@@ -1,11 +1,11 @@
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
 using CarDealership.config;
+using CarDealership.entity;
 using CarDealership.dto;
-using CarDealership.mapper;
+using CarDealership.enums;
 using CarDealership.repo.impl;
 using CarDealership.service.impl;
 
@@ -13,71 +13,47 @@ namespace CarDealership.page.@operator
 {
     public partial class UnboundCarsPage : Page
     {
+        private readonly DealershipContext _context;
         private readonly ProductServiceImpl _productService;
 
         public UnboundCarsPage()
         {
             InitializeComponent();
+            _context = new DealershipContext();
             _productService = new ProductServiceImpl(new ProductRepositoryImpl(new DealershipContext()));
             LoadUnboundCars();
         }
 
         private void LoadUnboundCars()
         {
-            using var context = new DealershipContext();
-
             try
             {
-                // 🔹 Бензинові авто
-                var gasolineUnbound = context.GasolineCars
-                    .Include(gc => gc.Engine)
-                    .Where(gc => !context.Products.Any(p => p.GasolineCarId == gc.Id))
+                var carIdsWithProducts = _context.Products.Select(p => p.CarId).ToList();
+
+                var cars = _context.Cars
+                    .Include(c => c.Engine)
+                    .Where(c => !carIdsWithProducts.Contains(c.Id))
                     .ToList();
 
-                var gasolineDto = gasolineUnbound
-                    .Select(gc =>
-                    {
-                        var dto = GasolineCarMapper.ToDto(gc);
-                        dto.VehicleTypeName = "Бензиновий автомобіль";
-                        return dto;
-                    })
-                    .ToList<Vehicle>();
-
-                // 🔹 Електроавто
-                var electroUnbound = context.ElectroCars
-                    .Include(ec => ec.Engine)
-                    .Where(ec => !context.Products.Any(p => p.ElectroCarId == ec.Id))
-                    .ToList();
-
-                var electroDto = electroUnbound
-                    .Select(ec =>
-                    {
-                        var dto = ElectroCarMapper.ToDto(ec);
-                        dto.VehicleTypeName = "Електромобіль";
-                        return dto;
-                    })
-                    .ToList<Vehicle>();
-
-                // 🔹 Об’єднуємо усі авто
-                var all = gasolineDto.Concat(electroDto).ToList();
-                UnboundCarsList.ItemsSource = all;
-
-                Debug.WriteLine($"Ітого Unbound Cars: {all.Count}");
+                CarsList.ItemsSource = cars;
             }
             catch (System.Exception ex)
             {
-                Debug.WriteLine($"❌ Помилка у LoadUnboundCars: {ex}");
-                MessageBox.Show($"Помилка завантаження авто: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка завантаження: {ex.Message}");
             }
         }
 
         private void PutOnSale_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not Button btn) return;
-            if (btn.DataContext is not Vehicle vehicle) return;
+            if (sender is not Button btn || btn.DataContext is not Car car)
+                return;
 
-            var dialog = new PutOnSaleDialog(vehicle);
-            dialog.Owner = Window.GetWindow(this);
+            var vehicle = ToVehicle(car);
+            var dialog = new PutOnSaleDialog(vehicle)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
             if (dialog.ShowDialog() == true)
             {
                 var product = dialog.CreatedProduct;
@@ -86,6 +62,7 @@ namespace CarDealership.page.@operator
                     MessageBox.Show("Не вдалося створити продукт");
                     return;
                 }
+
                 if (_productService.Create(product))
                 {
                     MessageBox.Show("Авто виставлено на продаж");
@@ -97,5 +74,43 @@ namespace CarDealership.page.@operator
                 }
             }
         }
+
+        private static Vehicle ToVehicle(Car c)
+        {
+            var engineDto = new EngineDto
+            {
+                Id = c.Engine.Id,
+                EngineType = c.Engine.EngineType,
+                Power = c.Engine.Power,
+                FuelType = c.Engine.FuelType,
+                FuelConsumption = c.Engine.FuelConsumption,
+                BatteryCapacity = c.Engine.BatteryCapacity,
+                Range = c.Engine.Range,
+                MotorType = c.Engine.MotorType
+            };
+
+            return new Vehicle
+            {
+                Id = c.Id,
+                CarType = c.CarType,
+                Brand = c.Brand,
+                ModelName = c.ModelName,
+                Engine = engineDto,
+                Color = c.Color,
+                ColorString = c.Color.ToFriendlyString(),
+                Mileage = c.Mileage,
+                Price = (double)c.Price,
+                Weight = c.Weight,
+                Year = c.Year,
+                NumberOfDoors = c.NumberOfDoors,
+                BodyType = c.BodyType,
+                BodyTypeString = c.BodyType.ToFriendlyString(),
+                DriveType = c.DriveType,
+                DriveTypeString = c.DriveType.ToFriendlyString(),
+                Transmission = c.Transmission,
+                TransmissionString = c.Transmission.ToFriendlyString()
+            };
+        }
     }
 }
+

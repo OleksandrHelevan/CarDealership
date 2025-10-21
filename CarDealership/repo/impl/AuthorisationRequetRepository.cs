@@ -1,5 +1,6 @@
 using CarDealership.config;
 using CarDealership.entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.repo.impl
 {
@@ -21,16 +22,22 @@ namespace CarDealership.repo.impl
 
         public AuthorizationRequest? GetByLogin(string login)
         {
-            return _context.Set<AuthorizationRequest>().FirstOrDefault(r => r.Login == login);
+            return _context.Set<AuthorizationRequest>()
+                .Include(r => r.User)
+                .FirstOrDefault(r => r.User.Login == login);
         }
         public AuthorizationRequest? GetById(int id)
         {
-            return _context.Set<AuthorizationRequest>().FirstOrDefault(r => r.Id == id);
+            return _context.Set<AuthorizationRequest>()
+                .Include(r => r.User)
+                .FirstOrDefault(r => r.Id == id);
         }
 
         public IEnumerable<AuthorizationRequest> GetAll()
         {
-            return _context.Set<AuthorizationRequest>().ToList();
+            return _context.Set<AuthorizationRequest>()
+                .Include(r => r.User)
+                .ToList();
         }
 
         public void Update(AuthorizationRequest request)

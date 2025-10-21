@@ -36,22 +36,9 @@ public partial class PutOnSaleDialog
             Number = TbNumber.Text.Trim(),
             CountryOfOrigin = string.IsNullOrWhiteSpace(TbCountry.Text) ? "Ukraine" : TbCountry.Text.Trim(),
             InStock = CbInStock.IsChecked == true,
-            AvailableFrom = DateTime.UtcNow
+            AvailableFrom = DateTime.UtcNow,
+            CarId = _vehicle.Id
         };
-
-        if (_vehicle is GasolineCarDto g)
-        {
-            product.GasolineCarId = g.Id;
-        }
-        else if (_vehicle is ElectroCarDto ecar)
-        {
-            product.ElectroCarId = ecar.Id;
-        }
-        else
-        {
-            MessageBox.Show("Невідомий тип авто");
-            return;
-        }
 
         CreatedProduct = product;
         DialogResult = true;

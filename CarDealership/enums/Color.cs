@@ -12,7 +12,7 @@ namespace CarDealership.enums
         Purple,
         Brown,
         Pink,
-        Grey,
+        Gray,
         LightBlue,
         Silver
     }
@@ -33,7 +33,7 @@ namespace CarDealership.enums
                 Color.Purple => "Фіолетовий",
                 Color.Brown => "Коричневий",
                 Color.Pink => "Рожевий",
-                Color.Grey => "Сірий",
+                Color.Gray => "Сірий",
                 Color.LightBlue => "Блакитний",
                 Color.Silver => "Срібний",
                 _ => color.ToString()

@@ -15,12 +15,7 @@ public class ProductDto
     
     public Vehicle Vehicle { get; set; }
 
-    public CarType CarType => Vehicle switch
-    {
-        GasolineCarDto => CarType.Gasoline,
-        ElectroCarDto => CarType.Electro,
-        _ => throw new InvalidOperationException("Unknown vehicle type")
-    };
+    public CarType CarType => Vehicle?.CarType ?? throw new InvalidOperationException("Vehicle is null");
 
     public ProductDto(int id, string number, string countryOfOrigin, bool inStock, DateTime? availableFrom, Vehicle vehicle)
     {

@@ -38,35 +38,18 @@
 
                                 <Separator Margin="0,5"/>
 
-                                <StackPanel Visibility="{Binding ElectroCar, Converter={StaticResource NullToVisibilityConverter}}">
-                                    <TextBlock Text="{Binding ElectroCar.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.Engine.EngineString, StringFormat=Двигун: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.Mileage, StringFormat=Пробіг: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.Price, StringFormat=Ціна: {0} $}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.TransmissionString, StringFormat=Трансмісія: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.NumberOfDoors, StringFormat=К-сть дверей: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding ElectroCar.BodyTypeString, StringFormat=Тип кузова: {0}}" Margin="0 2"/>
-                                </StackPanel>
-
-                                <StackPanel Visibility="{Binding GasolineCar, Converter={StaticResource NullToVisibilityConverter}}">
-                                    <TextBlock Text="{Binding GasolineCar.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.Engine.EngineString, StringFormat=Двигун: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.Mileage, StringFormat=Пробіг: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.Price, StringFormat=Ціна: {0} $}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.TransmissionString, StringFormat=Трансмісія: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.NumberOfDoors, StringFormat=К-сть дверей: {0}}" Margin="0 2"/>
-                                    <TextBlock Text="{Binding GasolineCar.BodyTypeString, StringFormat=Тип кузова: {0}}" Margin="0 2"/>
-                                </StackPanel>
+                                <TextBlock Text="{Binding Car.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.Engine.EngineString, StringFormat=Двигун: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.Mileage, StringFormat=Пробіг: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.Price, StringFormat=Ціна: {0} $}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.TransmissionString, StringFormat=Трансмісія: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.NumberOfDoors, StringFormat=К-сть дверей: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.BodyTypeString, StringFormat=Тип кузова: {0}}" Margin="0 2"/>
 
                                 <Button Content="Редагувати" 
                                         Background="#FBBF24" Foreground="Black" 

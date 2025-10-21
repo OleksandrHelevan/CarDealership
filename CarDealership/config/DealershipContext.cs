@@ -1,15 +1,15 @@
 using CarDealership.entity;
+using CarDealership.enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarDealership.config
 {
     public class DealershipContext : DbContext
     {
-        public DbSet<GasolineEngine> GasolineEngines { get; set; }
-        public DbSet<ElectroEngine> ElectroEngines { get; set; }
+        public DbSet<Engine> Engines { get; set; }
+        public DbSet<Car> Cars { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<ElectroCar> ElectroCars { get; set; }
-        public DbSet<GasolineCar> GasolineCars { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -19,49 +19,44 @@ namespace CarDealership.config
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(
-                "Host=localhost;Port=5432;Database=car_dealership;Username=postgres;Password=1234qwer");
+                "Host=localhost;Port=5432;Database=car_dealership_norm;Username=postgres;Password=1234qwer");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-            
-            modelBuilder.Entity<GasolineEngine>()
-                .ToTable("gasoline_engines");
+            var carTypeConverter = new ValueConverter<CarType, string>(
+                v => v.ToString().ToLower(),
+                v => (CarType)Enum.Parse(typeof(CarType), v, true));
 
-            modelBuilder.Entity<ElectroEngine>()
-                .ToTable("electro_engines");
-            
+            var engineTypeConverter = new ValueConverter<EngineType, string>(
+                v => v.ToString().ToLower(),
+                v => (EngineType)Enum.Parse(typeof(EngineType), v, true));
+
+            var utcConverter = new ValueConverter<DateTime, DateTime>(
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+            var nullableUtcConverter = new ValueConverter<DateTime?, DateTime?>(
+                v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v,
+                v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
             modelBuilder.Entity<AuthorizationRequest>()
                 .ToTable("requests");
-                
+
             modelBuilder.Entity<Order>()
                 .ToTable("orders");
 
             //FK
-            
-            modelBuilder.Entity<ElectroCar>()
+            modelBuilder.Entity<Car>()
                 .HasOne(c => c.Engine)
                 .WithMany()
                 .HasForeignKey(c => c.EngineId)
                 .IsRequired();
 
-            modelBuilder.Entity<GasolineCar>()
-                .HasOne(c => c.Engine)
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Car)
                 .WithMany()
-                .HasForeignKey(c => c.EngineId)
+                .HasForeignKey(p => p.CarId)
                 .IsRequired();
-
-            
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.ElectroCar)
-                .WithMany()
-                .HasForeignKey(p => p.ElectroCarId);
-
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.GasolineCar)
-                .WithMany()
-                .HasForeignKey(p => p.GasolineCarId);
             
 
             modelBuilder.Entity<Order>()
@@ -79,58 +74,52 @@ namespace CarDealership.config
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.OrderDate)
-                .HasColumnType("timestamp"); // PostgreSQL timestamp
+                .HasConversion(utcConverter);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.AvailableFrom)
+                .HasConversion(nullableUtcConverter);
 
             //Enums
-
-            
-            modelBuilder.Entity<ElectroCar>()
+            modelBuilder.Entity<Car>()
                 .Property(c => c.Color)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<ElectroCar>()
+            modelBuilder.Entity<Car>()
                 .Property(c => c.DriveType)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<ElectroCar>()
+            modelBuilder.Entity<Car>()
                 .Property(c => c.Transmission)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<ElectroCar>()
+            modelBuilder.Entity<Car>()
                 .Property(c => c.BodyType)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Car>()
+                .Property(c => c.CarType)
+                .HasConversion(carTypeConverter);
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentType)
-                .HasConversion<string>();
-            
-            modelBuilder.Entity<GasolineCar>()
-                .Property(c => c.Color)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<GasolineCar>()
-                .Property(c => c.DriveType)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<GasolineCar>()
-                .Property(c => c.Transmission)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<GasolineCar>()
-                .Property(c => c.BodyType)
                 .HasConversion<string>();
             
             modelBuilder.Entity<AuthorizationRequest>()
                 .Property(r => r.Status)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<GasolineEngine>()
+            modelBuilder.Entity<Engine>()
                 .Property(e => e.FuelType)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<ElectroEngine>()
+            modelBuilder.Entity<Engine>()
                 .Property(e => e.MotorType)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Engine>()
+                .Property(e => e.EngineType)
+                .HasConversion(engineTypeConverter);
 
             modelBuilder.Entity<User>()
                 .ToTable("keys")

@@ -17,20 +17,16 @@ namespace CarDealership.repo.impl
         public IEnumerable<Product> GetAll()
         {
             return _context.Products
-                .Include(p => p.ElectroCar)
-                .ThenInclude(e => e.Engine)
-                .Include(p => p.GasolineCar)
-                .ThenInclude(g => g.Engine)
+                .Include(p => p.Car)
+                .ThenInclude(c => c.Engine)
                 .ToList();
         }
 
         public Product? GetById(int id)
         {
             return _context.Products
-                .Include(p => p.ElectroCar)
-                .ThenInclude(e => e.Engine)
-                .Include(p => p.GasolineCar)
-                .ThenInclude(g => g.Engine)
+                .Include(p => p.Car)
+                .ThenInclude(c => c.Engine)
                 .FirstOrDefault(p => p.Id == id);
         }
 
@@ -61,40 +57,13 @@ namespace CarDealership.repo.impl
             return _context.Products.Any(p => p.Number == number);
         }
 
-        public GasolineCar? GetGasolineCarById(int id)
-        {
-            return _context.GasolineCars
-                .Include(g => g.Engine)
-                .FirstOrDefault(g => g.Id == id);
-        }
-
-        public ElectroCar? GetElectroCarById(int id)
-        {
-            return _context.ElectroCars
-                .Include(e => e.Engine)
-                .FirstOrDefault(e => e.Id == id);
-        }
-
         public IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType)
         {
-            if (carType == CarType.Gasoline)
-            {
-                return _context.Products
-                    .Include(p => p.GasolineCar)
-                    .ThenInclude(g => g.Engine)
-                    .Where(p => p.GasolineCar != null && vehicleIds.Contains(p.GasolineCar.Id))
-                    .ToList();
-            }
-            else if (carType == CarType.Electro)
-            {
-                return _context.Products
-                    .Include(p => p.ElectroCar)
-                    .ThenInclude(e => e.Engine)
-                    .Where(p => p.ElectroCar != null && vehicleIds.Contains(p.ElectroCar.Id))
-                    .ToList();
-            }
-            
-            return new List<Product>();
+            return _context.Products
+                .Include(p => p.Car)
+                .ThenInclude(c => c.Engine)
+                .Where(p => p.Car != null && p.Car.CarType == carType && vehicleIds.Contains(p.Car.Id))
+                .ToList();
         }
     }
 }

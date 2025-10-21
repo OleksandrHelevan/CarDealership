@@ -37,12 +37,8 @@ namespace CarDealership.service.impl
                     return false;
                 }
                 System.Diagnostics.Debug.WriteLine($"Product found: ID={product.Id}, Number={product.Number}, InStock={product.InStock}");
-                
-                if (product.GasolineCarId != null)
-                    System.Diagnostics.Debug.WriteLine($"GasolineCarId: {product.GasolineCarId}");
-                if (product.ElectroCarId != null)
-                    System.Diagnostics.Debug.WriteLine($"ElectroCarId: {product.ElectroCarId}");
-                
+                // Unified car model; no separate gasoline/electro foreign keys anymore
+
                 var client = _clientRepository.GetById(buyCarDto.ClientId);
                 if (client == null)
                 {
@@ -59,7 +55,7 @@ namespace CarDealership.service.impl
                         ClientId = client.Id,
                         Product = ProductMapper.ToDto(product),
                         ProductId = product.Id,
-                        OrderDate = DateTime.Now,
+                        OrderDate = DateTime.UtcNow,
                         PaymentType = buyCarDto.PaymentType,
                         Delivery = buyCarDto.Delivery
                     };

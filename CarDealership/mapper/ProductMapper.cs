@@ -8,20 +8,45 @@ public static class ProductMapper
 {
     public static ProductDto ToDto(Product entity)
     {
-        Vehicle vehicle = null!;
+        if (entity.Car == null)
+            throw new InvalidOperationException("Product has no Car loaded");
 
-        if (entity.ElectroCarId.HasValue && entity.ElectroCar != null)
+        if (entity.Car.Engine == null)
+            throw new InvalidOperationException("Car has no Engine loaded");
+
+        var engineDto = new EngineDto
         {
-            vehicle = ElectroCarMapper.ToDto(entity.ElectroCar);
-        }
-        else if (entity.GasolineCarId.HasValue && entity.GasolineCar != null)
+            Id = entity.Car.Engine.Id,
+            EngineType = entity.Car.Engine.EngineType,
+            Power = entity.Car.Engine.Power,
+            FuelType = entity.Car.Engine.FuelType,
+            FuelConsumption = entity.Car.Engine.FuelConsumption,
+            BatteryCapacity = entity.Car.Engine.BatteryCapacity,
+            Range = entity.Car.Engine.Range,
+            MotorType = entity.Car.Engine.MotorType
+        };
+
+        var vehicle = new Vehicle
         {
-            vehicle = GasolineCarMapper.ToDto(entity.GasolineCar);
-        }
-        else
-        {
-            throw new InvalidOperationException("No valid car reference found");
-        }
+            Id = entity.Car.Id,
+            CarType = entity.Car.CarType,
+            Brand = entity.Car.Brand,
+            ModelName = entity.Car.ModelName,
+            Engine = engineDto,
+            Color = entity.Car.Color,
+            ColorString = entity.Car.Color.ToFriendlyString(),
+            Mileage = entity.Car.Mileage,
+            Price = (double)entity.Car.Price,
+            Weight = entity.Car.Weight,
+            DriveType = entity.Car.DriveType,
+            DriveTypeString = entity.Car.DriveType.ToFriendlyString(),
+            Transmission = entity.Car.Transmission,
+            TransmissionString = entity.Car.Transmission.ToFriendlyString(),
+            Year = entity.Car.Year,
+            NumberOfDoors = entity.Car.NumberOfDoors,
+            BodyType = entity.Car.BodyType,
+            BodyTypeString = entity.Car.BodyType.ToFriendlyString()
+        };
 
         return new ProductDto(
             entity.Id,
@@ -37,26 +62,13 @@ public static class ProductMapper
     {
         var entity = new Product
         {
+            Id = dto.Id,
             Number = dto.Number,
             CountryOfOrigin = dto.CountryOfOrigin,
             InStock = dto.InStock,
-            AvailableFrom = dto.AvailableFrom
+            AvailableFrom = dto.AvailableFrom,
+            CarId = dto.Vehicle.Id
         };
-
-        // Set foreign key IDs based on vehicle type
-        if (dto.Vehicle is ElectroCarDto electroDto)
-        {
-            entity.ElectroCarId = electroDto.Id;
-        }
-        else if (dto.Vehicle is GasolineCarDto gasolineDto)
-        {
-            entity.GasolineCarId = gasolineDto.Id;
-        }
-        else
-        {
-            throw new InvalidOperationException("Unknown vehicle DTO type");
-        }
-
         return entity;
     }
 }

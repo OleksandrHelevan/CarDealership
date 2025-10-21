@@ -5,6 +5,5 @@ namespace CarDealership.exception;
  */
 public class CarDealershipException : Exception
 {
-    public CarDealershipException(string message) 
-        : base(message) { }
+    public CarDealershipException(string message) : base(message) { }
 }

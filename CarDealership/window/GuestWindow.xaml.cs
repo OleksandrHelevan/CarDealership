@@ -1,7 +1,7 @@
 using System.Windows;
 using CarDealership.config;
 using CarDealership.exception;
-using CarDealership.page.guest;
+using CarDealership.page.authorized;
 using CarDealership.repo.impl;
 using CarDealership.service;
 using CarDealership.service.impl;
@@ -17,17 +17,17 @@ namespace CarDealership.window
             InitializeComponent();
             _requestService = new AuthorizationRequestService(new AuthorizationRequestRepository(new DealershipContext()));
             _currentUserLogin = login; 
-            MainFrame.Navigate(new GasolineCarPage());
+            MainFrame.Navigate(new ProductsPage(_currentUserLogin));
         }
 
         private void BtnGasolineCar_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new GasolineCarPage());
+            MainFrame.Navigate(new ProductsPage(_currentUserLogin));
         }
 
         private void BtnElectroCar_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new ElectroCarPage());
+            MainFrame.Navigate(new ProductsPage(_currentUserLogin));
         }
         
         private void BtnAuthRequest_Click(object sender, RoutedEventArgs e)

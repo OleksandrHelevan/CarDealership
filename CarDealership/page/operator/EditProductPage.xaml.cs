@@ -1,4 +1,3 @@
-
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,7 +19,7 @@ namespace CarDealership.page.@operator
             InitializeComponent();
 
             _context = new DealershipContext();
-            EditCommand = new RelayCommand<Product>(EditProduct);
+            EditCommand = new RelayCommand<Product>(OpenEditDialog);
             DeleteCommand = new RelayCommand<Product>(DeleteProduct);
 
             DataContext = this;
@@ -33,10 +32,8 @@ namespace CarDealership.page.@operator
             try
             {
                 var allProducts = _context.Products
-                    .Include(p => p.ElectroCar)
-                    .ThenInclude(ec => ec.Engine)
-                    .Include(p => p.GasolineCar)
-                    .ThenInclude(gc => gc.Engine)
+                    .Include(p => p.Car)
+                    .ThenInclude(c => c.Engine)
                     .ToList();
 
                 ProductsList.ItemsSource = allProducts;
@@ -47,8 +44,10 @@ namespace CarDealership.page.@operator
             }
         }
 
-        private void EditProduct(Product product)
+        private void OpenEditDialog(Product product)
         {
+            if (product == null) return;
+
             var dialog = new EditProductDialog(product)
             {
                 Owner = Window.GetWindow(this),
@@ -59,7 +58,6 @@ namespace CarDealership.page.@operator
                 try
                 {
                     _context.SaveChanges();
-
                     MessageBox.Show("Продукт успішно оновлено!");
                     LoadData();
                 }
@@ -94,3 +92,4 @@ namespace CarDealership.page.@operator
         }
     }
 }
+

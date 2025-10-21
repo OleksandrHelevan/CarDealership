@@ -20,14 +20,9 @@ public partial class AdminWindow : Window
         MainFrame.Navigate(new AddOperatorPage());
     }
     
-    private void BtnOperatorFunc_Click(object sender, RoutedEventArgs e)
-    {
-        MainFrame.Navigate(new OperatorWindow(_currentLogin));
-    }
-    
     private void BtnUnboundCars_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new UnboundCarsPage());
+        MainFrame.Navigate(new EditProductPage());
     }
 
     private void BtnShowRequest_Click(object sender, RoutedEventArgs e)
@@ -37,12 +32,12 @@ public partial class AdminWindow : Window
 
     private void BtnAddGasolineCar_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new AddGasolineCarPage());
+        MainFrame.Navigate(new CarDealership.page.@operator.AddCarPage());
     }
 
     private void BtnAddElectroCar_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new AddElectroCarPage());
+        MainFrame.Navigate(new CarDealership.page.@operator.AddCarPage());
     }
     
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)

@@ -30,14 +30,9 @@ public partial class OperatorWindow : Window
         MainFrame.Navigate(new UserRequestsPage());
     }
 
-    private void BtnAddGasolineCar_Click(object sender, RoutedEventArgs e)
+    private void BtnAddCar_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new AddGasolineCarPage());
-    }
-
-    private void BtnAddElectroCar_Click(object sender, RoutedEventArgs e)
-    {
-        MainFrame.Navigate(new AddElectroCarPage());
+        MainFrame.Navigate(new AddCarPage());
     }
     
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)

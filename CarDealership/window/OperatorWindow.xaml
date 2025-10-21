@@ -56,15 +56,10 @@
                     HorizontalAlignment="Center"
                     Background="Transparent">
 
-            <Button Name="BtnAddGasolineCar"
+            <Button Name="BtnAddCar"
                     Content="Додати бензинове авто"
                     Style="{StaticResource RoundedButtonStyle}" 
-                    Click="BtnAddGasolineCar_Click"/>
-
-            <Button Name="BtnAddElectroCar"
-                    Content="Додати електромобіль"
-                    Style="{StaticResource RoundedButtonStyle}" 
-                    Click="BtnAddElectroCar_Click"/>
+                    Click="BtnAddCar_Click"/>
 
             <Button Name="BtnPutOnSale"
                     Content="Виставити авто на продаж"

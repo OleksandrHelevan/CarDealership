@@ -1,21 +1,17 @@
+using CarDealership.enums;
+
 namespace CarDealership.dto;
 
-public abstract class Engine
+public class EngineDto
 {
     public int Id { get; set; }
+    public EngineType EngineType { get; set; }
     public double Power { get; set; }
-    private const double WattsPerHorsepower = 745.7;
 
-    public short HorsePower { get; set; }
+    public FuelType? FuelType { get; set; }
+    public float? FuelConsumption { get; set; }
 
-    protected Engine(double power)
-    {
-        Power = power;
-        HorsePower = CalculateToHorsePower();
-    }
-
-    protected short CalculateToHorsePower()
-    {
-        return (short)Math.Round(Power * 1000 / WattsPerHorsepower);
-    }
+    public double? BatteryCapacity { get; set; }
+    public int? Range { get; set; }
+    public ElectroMotorType? MotorType { get; set; }
 }
