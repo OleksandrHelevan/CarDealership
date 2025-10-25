@@ -8,7 +8,7 @@ public static class ReceiptTemplate
 {
     private const string TemplateRelativePath = "templates/receipt.html";
 
-    public static string Build(Order order, string productNumber, string carName, decimal price, string cardLast4)
+    public static string Build(Order order, string productNumber, string carName, decimal price, string cardLast4, string customerFullName)
     {
         var baseDir = AppContext.BaseDirectory;
         var path = Path.Combine(baseDir, TemplateRelativePath);
@@ -22,8 +22,8 @@ public static class ReceiptTemplate
             .Replace("{{CarName}}", carName)
             .Replace("{{CardLast4}}", cardLast4)
             .Replace("{{Date}}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm 'UTC'"))
-            .Replace("{{Price}}", price.ToString("C"));
+            .Replace("{{Price}}", price.ToString("C"))
+            .Replace("{{CustomerName}}", customerFullName);
         return html;
     }
 }
-

@@ -1,4 +1,4 @@
-<Page x:Class="CarDealership.page.authorized.AuthOrderPage"
+﻿<Page x:Class="CarDealership.page.authorized.AuthOrderPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Мої покупки">
@@ -27,7 +27,18 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Сформувати чек" Tag="{Binding Id}" Click="Receipt_Click" Margin="0,0,6,0"/>
+                                    <Button Content="Сформувати чек" Tag="{Binding Id}" Click="Receipt_Click" Margin="0,0,6,0">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasReceipt}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
                                     <Button Content="Переглянути" Tag="{Binding LastReceiptId}" Click="View_Click"
                                             Visibility="{Binding HasReceipt, Converter={StaticResource BoolToVisibility}}"/>
                                 </StackPanel>
@@ -39,4 +50,3 @@
         </ListView>
     </Grid>
 </Page>
-

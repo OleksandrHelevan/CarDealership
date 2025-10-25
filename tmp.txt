@@ -1,0 +1,42 @@
+   1: <Page x:Class="CarDealership.page.authorized.AuthOrderPage"
+   2:       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   3:       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   4:       Title="Мої покупки">
+   5:     <Grid Margin="12">
+   6:         <Grid.Resources>
+   7:             <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+   8:         </Grid.Resources>
+   9:         <Grid.RowDefinitions>
+  10:             <RowDefinition Height="Auto"/>
+  11:             <RowDefinition Height="*"/>
+  12:         </Grid.RowDefinitions>
+  13: 
+  14:         <TextBlock Text="Мої замовлення" FontSize="18" FontWeight="Bold"/>
+  15: 
+  16:         <ListView Grid.Row="1" x:Name="OrdersList" Margin="0,8,0,0">
+  17:             <ListView.View>
+  18:                 <GridView>
+  19:                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
+  20:                     <GridViewColumn Header="Авто" DisplayMemberBinding="{Binding CarName}" Width="200"/>
+  21:                     <GridViewColumn Header="Продукт" DisplayMemberBinding="{Binding ProductNumber}" Width="120"/>
+  22:                     <GridViewColumn Header="Сума" DisplayMemberBinding="{Binding Amount}" Width="90"/>
+  23:                     <GridViewColumn Header="Квитанція" DisplayMemberBinding="{Binding HasReceiptText}" Width="90"/>
+  24:                     <GridViewColumn Header="Оплата" DisplayMemberBinding="{Binding PaymentType}" Width="90"/>
+  25:                     <GridViewColumn Header="Доставка" DisplayMemberBinding="{Binding Delivery}" Width="70"/>
+  26:                     <GridViewColumn Header="Дія" Width="240">
+  27:                         <GridViewColumn.CellTemplate>
+  28:                             <DataTemplate>
+  29:                                 <StackPanel Orientation="Horizontal">
+  30:                                     <Button Content="Сформувати чек" Tag="{Binding Id}" Click="Receipt_Click" Margin="0,0,6,0"/>
+  31:                                     <Button Content="Переглянути" Tag="{Binding LastReceiptId}" Click="View_Click"
+  32:                                             Visibility="{Binding HasReceipt, Converter={StaticResource BoolToVisibility}}"/>
+  33:                                 </StackPanel>
+  34:                             </DataTemplate>
+  35:                         </GridViewColumn.CellTemplate>
+  36:                     </GridViewColumn>
+  37:                 </GridView>
+  38:             </ListView.View>
+  39:         </ListView>
+  40:     </Grid>
+  41: </Page>
+  42: 

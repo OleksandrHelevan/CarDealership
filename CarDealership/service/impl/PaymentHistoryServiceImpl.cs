@@ -24,20 +24,23 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
         if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Count(char.IsDigit) < 12)
             throw new ArgumentException("Некоректний номер картки.");
 
-        var order = _context.Orders
-            .Where(o => o.Id == orderId)
-            .Join(_context.Products, o => o.ProductId, p => p.Id, (o, p) => new { o, p })
-            .Join(_context.Cars, op => op.p.CarId, c => c.Id, (op, c) => new { op.o, op.p, c })
-            .Select(x => new { x.o, x.p, x.c })
-            .FirstOrDefault();
+        var order = (from o in _context.Orders
+                     where o.Id == orderId
+                     join p in _context.Products on o.ProductId equals p.Id
+                     join c in _context.Cars on p.CarId equals c.Id
+                     join cl in _context.Clients on o.ClientId equals cl.Id
+                     join pd in _context.PassportData on cl.PassportDataId equals pd.Id
+                     select new { o, p, c, pd }).FirstOrDefault();
 
         if (order == null)
             throw new InvalidOperationException("Замовлення не знайдено.");
 
         var last4 = new string(cardNumber.Where(char.IsDigit).TakeLast(4).ToArray());
         var carName = $"{order.c.Brand} {order.c.ModelName}";
-        var html = ReceiptTemplate.Build(order.o, order.p.Number, carName, order.c.Price, last4);
-        var pdf = HtmlToPdfGenerator.FromHtmlString(html);
+        var buyer = $"{order.pd.FirstName} {order.pd.LastName}";
+        var html = ReceiptTemplate.Build(order.o, order.p.Number, carName, order.c.Price, last4, buyer);
+        var baseDir = AppContext.BaseDirectory;
+        var pdf = HtmlToPdfGenerator.FromHtmlString(html, baseDir, OpenHtmlToPdf.PaperSize.A5);
 
         var history = new PaymentHistory
         {

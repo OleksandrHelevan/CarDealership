@@ -80,6 +80,8 @@ public partial class AuthOrderPage : Page
                 try
                 {
                     var id = _paymentService.CreateReceipt(orderId, dlg.CardNumber!);
+                    // Refresh list so visibility/status updates immediately
+                    LoadOrders();
                     MessageBox.Show("Квитанцію збережено.", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (System.Exception ex)
