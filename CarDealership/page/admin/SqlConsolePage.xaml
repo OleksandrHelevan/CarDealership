@@ -1,0 +1,30 @@
+<Page x:Class="CarDealership.page.admin.SqlConsolePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="SQL Console">
+  <Grid Margin="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <TextBlock Text="SQL запит:" FontWeight="SemiBold"/>
+    <DockPanel Grid.Row="1" LastChildFill="True" Margin="0,6,0,8">
+      <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+        <Button Content="Очистити" Margin="0,0,6,0" Width="110" Click="Clear_Click"/>
+        <Button Content="Виконати (Ctrl+Enter)" Width="180" Click="Execute_Click"/>
+      </StackPanel>
+      <TextBox x:Name="SqlInput"
+               AcceptsReturn="True" AcceptsTab="True"
+               VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+               Height="120" FontFamily="Consolas" FontSize="14"
+               KeyDown="SqlInput_KeyDown"/>
+    </DockPanel>
+
+    <DataGrid x:Name="ResultGrid" Grid.Row="2" AutoGenerateColumns="True" IsReadOnly="False" KeyDown="ResultGrid_KeyDown"/>
+
+    <TextBlock x:Name="ResultText" Grid.Row="3" Margin="0,8,0,0"/>
+  </Grid>
+</Page>

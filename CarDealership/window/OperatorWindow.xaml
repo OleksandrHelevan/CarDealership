@@ -57,7 +57,7 @@
                     Background="Transparent">
 
             <Button Name="BtnAddCar"
-                    Content="Додати бензинове авто"
+                    Content="Додати авто"
                     Style="{StaticResource RoundedButtonStyle}" 
                     Click="BtnAddCar_Click"/>
 

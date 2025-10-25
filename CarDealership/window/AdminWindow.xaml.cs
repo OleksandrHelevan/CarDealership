@@ -30,15 +30,11 @@ public partial class AdminWindow : Window
         MainFrame.Navigate(new UserRequestsPage());
     }
 
-    private void BtnAddGasolineCar_Click(object sender, RoutedEventArgs e)
+    private void BtnAddCar_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new CarDealership.page.@operator.AddCarPage());
     }
-
-    private void BtnAddElectroCar_Click(object sender, RoutedEventArgs e)
-    {
-        MainFrame.Navigate(new CarDealership.page.@operator.AddCarPage());
-    }
+    
     
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
     {
@@ -48,5 +44,10 @@ public partial class AdminWindow : Window
     private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new UserDetailsPage(_currentLogin));
+    }
+
+    private void BtnCommandPrompt_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new CarDealership.page.admin.SqlConsolePage());
     }
 }
