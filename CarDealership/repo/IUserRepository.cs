@@ -15,6 +15,7 @@ public interface IUserRepository
     bool Exists(User user);
 
     User? GetByLogin(string login);
+    User? GetByEmail(string email);
     
     public void Update(User user);
     

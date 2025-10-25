@@ -24,7 +24,7 @@ namespace CarDealership.window
 
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Введіть логін та пароль.", "Помилка");
+                MessageBox.Show("Логін та пароль обов'язкові.", "Валідація");
                 return;
             }
 
@@ -33,8 +33,8 @@ namespace CarDealership.window
                 UserDto user = _userService.Login(login, password)!;
 
                 MessageBox.Show(
-                    $"Ласкаво просимо, {user.Login} (Права доступу - {user.AccessRight.ToFriendlyString()})!",
-                    "Вхід успішний");
+                    $"Вітаємо, {user.Login} (права доступу - {user.AccessRight.ToFriendlyString()})!",
+                    "Успішний вхід");
 
                 if (user.AccessRight == AccessRight.Guest)
                 {
@@ -71,15 +71,15 @@ namespace CarDealership.window
             }
             catch (UserNotFoundException)
             {
-                MessageBox.Show("Користувача з таким логіном не знайдено.", "Вхід не вдалось");
+                MessageBox.Show("Користувача з таким логіном не знайдено.", "Помилка входу");
             }
             catch (InvalidPasswordException)
             {
-                MessageBox.Show("Невірний пароль.", "Вхід не вдалось");
+                MessageBox.Show("Невірний пароль.", "Помилка входу");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Сталася помилка: {ex.Message}", "Вхід не вдалось");
+                MessageBox.Show($"Непередбачена помилка: {ex.Message}", "Помилка входу");
             }
         }
 
@@ -91,15 +91,55 @@ namespace CarDealership.window
 
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
-            string login = UsernameTextBox.Text.Trim();
-
+            // Використати логін для пошуку email в БД
+            var login = UsernameTextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(login))
             {
-                MessageBox.Show("Введіть логін.", "Помилка");
+                MessageBox.Show("Введіть логін.", "Відновлення пароля");
                 return;
             }
 
-            ResetPasswordWindow resetWindow = new ResetPasswordWindow(_userService, login);
+            var user = _userService.LoadByUsername(login);
+            if (user == null || string.IsNullOrWhiteSpace(user.Email))
+            {
+                MessageBox.Show("Користувача або email не знайдено.", "Відновлення пароля");
+                return;
+            }
+
+            var email = user.Email;
+
+            // Згенерувати код і відправити HTML-лист
+            var code = util.RandomCodeGenerator.GenerateNumericCode(6);
+            var templatePath = System.IO.Path.Combine(AppContext.BaseDirectory, "templates", "reset_code_email.html");
+            var html = util.EmailTemplateRenderer.RenderResetCodeTemplate(templatePath, code);
+
+            try
+            {
+                var emailService = new service.impl.EmailServiceImpl();
+                emailService.SendHtmlEmail(email, "Код підтвердження — CarDealership", html);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не вдалося надіслати email: {ex.Message}", "Відновлення пароля");
+                return;
+            }
+
+            // Запросити код та перевірити
+            var codeDialog = new page.common.SimplePromptDialog("Введіть код з email:");
+            codeDialog.Owner = this;
+            var codeOk = codeDialog.ShowDialog();
+            if (codeOk != true) return;
+
+            var inputCode = codeDialog.ResultText!;
+            if (!string.Equals(inputCode, code, StringComparison.Ordinal))
+            {
+                MessageBox.Show("Код не співпадає.", "Відновлення пароля");
+                return;
+            }
+
+            // Відкрити ResetPasswordWindow
+            var resetWindow = new ResetPasswordWindow(_userService, login);
+            resetWindow.Owner = this;
             resetWindow.ShowDialog();
         }
     }

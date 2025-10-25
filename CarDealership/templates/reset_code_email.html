@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Код підтвердження</title>
+    <style>
+        body {
+            font-family: Segoe UI, Arial, sans-serif;
+            background: #f6f8fb;
+            color: #111827;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 24px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .code {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: #f3f4f6;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .muted {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        .meta {
+            color: #555;
+            margin-bottom: 8pt;
+            font-size: 11pt;
+            text-align: center;
+        }
+
+        .logo {
+            display: block;
+            width: 24mm;
+            height: 24mm;
+            margin: 0 auto 6mm auto;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Відновлення пароля</h2>
+    <p>Ось ваш код підтвердження:</p>
+    <p class="code">{{CODE}}</p>
+    <p class="muted">Згенеровано: {{ISSUED_AT}}. Термін дії — 10 хвилин.</p>
+    <p class="meta">© CarDealership</p>
+</div>
+</body>
+</html>
+

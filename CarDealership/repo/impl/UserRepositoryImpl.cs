@@ -49,6 +49,11 @@ namespace CarDealership.repo.impl
             return _context.Users.FirstOrDefault(u => u.Login == login);
         }
         
+        public User? GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+        
         public IEnumerable<User> GetAll()
         {
             return _context.Users.ToList();

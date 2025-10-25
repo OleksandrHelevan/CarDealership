@@ -26,6 +26,7 @@ namespace CarDealership.window
             string lastName = LastNameBox.Text.Trim();
             string passportNumber = PassportNumberBox.Text.Trim();
             string login = LoginBox.Text.Trim();
+            string email = EmailBox.Text.Trim();
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
 
@@ -35,9 +36,27 @@ namespace CarDealership.window
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Email is required.");
+                return;
+            }
+
+            if (!email.Contains('@') || !email.Contains('.'))
+            {
+                MessageBox.Show("Please enter a valid email address.");
+                return;
+            }
+
             if (_context.Users.Any(k => k.Login == login))
             {
                 MessageBox.Show("This login is already taken.");
+                return;
+            }
+
+            if (_context.Users.Any(k => k.Email == email))
+            {
+                MessageBox.Show("This email is already registered.");
                 return;
             }
 
@@ -53,6 +72,7 @@ namespace CarDealership.window
             var key = new User
             {
                 Login = login,
+                Email = email,
                 Password = DealershipPasswordEncoder.Encode(password),
                 AccessRight = _accessRight
             };

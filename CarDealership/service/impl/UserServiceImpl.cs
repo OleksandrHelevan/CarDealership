@@ -54,6 +54,11 @@ namespace CarDealership.service.impl
             return _userRepository.GetByLogin(login);
         }
 
+        public User? LoadByEmail(string email)
+        {
+            return _userRepository.GetByEmail(email);
+        }
+
         public UserDto? Login(string login, string password)
         {
             var userFromDb = _userRepository.GetByLogin(login);
