@@ -27,6 +27,8 @@ public partial class AuthOrderPage : Page
         public int LastReceiptId { get; set; }
         public bool HasReceipt { get; set; }
         public string HasReceiptText => HasReceipt ? "Так" : "Ні";
+        public CarDealership.enums.RequestStatus? ReviewStatus { get; set; }
+        public string? ReviewMessage { get; set; }
     }
 
     public AuthOrderPage(string userLogin)
@@ -46,24 +48,31 @@ public partial class AuthOrderPage : Page
         var client = _context.Clients.FirstOrDefault(c => c.UserId == user.Id);
         if (client == null) return;
 
-        var list = _context.Orders
-            .Where(o => o.ClientId == client.Id)
-            .Join(_context.Products, o => o.ProductId, p => p.Id, (o, p) => new { o, p })
-            .Join(_context.Cars, op => op.p.CarId, c => c.Id, (op, c) => new Row
-            {
-                Id = op.o.Id,
-                CarName = c.Brand + " " + c.ModelName,
-                ProductNumber = op.p.Number,
-                Amount = c.Price,
-                PaymentType = op.o.PaymentType,
-                Delivery = op.o.Delivery,
-                LastReceiptId = _context.PaymentHistory
-                    .Where(ph => ph.OrderId == op.o.Id)
-                    .OrderByDescending(ph => ph.Id)
-                    .Select(ph => ph.Id)
-                    .FirstOrDefault(),
-                HasReceipt = _context.PaymentHistory.Any(ph => ph.OrderId == op.o.Id)
-            })
+        // Base the list on the latest OrderReview per order (for this client)
+        var list = (from r in _context.OrderReviews
+                    join o in _context.Orders on r.OrderId equals o.Id
+                    join p in _context.Products on o.ProductId equals p.Id
+                    join c in _context.Cars on p.CarId equals c.Id
+                    where o.ClientId == client.Id
+                    // keep only latest review per order
+                    where !_context.OrderReviews.Any(r2 => r2.OrderId == r.OrderId && r2.Id > r.Id)
+                    select new Row
+                    {
+                        Id = o.Id,
+                        CarName = c.Brand + " " + c.ModelName,
+                        ProductNumber = p.Number,
+                        Amount = c.Price,
+                        PaymentType = o.PaymentType,
+                        Delivery = o.Delivery,
+                        LastReceiptId = _context.PaymentHistory
+                            .Where(ph => ph.OrderId == o.Id)
+                            .OrderByDescending(ph => ph.Id)
+                            .Select(ph => ph.Id)
+                            .FirstOrDefault(),
+                        HasReceipt = _context.PaymentHistory.Any(ph => ph.OrderId == o.Id),
+                        ReviewStatus = r.Status,
+                        ReviewMessage = r.Message
+                    })
             .OrderByDescending(r => r.Id)
             .ToList();
 
@@ -89,6 +98,14 @@ public partial class AuthOrderPage : Page
                     MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+    }
+
+    private void Reason_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is string msg && !string.IsNullOrWhiteSpace(msg))
+        {
+            MessageBox.Show(msg, "Причина відхилення", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 

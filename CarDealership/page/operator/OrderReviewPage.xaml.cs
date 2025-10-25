@@ -42,6 +42,8 @@ public partial class OrderReviewPage : Page
     private void LoadOrders()
     {
         var orders = _context.Orders
+            // show only orders that have no review created yet
+            .Where(o => !_context.OrderReviews.Any(r => r.OrderId == o.Id))
             .Include(o => o.Client)
                 .ThenInclude(c => c.PassportData)
             .Include(o => o.Product)

@@ -9,28 +9,27 @@ using CarDealership.config;
 using CarDealership.repo.impl;
 using Microsoft.Win32;
 
-namespace CarDealership.page.authorized;
+namespace CarDealership.page.@operator;
 
-public partial class ReceiptsPage : Page
+public partial class PaymentsPage : Page
 {
     private readonly DealershipContext _context;
-    private readonly string _userLogin;
     private readonly PaymentHistoryRepositoryImpl _repo;
 
     public class Row
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
-        public string CarName { get; set; }
+        public string ClientName { get; set; }
         public string ProductNumber { get; set; }
+        public string CarName { get; set; }
         public decimal Amount { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 
-    public ReceiptsPage(string userLogin)
+    public PaymentsPage()
     {
         InitializeComponent();
-        _userLogin = userLogin;
         _context = new DealershipContext();
         _repo = new PaymentHistoryRepositoryImpl(_context);
         LoadData();
@@ -38,26 +37,25 @@ public partial class ReceiptsPage : Page
 
     private void LoadData()
     {
-        var user = _context.Users.FirstOrDefault(u => u.Login == _userLogin);
-        if (user == null) return;
-        var client = _context.Clients.FirstOrDefault(c => c.UserId == user.Id);
-        if (client == null) return;
-
-        var list = _repo.GetByClientId(client.Id)
-            .Join(_context.Products, ph => ph.Order.ProductId, p => p.Id, (ph, p) => new { ph, p })
-            .Join(_context.Cars, php => php.p.CarId, c => c.Id, (php, c) => new Row
+        var list = _repo.GetAll()
+            .Select(ph => new Row
             {
-                Id = php.ph.Id,
-                OrderId = php.ph.OrderId,
-                CarName = c.Brand + " " + c.ModelName,
-                ProductNumber = php.p.Number,
-                Amount = php.ph.Amount,
-                CreatedAt = php.ph.CreatedAt
+                Id = ph.Id,
+                OrderId = ph.OrderId,
+                ClientName = ph.Order?.Client?.PassportData != null
+                    ? $"{ph.Order.Client.PassportData.FirstName} {ph.Order.Client.PassportData.LastName}"
+                    : string.Empty,
+                ProductNumber = ph.Order?.Product?.Number ?? string.Empty,
+                CarName = ph.Order?.Product?.Car != null
+                    ? $"{ph.Order.Product.Car.Brand} {ph.Order.Product.Car.ModelName}"
+                    : string.Empty,
+                Amount = ph.Amount,
+                CreatedAt = ph.CreatedAt
             })
             .OrderByDescending(r => r.Id)
             .ToList();
 
-        ReceiptsList.ItemsSource = new ObservableCollection<Row>(list);
+        PaymentsList.ItemsSource = new ObservableCollection<Row>(list);
     }
 
     private void Open_Click(object sender, RoutedEventArgs e)
@@ -65,20 +63,14 @@ public partial class ReceiptsPage : Page
         if (sender is Button btn && btn.Tag is int id)
         {
             var ph = _repo.GetById(id);
-            if (ph == null || ph.ReceiptPdf == null || ph.ReceiptPdf.Length == 0)
+            if (ph?.ReceiptPdf == null || ph.ReceiptPdf.Length == 0)
             {
                 MessageBox.Show("Квитанцію не знайдено.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-            var tmpPath = Path.Combine(Path.GetTempPath(), $"receipt-{ph.Id}.pdf");
-            File.WriteAllBytes(tmpPath, ph.ReceiptPdf);
-
-            var psi = new ProcessStartInfo(tmpPath)
-            {
-                UseShellExecute = true
-            };
-            Process.Start(psi);
+            var tmp = Path.Combine(Path.GetTempPath(), $"receipt-{id}-{Guid.NewGuid():N}.pdf");
+            File.WriteAllBytes(tmp, ph.ReceiptPdf);
+            Process.Start(new ProcessStartInfo(tmp) { UseShellExecute = true });
         }
     }
 
@@ -87,17 +79,12 @@ public partial class ReceiptsPage : Page
         if (sender is Button btn && btn.Tag is int id)
         {
             var ph = _repo.GetById(id);
-            if (ph == null || ph.ReceiptPdf == null || ph.ReceiptPdf.Length == 0)
+            if (ph?.ReceiptPdf == null || ph.ReceiptPdf.Length == 0)
             {
                 MessageBox.Show("Квитанцію не знайдено.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-            var dlg = new SaveFileDialog
-            {
-                FileName = $"receipt-{ph.Id}.pdf",
-                Filter = "PDF (*.pdf)|*.pdf"
-            };
+            var dlg = new SaveFileDialog { FileName = $"receipt-{id}.pdf", Filter = "PDF (*.pdf)|*.pdf" };
             if (dlg.ShowDialog() == true)
             {
                 File.WriteAllBytes(dlg.FileName, ph.ReceiptPdf);

@@ -47,6 +47,6 @@ public partial class OperatorWindow : Window
 
     private void showOrders_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new AuthOrderPage(_currentLogin));
+        MainFrame.Navigate(new OrderReviewPage());
     }
 }

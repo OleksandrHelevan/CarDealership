@@ -51,4 +51,17 @@ public class PaymentHistoryRepositoryImpl : IPaymentHistoryRepository
             .Where(p => p.Order.ClientId == clientId)
             .ToList();
     }
+
+    public List<PaymentHistory> GetAll()
+    {
+        return _context.PaymentHistory
+            .Include(p => p.Order)
+                .ThenInclude(o => o.Client)
+                    .ThenInclude(cl => cl.PassportData)
+            .Include(p => p.Order)
+                .ThenInclude(o => o.Product)
+                    .ThenInclude(pr => pr.Car)
+            .OrderByDescending(p => p.Id)
+            .ToList();
+    }
 }

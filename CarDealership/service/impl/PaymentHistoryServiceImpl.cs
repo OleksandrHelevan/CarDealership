@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 using CarDealership.config;
 using CarDealership.entity;
+using CarDealership.enums;
 using CarDealership.repo;
 using CarDealership.repo.impl;
 using CarDealership.util;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.service.impl;
 
@@ -23,6 +25,19 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
     {
         if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Count(char.IsDigit) < 12)
             throw new ArgumentException("Некоректний номер картки.");
+
+        // Validate that the order has an approved review
+        var review = _context.OrderReviews
+            .Include(r => r.Order)
+            .ThenInclude(o => o.Product)
+            .FirstOrDefault(r => r.OrderId == orderId);
+
+        if (review == null)
+            throw new InvalidOperationException("Замовлення не має рішення оператора.");
+        if (review.Status == RequestStatus.Rejected)
+            throw new InvalidOperationException($"Замовлення відхилено: {review.Message}");
+        if (review.Status != RequestStatus.Approved)
+            throw new InvalidOperationException("Замовлення ще не підтверджене.");
 
         var order = (from o in _context.Orders
                      where o.Id == orderId
