@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,7 +40,7 @@ public partial class UserRequestsPage : Page
     private void LoadRequests()
     {
         requests = new ObservableCollection<AuthorizationRequest>(_requestService.GetAllRequests());
-        RequestsDataGrid.ItemsSource = requests;
+        RequestsList.ItemsSource = requests;
     }
 
     private void ApproveRequest(AuthorizationRequest request)
@@ -59,21 +59,11 @@ public partial class UserRequestsPage : Page
                     user.AccessRight = AccessRight.Authorized;
                     _userService.Update(user);
                 }
-
-                MessageBox.Show($"Запит {request.User.Login} підтверджено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            else
-            {
-                MessageBox.Show($"Помилка при підтвердженні запиту {request.User.Login}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        catch (System.Exception ex)
-        {
-            MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
-            requests.Remove(request); // автоматично видаляємо з ObservableCollection
+            requests.Remove(request);
         }
     }
 
@@ -87,43 +77,17 @@ public partial class UserRequestsPage : Page
         {
             if (_requestService.UpdateRequest(request))
             {
-                MessageBox.Show($"Запит {request.User.Login} відхилено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show($"Помилка при відмові запиту {request.User.Login}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         catch (System.Exception ex)
         {
-            MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
-            requests.Remove(request); // автоматично видаляємо з ObservableCollection
-        }
-    }
-
-    private void RefreshRequests_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            var requestsToDelete = _requestService.GetAllRequests()
-                                    .Where(r => r.Status == RequestStatus.Approved || r.Status == RequestStatus.Rejected)
-                                    .ToList();
-
-            foreach (var req in requestsToDelete)
-            {
-                _requestService.DeleteRequest(req.Id); 
-            }
-
-            LoadRequests();
-
-            MessageBox.Show("Старі запити видалено та список оновлено.", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        catch (System.Exception ex)
-        {
-            MessageBox.Show($"Помилка при оновленні: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            requests.Remove(request);
         }
     }
 }

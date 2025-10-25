@@ -76,15 +76,17 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnEditProduct_Click" />
             
+            <Button Name="BtnShowOrders"
+                    Content="Показати замовлення"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="showOrders_Click" />
+            
             <Button Name="BtnMyAccount"
                     Content="Мій акаунт"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnMyAccount_Click" />
             
-            <Button Name="BtnShowOrders"
-                    Content="Показати замовлення"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="showOrders_Click" />
+            
         </StackPanel>
 
         <Frame x:Name="MainFrame"
