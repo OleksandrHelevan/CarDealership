@@ -170,7 +170,9 @@ namespace CarDealership.page.authorized
                         AvailableFrom = product.AvailableFrom,
                         ClientId = clientId,
                         PaymentType = dialog.BuyCarDto.PaymentType,
-                        Delivery = dialog.BuyCarDto.Delivery
+                        Delivery = dialog.BuyCarDto.Delivery,
+                        Address = dialog.BuyCarDto.Address,
+                        PhoneNumber = dialog.BuyCarDto.PhoneNumber
                     };
 
                     var ok = _buyService.BuyCar(dto);

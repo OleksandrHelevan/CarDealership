@@ -65,7 +65,10 @@ namespace CarDealership.repo.impl
 
         public List<Order> GetAll()
         {
-            return _context.Orders.ToList();
+            return _context.Orders
+                .Include(o => o.Client)
+                .Include(o => o.Product)
+                .ToList();
         }
 
         public List<Order> FindOrdersByClientId(int clientId)

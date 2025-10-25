@@ -1,4 +1,4 @@
-п»їusing System.Windows;
+using System.Windows;
 using CarDealership.window;
 
 namespace CarDealership;
@@ -17,7 +17,7 @@ public partial class App : Application
         
         if (loginResult != true)
         {
-            MessageBox.Show("Р’С…С–Рґ РЅРµ РІРёРєРѕРЅР°РЅРѕ. Р”РѕРґР°С‚РѕРє Р±СѓРґРµ Р·Р°РєСЂРёС‚Рѕ.", "Р†РЅС„РѕСЂРјР°С†С–СЏ");
+            MessageBox.Show("Вхід не виконано. Додаток буде закрито.", "Інформація");
             Shutdown();
         }
     }

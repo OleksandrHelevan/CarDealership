@@ -13,6 +13,8 @@ namespace CarDealership.config
         public DbSet<Product> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderReview> OrderReviews { get; set; }
+        public DbSet<PaymentHistory> PaymentHistory { get; set; }
         public DbSet<PassportData> PassportData { get; set; }
         public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
 
@@ -46,6 +48,12 @@ namespace CarDealership.config
             modelBuilder.Entity<Order>()
                 .ToTable("orders");
 
+            modelBuilder.Entity<OrderReview>()
+                .ToTable("order_reviews");
+
+            modelBuilder.Entity<PaymentHistory>()
+                .ToTable("payment_history");
+
             //FK
             modelBuilder.Entity<Car>()
                 .HasOne(c => c.Engine)
@@ -75,6 +83,18 @@ namespace CarDealership.config
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.OrderDate)
+                .HasConversion(utcConverter);
+
+            modelBuilder.Entity<OrderReview>()
+                .Property(r => r.CreatedAt)
+                .HasConversion(utcConverter);
+
+            modelBuilder.Entity<OrderReview>()
+                .Property(r => r.UpdatedAt)
+                .HasConversion(nullableUtcConverter);
+
+            modelBuilder.Entity<PaymentHistory>()
+                .Property(p => p.CreatedAt)
                 .HasConversion(utcConverter);
 
             modelBuilder.Entity<Product>()
@@ -109,6 +129,22 @@ namespace CarDealership.config
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentType)
                 .HasConversion<string>();
+            
+            modelBuilder.Entity<OrderReview>()
+                .Property(r => r.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<PaymentHistory>()
+                .HasOne(ph => ph.Order)
+                .WithMany()
+                .HasForeignKey(ph => ph.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderReview>()
+                .HasOne(r => r.Order)
+                .WithMany()
+                .HasForeignKey(r => r.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<AuthorizationRequest>()
                 .Property(r => r.Status)

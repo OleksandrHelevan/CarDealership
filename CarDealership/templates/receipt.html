@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8"/>
+    <title>Квитанція</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .receipt {
+            padding-top: 18mm;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+<main class="receipt">
+    <h1>Квитанція про покупку</h1>
+    <div>
+        <div>Дата: {{Date}}</div>
+        <div class="row"><span class="label">Номер замовлення:</span><span class="value">{{OrderId}}</span></div>
+        <div class="row"><span class="label">Товар:</span><span class="value">{{CarName}} ({{ProductNumber}})</span>
+        </div>
+        <div class="row"><span class="label">Оплата:</span><span class="value">Картка •••• {{CardLast4}}</span></div>
+        <div class="row total"><span class="label">Сума:</span><span class="value">{{Price}}</span></div>
+    </div>
+    <p class="meta">CarDealership дякує за покупку!</p>
+    
+</main>
+</body>
+</html>

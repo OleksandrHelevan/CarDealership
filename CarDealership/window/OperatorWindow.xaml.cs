@@ -1,6 +1,7 @@
 using System.Windows;
 using CarDealership.page;
 using CarDealership.page.admin;
+using CarDealership.page.authorized;
 using CarDealership.page.@operator;
 
 namespace CarDealership.window;
@@ -42,5 +43,10 @@ public partial class OperatorWindow : Window
     private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new UserDetailsPage(_currentLogin));
+    }
+
+    private void showOrders_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new AuthOrderPage(_currentLogin));
     }
 }

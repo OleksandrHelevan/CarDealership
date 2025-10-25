@@ -49,7 +49,9 @@ namespace CarDealership.service.impl
                     ProductId = product.Id,
                     OrderDate = DateTime.UtcNow,
                     PaymentType = buyCarDto.PaymentType,
-                    Delivery = buyCarDto.Delivery
+                    Delivery = buyCarDto.Delivery,
+                    Address = buyCarDto.Delivery ? buyCarDto.Address : null,
+                    PhoneNumber = string.IsNullOrWhiteSpace(buyCarDto.PhoneNumber) ? null : buyCarDto.PhoneNumber
                 };
 
                 ctx.Orders.Add(order);

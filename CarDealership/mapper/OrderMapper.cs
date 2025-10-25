@@ -16,7 +16,9 @@ namespace CarDealership.mapper
                 OrderDate = e.OrderDate,
                 CreatedAt = e.OrderDate,
                 PaymentType = e.PaymentType,
-                Delivery = e.Delivery
+                Delivery = e.Delivery,
+                Address = e.Address,
+                PhoneNumber = e.PhoneNumber
             };
         }
 
@@ -27,6 +29,8 @@ namespace CarDealership.mapper
                 OrderDate = dto.OrderDate,
                 PaymentType = dto.PaymentType,
                 Delivery = dto.Delivery,
+                Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
                 ClientId = dto.Client.Id,
                 ProductId = dto.Product.Id
             };

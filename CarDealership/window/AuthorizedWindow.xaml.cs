@@ -29,4 +29,9 @@ public partial class AuthorizedWindow
         MainFrame.Navigate(new UserDetailsPage(_currentUserLogin));
     }
 
+    private void BtnShowOrders_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new AuthOrderPage(_currentUserLogin));
+    }
+
 }

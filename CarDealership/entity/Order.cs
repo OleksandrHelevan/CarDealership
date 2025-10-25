@@ -38,4 +38,13 @@ public class Order
     [Required]
     [Column("delivery")]
     public bool Delivery { get; set; }
+
+    // Optional delivery address when Delivery == true
+    [Column("address")]
+    [MaxLength(400)]
+    public string? Address { get; set; }
+
+    [Column("phone_number")]
+    [MaxLength(32)]
+    public string? PhoneNumber { get; set; }
 }
