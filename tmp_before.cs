@@ -91,15 +91,7 @@ public partial class OrderReviewPage : Page
                     var cardNumber = order.PaymentType == PaymentType.Card ? dlg.CardNumber : null;
                     if (order.Delivery || order.PaymentType == PaymentType.Card)
                     {
-                        try
-                        {
-                            _reviewService.SubmitDetails(review.Id, deliveryAddress, cardNumber);
-                        }
-                        catch (System.Exception ex)
-                        {
-                            MessageBox.Show($"Помилка обробки рішення: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
+                        _reviewService.SubmitDetails(review.Id, deliveryAddress, cardNumber);
                     }
                 }
                 else
@@ -113,3 +105,4 @@ public partial class OrderReviewPage : Page
         }
     }
 }
+

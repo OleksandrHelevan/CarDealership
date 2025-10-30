@@ -66,17 +66,25 @@ public class OrderReviewServiceImpl : IOrderReviewService
     {
         var review = _reviewRepository.GetById(reviewId) ?? throw new InvalidOperationException("Review not found");
 
-        if (review.RequiresDeliveryAddress && string.IsNullOrWhiteSpace(deliveryAddress))
+        // If delivery address is required, allow using existing order address when provided earlier
+        var order = review.Order ?? throw new InvalidOperationException("Order not loaded");
+        var providedAddress = deliveryAddress?.Trim();
+        var existingAddress = order.Address;
+
+        if (review.RequiresDeliveryAddress && string.IsNullOrWhiteSpace(providedAddress) && string.IsNullOrWhiteSpace(existingAddress))
             throw new ArgumentException("Delivery address is required for delivery orders", nameof(deliveryAddress));
+
         if (review.RequiresCardNumber && string.IsNullOrWhiteSpace(cardNumber))
             throw new ArgumentException("Card number is required for card payments", nameof(cardNumber));
 
         if (review.RequiresDeliveryAddress)
         {
-            // persist address on Order entity
-            var order = review.Order;
-            order.Address = deliveryAddress?.Trim();
-            _orderRepository.Update(order);
+            // persist address on Order entity; prefer newly provided address if any
+            if (!string.IsNullOrWhiteSpace(providedAddress))
+            {
+                order.Address = providedAddress;
+                _orderRepository.Update(order);
+            }
         }
         if (review.RequiresCardNumber)
             review.CardNumber = cardNumber?.Trim();

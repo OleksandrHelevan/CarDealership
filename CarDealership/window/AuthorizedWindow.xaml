@@ -78,6 +78,11 @@
                     Click="BtnMyAccount_Click" />
 
 
+            <Button Name="BtnQueries"
+                    Content="Вбудовані запити"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnQueries_Click" />
+
         </StackPanel>
 
         <Frame x:Name="MainFrame"
