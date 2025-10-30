@@ -36,7 +36,7 @@ public partial class AuthorizedWindow
 
     private void BtnQueries_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new RoureQueriesPage());
+        MainFrame.Navigate(new RoureQueriesPage(_currentUserLogin));
     }
 
 }

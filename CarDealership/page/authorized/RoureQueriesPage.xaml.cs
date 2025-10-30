@@ -5,14 +5,26 @@ namespace CarDealership.page.authorized;
 
 public partial class RoureQueriesPage
 {
-    public RoureQueriesPage()
+    private readonly string _login;
+
+    public RoureQueriesPage(string login = null)
     {
         InitializeComponent();
+        _login = login;
     }
 
     private void Btn1_Click(object sender, RoutedEventArgs e)
     {
         NavigationService?.Navigate(new GetPriceByBrandPage());
     }
-}
 
+    private void Btn2_Click(object sender, RoutedEventArgs e)
+    {
+        NavigationService?.Navigate(new ProductsPage(_login));
+    }
+
+    private void Btn3_Click(object sender, RoutedEventArgs e)
+    {
+        NavigationService?.Navigate(new BrandsDelayPage());
+    }
+}
