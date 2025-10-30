@@ -3,6 +3,7 @@ using CarDealership.page;
 using CarDealership.page.admin;
 using CarDealership.page.authorized;
 using CarDealership.page.@operator;
+using CarDealership.page.query;
 
 namespace CarDealership.window;
 
@@ -48,5 +49,10 @@ public partial class OperatorWindow : Window
     private void showOrders_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new OrderReviewPage());
+    }
+
+    private void BtnClients_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new ClientsDetailsPage());
     }
 }

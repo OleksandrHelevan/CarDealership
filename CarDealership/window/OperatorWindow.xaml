@@ -86,7 +86,11 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnMyAccount_Click" />
             
-            
+            <Button Name="BtnClients"
+                    Content="Клієнти"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnClients_Click" />
+
         </StackPanel>
 
         <Frame x:Name="MainFrame"
