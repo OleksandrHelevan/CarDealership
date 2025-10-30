@@ -116,7 +116,12 @@ namespace CarDealership.page.@operator
 
                 car.Brand = TbBrand.Text.Trim();
                 car.ModelName = TbModel.Text.Trim();
-                car.Year = int.TryParse(TbYear.Text, out var year) ? year : car.Year;
+                if (!int.TryParse(TbYear.Text, out var year) || year <= 1960)
+                {
+                    MessageBox.Show("Рік авто має бути більшим за 1960.");
+                    return;
+                }
+                car.Year = year;
                 if (decimal.TryParse(TbPrice.Text, out var price)) car.Price = price;
                 if (int.TryParse(TbMileage.Text, out var mileage)) car.Mileage = mileage;
                 if (int.TryParse(TbWeight.Text, out var weight)) car.Weight = weight;

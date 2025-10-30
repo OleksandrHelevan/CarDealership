@@ -68,7 +68,7 @@ namespace CarDealership.page.@operator
                     return;
                 }
 
-                if (!int.TryParse(TbYear.Text, out var year) || year < 1900)
+                if (!int.TryParse(TbYear.Text, out var year) || year <= 1960)
                 {
                     MessageBox.Show("Невірний рік");
                     return;

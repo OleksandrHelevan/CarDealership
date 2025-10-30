@@ -1,5 +1,7 @@
 
 using System.Windows;
+using System.Linq;
+using System.Text.RegularExpressions;
 using CarDealership.config;
 using CarDealership.config.decoder;
 using CarDealership.entity;
@@ -30,33 +32,77 @@ namespace CarDealership.window
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
 
+            // First/Last name: at least 2 letters (letters only)
+            if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || !firstName.All(char.IsLetter))
+            {
+                MessageBox.Show("Ім'я має містити щонайменше 2 літери та тільки літери.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || !lastName.All(char.IsLetter))
+            {
+                MessageBox.Show("Прізвище має містити щонайменше 2 літери та тільки літери.");
+                return;
+            }
+
+            // Passport number: exactly 13 digits
+            if (string.IsNullOrWhiteSpace(passportNumber) || !Regex.IsMatch(passportNumber, "^\\d{13}$"))
+            {
+                MessageBox.Show("Номер паспорта має складатися з 13 цифр.");
+                return;
+            }
+
+            // Login: must be a unique passport number (13 digits)
+            if (string.IsNullOrWhiteSpace(login) || !Regex.IsMatch(login, "^\\d{13}$"))
+            {
+                MessageBox.Show("Логін має бути номером паспорта з 13 цифр.");
+                return;
+            }
+
+            // Optional consistency: login equals entered passport number
+            if (!string.Equals(login, passportNumber))
+            {
+                MessageBox.Show("Логін має збігатися з номером паспорта (13 цифр).");
+                return;
+            }
+
             if (password != confirmPassword)
             {
-                MessageBox.Show("Passwords do not match!");
+                MessageBox.Show("Підтвердження пароля не збігається з паролем.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Email is required.");
+                MessageBox.Show("Email є обов'язковим.");
                 return;
             }
 
-            if (!email.Contains('@') || !email.Contains('.'))
+            // Email pattern validation
+            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                MessageBox.Show("Please enter a valid email address.");
+                MessageBox.Show("Введіть коректну email-адресу.");
+                return;
+            }
+
+            // Password: more than 8 chars and contains letters and digits
+            bool hasLetter = password.Any(char.IsLetter);
+            bool hasDigit = password.Any(char.IsDigit);
+            if (password.Length <= 8 || !hasLetter || !hasDigit)
+            {
+                MessageBox.Show("Пароль має бути довшим за 8 символів та містити літери й цифри.");
                 return;
             }
 
             if (_context.Users.Any(k => k.Login == login))
             {
-                MessageBox.Show("This login is already taken.");
+                MessageBox.Show("Такий логін уже зайнятий.");
                 return;
             }
 
             if (_context.Users.Any(k => k.Email == email))
             {
-                MessageBox.Show("This email is already registered.");
+                MessageBox.Show("Такий email уже зареєстровано.");
                 return;
             }
 

@@ -28,7 +28,6 @@ public class OrderReview
     [MaxLength(500)]
     public string? Message { get; set; }
 
-    // Flags derived from Order at creation time
     [Required]
     [Column("requires_delivery_address")]
     public bool RequiresDeliveryAddress { get; set; }
