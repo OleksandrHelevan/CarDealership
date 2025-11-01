@@ -60,4 +60,9 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new UsersAndCarsPaymentTypePage());
     }
+
+    private void BtnMinStock_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new PopularCarsQuarterPage());
+    }
 }

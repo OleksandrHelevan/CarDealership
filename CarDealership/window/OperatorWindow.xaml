@@ -85,7 +85,10 @@
                     Content="Мій акаунт"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnMyAccount_Click" />
-            
+            <Button Name="BtnMinStock"
+                    Content="Мінімальний запас"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnMinStock_Click" />
             <Button Name="BtnClients"
                     Content="Клієнти"
                     Style="{StaticResource RoundedButtonStyle}"

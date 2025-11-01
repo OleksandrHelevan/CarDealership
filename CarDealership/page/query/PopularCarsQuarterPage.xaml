@@ -1,0 +1,42 @@
+<Page x:Class="CarDealership.page.query.PopularCarsQuarterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="Топ авто за квартал">
+
+    <DockPanel Background="#f7f7f7">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Період:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+            <ComboBox x:Name="QuarterPicker" Width="280" Height="30" Margin="0,0,12,0"/>
+            <Button x:Name="BtnRun" Content="Показати" Height="34" Padding="16,4"
+                    Background="#3B82F6" Foreground="White" FontWeight="SemiBold" BorderThickness="0"
+                    Click="BtnRun_Click"/>
+        </StackPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="ResultsItems">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="10" Padding="12" Background="#F5F5F5">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Rank, StringFormat=#{0}}" FontWeight="Bold" Width="50"/>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Count, StringFormat=Купівель: {0}}"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Page>
+
