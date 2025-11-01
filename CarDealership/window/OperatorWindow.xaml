@@ -91,6 +91,11 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnClients_Click" />
 
+            <Button Name="BtnUsersCarsByPayment"
+                    Content="Клієнти/Авто по оплаті"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnUsersCarsByPayment_Click" />
+
         </StackPanel>
 
         <Frame x:Name="MainFrame"

@@ -55,4 +55,9 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new ClientsDetailsPage());
     }
+
+    private void BtnUsersCarsByPayment_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new UsersAndCarsPaymentTypePage());
+    }
 }
