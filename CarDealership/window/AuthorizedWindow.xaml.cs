@@ -1,6 +1,7 @@
 using System.Windows;
 using CarDealership.page;
 using CarDealership.page.authorized;
+using CarDealership.page.query;
 
 namespace CarDealership.window;
 
@@ -36,7 +37,9 @@ public partial class AuthorizedWindow
 
     private void BtnQueries_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new RoureQueriesPage(_currentUserLogin));
+        MainFrame.Navigate(new RouteQueriesPage(_currentUserLogin));
     }
+
+
 
 }

@@ -15,6 +15,11 @@
 
     <DockPanel Background="#f7f7f7">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10" HorizontalAlignment="Center">
+            <ComboBox x:Name="StockStatusFilter" Width="180" Height="30" Margin="0,0,10,0">
+                <ComboBoxItem Content="В наявності" IsSelected="True"/>
+                <ComboBoxItem Content="Нема в наявності"/>
+            </ComboBox>
+            <Button x:Name="StockStatusApplyButton" Content="Показати" Width="120" Height="30" Click="StockStatusApplyButton_Click"/>
         </StackPanel>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
@@ -36,6 +41,8 @@
                                 <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна: {0}}" Margin="0 2"/>
                                 <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0 2"/>
 
+                                <TextBlock Text="{Binding Amount, StringFormat=Кількість: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding AvailableFrom, StringFormat=Доступно з: {0:yyyy-MM-dd}}" Margin="0 2"/>
                                 <Separator Margin="0,5"/>
 
                                 <TextBlock Text="{Binding Car.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
@@ -90,6 +90,36 @@ namespace CarDealership.page.@operator
                 MessageBox.Show($"Помилка видалення: {ex.Message}\n\nДеталі: {ex.InnerException?.Message}");
             }
         }
+
+        private void StockStatusApplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var selected = StockStatusFilter.SelectedItem as ComboBoxItem;
+                var text = selected?.Content?.ToString() ?? string.Empty;
+
+                var query = _context.Products
+                    .Include(p => p.Car)
+                    .ThenInclude(c => c.Engine)
+                    .AsQueryable();
+
+                if (string.Equals(text, "Нема в наявності", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query.Where(p => !p.InStock);
+                }
+                else if (string.Equals(text, "В наявності", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query.Where(p => p.InStock);
+                }
+
+                ProductsList.ItemsSource = query.ToList();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Помилка фільтру: {ex.Message}");
+            }
+        }
     }
 }
+
 

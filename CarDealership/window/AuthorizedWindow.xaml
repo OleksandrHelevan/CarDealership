@@ -82,7 +82,7 @@
                     Content="Вбудовані запити"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnQueries_Click" />
-
+           
         </StackPanel>
 
         <Frame x:Name="MainFrame"
@@ -93,3 +93,4 @@
                VerticalAlignment="Stretch" />
     </DockPanel>
 </Window>
+

@@ -65,5 +65,14 @@ namespace CarDealership.repo.impl
                 .Where(p => p.Car != null && p.Car.CarType == carType && vehicleIds.Contains(p.Car.Id))
                 .ToList();
         }
+
+        public IEnumerable<Product> GetByStock(bool inStock)
+        {
+            return _context.Products
+                .Include(p => p.Car)
+                .ThenInclude(c => c.Engine)
+                .Where(p => p.InStock == inStock)
+                .ToList();
+        }
     }
 }

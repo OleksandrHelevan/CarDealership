@@ -13,5 +13,6 @@ namespace CarDealership.repo
         void Delete(int id);
         bool ExistsByNumber(string number);
         IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType);
+        IEnumerable<Product> GetByStock(bool inStock);
     }
 }

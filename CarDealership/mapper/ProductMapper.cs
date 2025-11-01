@@ -53,6 +53,7 @@ public static class ProductMapper
             entity.Number,
             entity.CountryOfOrigin,
             entity.InStock,
+            entity.Amount,
             entity.AvailableFrom,
             vehicle
         );
@@ -66,6 +67,7 @@ public static class ProductMapper
             Number = dto.Number,
             CountryOfOrigin = dto.CountryOfOrigin,
             InStock = dto.InStock,
+            Amount = dto.Amount,
             AvailableFrom = dto.AvailableFrom,
             CarId = dto.Vehicle.Id
         };

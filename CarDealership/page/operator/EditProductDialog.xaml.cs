@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,6 +45,7 @@ namespace CarDealership.page.@operator
             TbCountry.Text = ProductToEdit.CountryOfOrigin;
             CbInStock.IsChecked = ProductToEdit.InStock;
             DpAvailableFrom.SelectedDate = ProductToEdit.AvailableFrom;
+            TbAmount.Text = ProductToEdit.Amount.ToString();
 
             // Car fields
             var car = ProductToEdit.Car;
@@ -110,6 +111,10 @@ namespace CarDealership.page.@operator
                 ProductToEdit.AvailableFrom = DpAvailableFrom.SelectedDate.HasValue
                     ? DateTime.SpecifyKind(DpAvailableFrom.SelectedDate.Value, DateTimeKind.Utc)
                     : null;
+                if (int.TryParse(TbAmount.Text, out var amount))
+                {
+                    ProductToEdit.Amount = Math.Max(0, amount);
+                }
 
                 var car = ProductToEdit.Car;
                 if (car == null) { DialogResult = false; return; }
@@ -118,7 +123,7 @@ namespace CarDealership.page.@operator
                 car.ModelName = TbModel.Text.Trim();
                 if (!int.TryParse(TbYear.Text, out var year) || year <= 1960)
                 {
-                    MessageBox.Show("Рік авто має бути більшим за 1960.");
+                    MessageBox.Show("Р С–Рє Р°РІС‚Рѕ РјР°С” Р±СѓС‚Рё Р±С–Р»СЊС€РёРј Р·Р° 1960.");
                     return;
                 }
                 car.Year = year;
@@ -165,7 +170,7 @@ namespace CarDealership.page.@operator
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка: {ex.Message}");
+                MessageBox.Show($"Помилка оновлення: {ex.Message}");
             }
         }
 

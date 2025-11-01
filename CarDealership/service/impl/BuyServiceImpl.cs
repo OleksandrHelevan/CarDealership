@@ -1,11 +1,7 @@
 using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.entity;
-using CarDealership.enums;
-using CarDealership.mapper;
 using CarDealership.repo;
-using CarDealership.repo.impl;
-using CarDealership.service;
 using System.Windows;
 
 namespace CarDealership.service.impl
@@ -30,19 +26,17 @@ namespace CarDealership.service.impl
                 using var ctx = new DealershipContext();
                 using var tx = ctx.Database.BeginTransaction();
 
-                // 1) Validate and load product in this context
                 var product = ctx.Products.FirstOrDefault(p => p.Id == buyCarDto.Id);
                 if (product == null)
-                    throw new InvalidOperationException($"Продукт не знайдено: ID={buyCarDto.Id}");
-                if (!product.InStock)
+                    throw new InvalidOperationException($"Product not found: ID={buyCarDto.Id}");
+
+                if (product.Amount <= 0 || !product.InStock)
                     throw new InvalidOperationException($"Продукт №{product.Number} відсутній на складі.");
 
-                // 2) Validate client in this context
                 var client = ctx.Clients.FirstOrDefault(c => c.Id == buyCarDto.ClientId);
                 if (client == null)
                     throw new InvalidOperationException($"Клієнта не знайдено: ID={buyCarDto.ClientId}");
 
-                // 3) Create order and persist
                 var order = new Order
                 {
                     ClientId = client.Id,
@@ -56,8 +50,8 @@ namespace CarDealership.service.impl
 
                 ctx.Orders.Add(order);
 
-                // 4) Mark product as sold
-                product.InStock = false;
+                // Decrement amount; DB trigger updates in_stock accordingly
+                product.Amount = Math.Max(0, product.Amount - 1);
                 ctx.Products.Update(product);
 
                 ctx.SaveChanges();
@@ -72,10 +66,10 @@ namespace CarDealership.service.impl
             }
         }
 
-
         private string GenerateProductNumber()
         {
             return $"PROD-{DateTime.Now:yyyyMMdd}-{DateTime.Now:HHmmss}-{Guid.NewGuid().ToString().Substring(0, 8)}";
         }
     }
 }
+

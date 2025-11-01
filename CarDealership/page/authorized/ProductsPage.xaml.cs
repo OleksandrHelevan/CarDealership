@@ -58,7 +58,7 @@ namespace CarDealership.page.authorized
             try
             {
                 var allProducts = _productService.GetAll();
-                GasolineCarsList.ItemsSource = allProducts.Where(p => p.InStock).ToList();
+                GasolineCarsList.ItemsSource = allProducts.ToList();
             }
             catch (Exception ex)
             {
@@ -71,7 +71,10 @@ namespace CarDealership.page.authorized
             {
                 // TODO: Implement unified Car filtering; for now, reload all
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
-                var allProducts = productRepo.GetAll().Select(ProductMapper.ToDto).Where(p => p.InStock).ToList();
+                var allProducts = productRepo.GetAll().Select(ProductMapper.ToDto).ToList();
+
+                // stock filter removed from ProductsPage
+
                 GasolineCarsList.ItemsSource = allProducts;
             }
             catch (Exception ex)
@@ -271,6 +274,8 @@ namespace CarDealership.page.authorized
                 return 0;
             }
         }
+
+        
     }
 
   

@@ -24,6 +24,10 @@ public class Product
     [Column("in_stock")]
     public bool InStock { get; set; }
 
+    [Required]
+    [Column("amount")]
+    public int Amount { get; set; }
+
     [Column("available_from")]
     public DateTime? AvailableFrom { get; set; }
 

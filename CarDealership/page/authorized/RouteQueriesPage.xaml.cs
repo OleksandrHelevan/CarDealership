@@ -3,11 +3,11 @@ using CarDealership.page.query;
 
 namespace CarDealership.page.authorized;
 
-public partial class RoureQueriesPage
+public partial class RouteQueriesPage
 {
     private readonly string _login;
 
-    public RoureQueriesPage(string login = null)
+    public RouteQueriesPage(string login = null)
     {
         InitializeComponent();
         _login = login;
@@ -26,5 +26,9 @@ public partial class RoureQueriesPage
     private void Btn3_Click(object sender, RoutedEventArgs e)
     {
         NavigationService?.Navigate(new BrandsDelayPage());
+    }
+    private void BtnMinStock_Click(object sender, RoutedEventArgs e)
+    {
+        NavigationService?.Navigate(new MinStockCarsPage());
     }
 }
