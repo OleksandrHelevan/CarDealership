@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using CarDealership.config;
 using CarDealership.entity;
@@ -24,7 +24,7 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
     public int CreateReceipt(int orderId, string cardNumber)
     {
         if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Count(char.IsDigit) < 12)
-            throw new ArgumentException("Некоректний номер картки.");
+            throw new ArgumentException("РќРµРєРѕСЂРµРєС‚РЅРёР№ РЅРѕРјРµСЂ РєР°СЂС‚РєРё.");
 
         // Validate that the order has an approved review
         var review = _context.OrderReviews
@@ -33,11 +33,11 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
             .FirstOrDefault(r => r.OrderId == orderId);
 
         if (review == null)
-            throw new InvalidOperationException("Замовлення не має рішення оператора.");
+            throw new InvalidOperationException("Р—Р°РјРѕРІР»РµРЅРЅСЏ РЅРµ РјР°С” СЂС–С€РµРЅРЅСЏ РѕРїРµСЂР°С‚РѕСЂР°.");
         if (review.Status == RequestStatus.Rejected)
-            throw new InvalidOperationException($"Замовлення відхилено: {review.Message}");
+            throw new InvalidOperationException($"Р—Р°РјРѕРІР»РµРЅРЅСЏ РІС–РґС…РёР»РµРЅРѕ: {review.Message}");
         if (review.Status != RequestStatus.Approved)
-            throw new InvalidOperationException("Замовлення ще не підтверджене.");
+            throw new InvalidOperationException("Р—Р°РјРѕРІР»РµРЅРЅСЏ С‰Рµ РЅРµ РїС–РґС‚РІРµСЂРґР¶РµРЅРµ.");
 
         var order = (from o in _context.Orders
                      where o.Id == orderId
@@ -48,7 +48,7 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
                      select new { o, p, c, pd }).FirstOrDefault();
 
         if (order == null)
-            throw new InvalidOperationException("Замовлення не знайдено.");
+            throw new InvalidOperationException("Р—Р°РјРѕРІР»РµРЅРЅСЏ РЅРµ Р·РЅР°Р№РґРµРЅРѕ.");
 
         var last4 = new string(cardNumber.Where(char.IsDigit).TakeLast(4).ToArray());
         var carName = $"{order.c.Brand} {order.c.ModelName}";
@@ -64,10 +64,17 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
             CardLast4 = last4,
             CreatedAt = DateTime.UtcNow,
             ReceiptPdf = pdf,
-            ContentType = "application/pdf"
+            ContentType = "application/pdf",
+            OperatorId = _context.OrderReviews
+                .Where(r => r.OrderId == orderId && r.Status == RequestStatus.Approved)
+                .OrderByDescending(r => r.Id)
+                .Select(r => r.ApprovedByUserId)
+                .FirstOrDefault()
         };
 
         _repo.Add(history);
         return history.Id;
     }
 }
+
+

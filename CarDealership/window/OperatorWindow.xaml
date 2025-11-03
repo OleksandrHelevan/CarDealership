@@ -99,7 +99,10 @@
             <Button Name="BtnWaitingCustomers"
                     Content="Очікують на склад"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnWaitingCustomers_Click" />
+                    Click="BtnWaitingCustomers_Click" />            <Button Name="BtnDealerContracts"
+                    Content="Договори по дилеру"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnDealerContracts_Click" />
             
 
         </WrapPanel>
@@ -112,6 +115,7 @@
                VerticalAlignment="Stretch" />
     </DockPanel>
 </Window>
+
 
 
 

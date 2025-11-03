@@ -49,7 +49,7 @@ public partial class OperatorWindow : Window
 
     private void showOrders_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new OrderReviewPage());
+        MainFrame.Navigate(new OrderReviewPage(_currentLogin));
     }
 
     private void BtnClients_Click(object sender, RoutedEventArgs e)
@@ -73,4 +73,10 @@ public partial class OperatorWindow : Window
     }
 
     
+    private void BtnDealerContracts_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new CarDealership.page.query.DealerContractsCountPage());
+    }
 }
+
+

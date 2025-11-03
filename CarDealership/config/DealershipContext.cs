@@ -1,4 +1,4 @@
-using CarDealership.entity;
+﻿using CarDealership.entity;
 using CarDealership.enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -70,14 +70,14 @@ namespace CarDealership.config
 
             modelBuilder.Entity<Order>()
                 .ToTable("orders")
-                .HasOne(o => o.Client)      // Навігація
-                .WithMany()                 // Clients не має колекції Orders, тому просто WithMany()
+                .HasOne(o => o.Client)      // РќР°РІС–РіР°С†С–СЏ
+                .WithMany()                 // Clients РЅРµ РјР°С” РєРѕР»РµРєС†С–С— Orders, С‚РѕРјСѓ РїСЂРѕСЃС‚Рѕ WithMany()
                 .HasForeignKey(o => o.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.Product)     // Навігація
-                .WithMany()                 // Products не має колекції Orders
+                .HasOne(o => o.Product)     // РќР°РІС–РіР°С†С–СЏ
+                .WithMany()                 // Products РЅРµ РјР°С” РєРѕР»РµРєС†С–С— Orders
                 .HasForeignKey(o => o.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -162,6 +162,18 @@ namespace CarDealership.config
                 .Property(e => e.EngineType)
                 .HasConversion(engineTypeConverter);
 
+                        modelBuilder.Entity<OrderReview>()
+                .HasOne(r => r.ApprovedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.ApprovedByUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<PaymentHistory>()
+                .HasOne(ph => ph.Operator)
+                .WithMany()
+                .HasForeignKey(ph => ph.OperatorId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             modelBuilder.Entity<User>()
                 .ToTable("keys")
                 .Property(u => u.AccessRight)
@@ -169,3 +181,6 @@ namespace CarDealership.config
         }
     }
 }
+
+
+

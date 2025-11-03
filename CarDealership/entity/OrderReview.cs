@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CarDealership.enums;
@@ -46,4 +46,11 @@ public class OrderReview
 
     [Column("updated_at", TypeName = "timestamptz")]
     public DateTime? UpdatedAt { get; set; }
+
+    [ForeignKey(nameof(ApprovedByUser))]
+    [Column("approved_by_user_id")]
+    public int? ApprovedByUserId { get; set; }
+
+    public User? ApprovedByUser { get; set; }
+
 }

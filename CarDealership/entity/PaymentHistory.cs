@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -40,5 +40,11 @@ public class PaymentHistory
     [Required]
     [Column("receipt_pdf")]
     public byte[] ReceiptPdf { get; set; } = Array.Empty<byte>();
-}
 
+    [ForeignKey(nameof(Operator))]
+    [Column("operator_id")]
+    public int? OperatorId { get; set; }
+
+    public User? Operator { get; set; }
+
+}

@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +18,7 @@ public partial class OrderReviewPage : Page
     private readonly OrderReviewServiceImpl _reviewService;
     private readonly OrderRepositoryImpl _orderRepo;
     private readonly OrderReviewRepositoryImpl _reviewRepo;
+    private readonly string? _operatorLogin;
 
     public class OrderRow
     {
@@ -39,10 +40,14 @@ public partial class OrderReviewPage : Page
         LoadOrders();
     }
 
+    public OrderReviewPage(string operatorLogin) : this()
+    {
+        _operatorLogin = operatorLogin;
+    }
+
     private void LoadOrders()
     {
         var orders = _context.Orders
-            // show only orders that have no review created yet
             .Where(o => !_context.OrderReviews.Any(r => r.OrderId == o.Id))
             .Include(o => o.Client)
                 .ThenInclude(c => c.PassportData)
@@ -74,11 +79,10 @@ public partial class OrderReviewPage : Page
             var dlg = new OrderDecisionDialog(order.PaymentType) { Owner = Window.GetWindow(this) };
             if (dlg.ShowDialog() == true)
             {
-                // ensure review exists
                 var review = _reviewRepo.GetByOrderId(orderId);
                 if (review == null)
                 {
-                    review = new OrderReview { OrderId = orderId, Status = enums.RequestStatus.Pending, RequiresDeliveryAddress = order.Delivery, RequiresCardNumber = order.PaymentType == PaymentType.Card };
+                    review = new OrderReview { OrderId = orderId, Status = RequestStatus.Pending, RequiresDeliveryAddress = order.Delivery, RequiresCardNumber = order.PaymentType == PaymentType.Card };
                     _reviewRepo.Add(review);
                 }
 
@@ -86,7 +90,16 @@ public partial class OrderReviewPage : Page
                 {
                     _reviewService.Approve(review.Id, null);
 
-                    // Submit required details if any (delivery address and/or card number)
+                    if (!string.IsNullOrEmpty(_operatorLogin))
+                    {
+                        var user = _context.Users.FirstOrDefault(u => u.Login == _operatorLogin);
+                        if (user != null)
+                        {
+                            review.ApprovedByUserId = user.Id;
+                            _reviewRepo.Update(review);
+                        }
+                    }
+
                     var deliveryAddress = order.Delivery ? order.Address : null;
                     var cardNumber = order.PaymentType == PaymentType.Card ? dlg.CardNumber : null;
                     if (order.Delivery || order.PaymentType == PaymentType.Card)
@@ -97,7 +110,7 @@ public partial class OrderReviewPage : Page
                         }
                         catch (System.Exception ex)
                         {
-                            MessageBox.Show($"Помилка обробки рішення: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show($"Помилка збереження деталей: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
                     }
@@ -108,7 +121,7 @@ public partial class OrderReviewPage : Page
                 }
 
                 LoadOrders();
-                MessageBox.Show("Рішення збережено.", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Рішення збережено.", "Інформація", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

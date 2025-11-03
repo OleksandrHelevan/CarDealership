@@ -1,0 +1,26 @@
+﻿<Page x:Class="CarDealership.page.query.DealerContractsCountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="DealerContractsCountPage">
+
+    <DockPanel Background="#f7f7f7">
+        <TextBlock DockPanel.Dock="Top" Text="Кількість договорів по дилерах" FontSize="18" FontWeight="Bold" Margin="12"/>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="12" HorizontalAlignment="Center">
+            <TextBlock Text="Дилер:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ComboBox x:Name="DealerPicker" Width="260" Height="30" SelectionChanged="DealerPicker_SelectionChanged"/>
+        </StackPanel>
+
+        <ListView x:Name="Results" Margin="12">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Дилер (логін)" DisplayMemberBinding="{Binding DealerLogin}" Width="240"/>
+                    <GridViewColumn Header="К-сть договорів" DisplayMemberBinding="{Binding ContractsCount}" Width="140"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Page>
