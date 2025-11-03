@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using CarDealership.page;
 using CarDealership.page.admin;
 using CarDealership.page.authorized;
@@ -36,11 +36,12 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new AddCarPage());
     }
-    
+
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new EditProductPage());
     }
+
     private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new UserDetailsPage(_currentLogin));
@@ -65,4 +66,11 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new PopularCarsQuarterPage());
     }
+
+    private void BtnWaitingCustomers_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new WaitingCustomersPage());
+    }
+
+    
 }

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CarDealership.config;
@@ -79,14 +79,14 @@ namespace CarDealership.page.authorized
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при застосуванні фільтра: {ex.Message}");
+                MessageBox.Show($"РџРѕРјРёР»РєР° РїСЂРё Р·Р°СЃС‚РѕСЃСѓРІР°РЅРЅС– С„С–Р»СЊС‚СЂР°: {ex.Message}");
             }
         }
         
         private TransmissionType? GetSelectedTransmissionType()
         {
             var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "КПП")
+            if (selectedItem == null || selectedItem.Content.ToString() == "РљРџРџ")
                 return null;
                 
             return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
@@ -95,7 +95,7 @@ namespace CarDealership.page.authorized
         private CarBodyType? GetSelectedBodyType()
         {
             var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Тип кузова")
+            if (selectedItem == null || selectedItem.Content.ToString() == "РўРёРї РєСѓР·РѕРІР°")
                 return null;
                 
             return FilterHelper.GetBodyType(selectedItem.Content.ToString());
@@ -104,7 +104,7 @@ namespace CarDealership.page.authorized
         private Color? GetSelectedColor()
         {
             var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Колір")
+            if (selectedItem == null || selectedItem.Content.ToString() == "РљРѕР»С–СЂ")
                 return null;
                 
             return FilterHelper.GetColor(selectedItem.Content.ToString());
@@ -113,7 +113,7 @@ namespace CarDealership.page.authorized
         private DriveType? GetSelectedDriveType()
         {
             var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Привід")
+            if (selectedItem == null || selectedItem.Content.ToString() == "РџСЂРёРІС–Рґ")
                 return null;
                 
             return FilterHelper.GetDriveType(selectedItem.Content.ToString());
@@ -122,7 +122,7 @@ namespace CarDealership.page.authorized
         private FuelType? GetSelectedFuelType()
         {
             var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "Тип пального")
+            if (selectedItem == null || selectedItem.Content.ToString() == "РўРёРї РїР°Р»СЊРЅРѕРіРѕ")
                 return null;
                 
             return FilterHelper.GetFuelType(selectedItem.Content.ToString());
@@ -146,7 +146,7 @@ namespace CarDealership.page.authorized
             return float.TryParse(text, out float value) ? value : null;
         }
         
-        private void BuyCar(ProductDto product)
+                private void BuyCar(ProductDto product)
         {
             System.Diagnostics.Debug.WriteLine($"BuyCar called for product: {product?.Number}");
             try
@@ -161,7 +161,6 @@ namespace CarDealership.page.authorized
                     var clientId = GetClientIdFromUser(_currentUserLogin);
                     if (clientId == 0)
                     {
-                        MessageBox.Show("Не знайдено клієнта для користувача");
                         return;
                     }
 
@@ -181,7 +180,10 @@ namespace CarDealership.page.authorized
                     var ok = _buyService.BuyCar(dto);
                     if (ok)
                     {
-                        MessageBox.Show("Замовлення успішно створено!");
+                        if (!product.InStock || product.Amount == 0)
+                            MessageBox.Show("Замовлення оформлено. Авто наразі відсутнє — очікуйте надходження на склад.");
+                        else
+                            MessageBox.Show("Покупку успішно оформлено!");
                     }
                     else
                     {
@@ -192,31 +194,29 @@ namespace CarDealership.page.authorized
                             var pr = new ProductRepositoryImpl(ctx).GetById(product.Id);
                             if (pr == null)
                             {
-                                MessageBox.Show($"Продукт не знайдено: ID={product.Id}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show($"Product not found: ID={product.Id}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                             else if (!pr.InStock)
                             {
-                                MessageBox.Show($"Продукт №{pr.Number} відсутній на складі.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                MessageBox.Show($"Product '{pr.Number}' is currently out of stock.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                             }
                             else
                             {
-                                MessageBox.Show("Не вдалося створити замовлення", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Failed to submit order.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }
                         catch (Exception innerEx)
                         {
-                            MessageBox.Show($"Не вдалося створити замовлення: {innerEx.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show($"Failed to submit order: {innerEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка покупки: {ex.Message}");
+                MessageBox.Show($"Error during purchase: {ex.Message}");
             }
-        }
-
-        private int GetClientIdFromUser(string userLogin)
+        }private int GetClientIdFromUser(string userLogin)
         {
             try
             {
@@ -280,3 +280,6 @@ namespace CarDealership.page.authorized
 
   
 }
+
+
+

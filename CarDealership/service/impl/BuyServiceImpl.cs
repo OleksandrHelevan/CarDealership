@@ -1,4 +1,4 @@
-using CarDealership.config;
+﻿using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.entity;
 using CarDealership.repo;
@@ -29,13 +29,12 @@ namespace CarDealership.service.impl
                 var product = ctx.Products.FirstOrDefault(p => p.Id == buyCarDto.Id);
                 if (product == null)
                     throw new InvalidOperationException($"Product not found: ID={buyCarDto.Id}");
-
-                if (product.Amount <= 0 || !product.InStock)
-                    throw new InvalidOperationException($"Продукт №{product.Number} відсутній на складі.");
+                // Allow placing an order even if not in stock (preorder)
+                // If product is available, we will decrement stock; otherwise, keep amount as is
 
                 var client = ctx.Clients.FirstOrDefault(c => c.Id == buyCarDto.ClientId);
                 if (client == null)
-                    throw new InvalidOperationException($"Клієнта не знайдено: ID={buyCarDto.ClientId}");
+                    throw new InvalidOperationException($"РљР»С–С”РЅС‚Р° РЅРµ Р·РЅР°Р№РґРµРЅРѕ: ID={buyCarDto.ClientId}");
 
                 var order = new Order
                 {
@@ -50,9 +49,13 @@ namespace CarDealership.service.impl
 
                 ctx.Orders.Add(order);
 
-                // Decrement amount; DB trigger updates in_stock accordingly
-                product.Amount = Math.Max(0, product.Amount - 1);
-                ctx.Products.Update(product);
+                // Decrement amount only if currently in stock and amount > 0
+                if (product.InStock && product.Amount > 0)
+                {
+                    // DB trigger expected to update in_stock accordingly
+                    product.Amount = Math.Max(0, product.Amount - 1);
+                    ctx.Products.Update(product);
+                }
 
                 ctx.SaveChanges();
                 tx.Commit();
@@ -61,7 +64,7 @@ namespace CarDealership.service.impl
             catch (Exception ex)
             {
                 var msg = ex.InnerException?.Message ?? ex.Message;
-                MessageBox.Show($"Помилка покупки: {msg}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"РџРѕРјРёР»РєР° РїРѕРєСѓРїРєРё: {msg}", "РџРѕРјРёР»РєР°", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
@@ -72,4 +75,5 @@ namespace CarDealership.service.impl
         }
     }
 }
+
 
