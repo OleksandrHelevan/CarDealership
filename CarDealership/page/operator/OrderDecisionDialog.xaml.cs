@@ -32,7 +32,8 @@ public partial class OrderDecisionDialog : Window
             Reason = ReasonBox.Text?.Trim();
             if (string.IsNullOrWhiteSpace(Reason))
             {
-                MessageBox.Show("Введіть причину відхилення.", "Перевірка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Введіть причину відхилення.", "Перевірка", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 return;
             }
         }

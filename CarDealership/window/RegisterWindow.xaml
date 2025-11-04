@@ -4,11 +4,15 @@
         FontSize="14">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#3B82F6" />             <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#3B82F6" />
+            <Setter Property="Foreground" Value="White" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="BorderThickness" Value="0" />             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Padding" Value="10,5" />             <Setter Property="Margin" Value="5" />
-            <Setter Property="FontSize" Value="14" />             <Setter Property="Width" Value="160" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="160" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -37,39 +41,46 @@
     </Window.Resources>
     <Grid Margin="30">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" /> <!-- 0 -->             <RowDefinition Height="Auto" /> <!-- 1 -->
-            <RowDefinition Height="Auto" /> <!-- 2 -->             <RowDefinition Height="Auto" /> <!-- 3 -->
-            <RowDefinition Height="Auto" /> <!-- 4 -->             <RowDefinition Height="Auto" /> <!-- 5 -->
-            <RowDefinition Height="Auto" /> <!-- 6 -->             <RowDefinition Height="Auto" /> <!-- 7 -->
-            <RowDefinition Height="Auto" /> <!-- 8 -->             <RowDefinition Height="Auto" /> <!-- 9 -->
-            <RowDefinition Height="Auto" /> <!-- 10 -->             <RowDefinition Height="Auto" /> <!-- 11 -->
-            <RowDefinition Height="Auto" /> <!-- 12 -->             <RowDefinition Height="Auto" /> <!-- 13 -->
-            <RowDefinition Height="Auto" /> <!-- 14 -->
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-    
-        <TextBlock Text="Ім'я" FontWeight="SemiBold" Margin="0,0,0,5"/>
-        <TextBox x:Name="FirstNameBox" Height="35" Margin="0,0,0,15" Grid.Row="1"/>
 
-        <TextBlock Text="Прізвище" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="2"/>
-        <TextBox x:Name="LastNameBox" Height="35" Margin="0,0,0,15" Grid.Row="3"/>
+        <TextBlock Text="Ім'я" FontWeight="SemiBold" Margin="0,0,0,5" />
+        <TextBox x:Name="FirstNameBox" Height="35" Margin="0,0,0,15" Grid.Row="1" />
 
-        <TextBlock Text="Номер паспорта" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="4"/>
-        <TextBox x:Name="PassportNumberBox" Height="35" Margin="0,0,0,15" Grid.Row="5"/>
-        
-        <TextBlock Text="Логін" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="6"/>
-        <TextBox x:Name="LoginBox" Height="35" Margin="0,0,0,15" Grid.Row="7"/>
+        <TextBlock Text="Прізвище" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="2" />
+        <TextBox x:Name="LastNameBox" Height="35" Margin="0,0,0,15" Grid.Row="3" />
 
-        <TextBlock Text="Email" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="12"/>
-        <TextBox x:Name="EmailBox" Height="35" Margin="0,0,0,15" Grid.Row="13"/>
+        <TextBlock Text="Номер паспорта" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="4" />
+        <TextBox x:Name="PassportNumberBox" Height="35" Margin="0,0,0,15" Grid.Row="5" />
 
-        <TextBlock Text="Пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="8"/>
-        <PasswordBox x:Name="PasswordBox" Height="35" Margin="0,0,0,15" Grid.Row="9"/>
+        <TextBlock Text="Логін" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="6" />
+        <TextBox x:Name="LoginBox" Height="35" Margin="0,0,0,15" Grid.Row="7" />
 
-        <TextBlock Text="Підтвердіть пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="10"/>
-        <PasswordBox x:Name="ConfirmPasswordBox" Height="35" Margin="0,0,0,15" Grid.Row="11"/>
-        
+        <TextBlock Text="Email" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="12" />
+        <TextBox x:Name="EmailBox" Height="35" Margin="0,0,0,15" Grid.Row="13" />
+
+        <TextBlock Text="Пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="8" />
+        <PasswordBox x:Name="PasswordBox" Height="35" Margin="0,0,0,15" Grid.Row="9" />
+
+        <TextBlock Text="Підтвердіть пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="10" />
+        <PasswordBox x:Name="ConfirmPasswordBox" Height="35" Margin="0,0,0,15" Grid.Row="11" />
+
         <StackPanel Grid.Row="14" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="╨Ч╨░╤А╨╡╤Ф╤Б╤В╤А╤Г╨▓╨░╤В╨╕╤Б╤П" Click="Register_Click"
+            <Button Content="Зареєструватися" Click="Register_Click"
                     Style="{StaticResource RoundedButtonStyle}" />
         </StackPanel>
     </Grid>

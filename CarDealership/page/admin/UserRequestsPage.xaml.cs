@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using CarDealership.config;
 using CarDealership.dto;
@@ -75,15 +74,14 @@ public partial class UserRequestsPage : Page
 
         try
         {
-            if (_requestService.UpdateRequest(request))
+            if (!_requestService.UpdateRequest(request))
             {
-            }
-            else
-            {
+                MessageBox.Show("Не вдалося.");
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
+            MessageBox.Show($"Помилка відхилення запиту: {ex.Message}");
         }
         finally
         {

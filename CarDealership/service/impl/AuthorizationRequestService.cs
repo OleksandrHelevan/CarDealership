@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CarDealership.config;
 using CarDealership.entity;
 using CarDealership.enums;
@@ -18,11 +17,9 @@ namespace CarDealership.service.impl
 
         public AuthorizationRequest CreateRequest(string login)
         {
-            // check existing request by login
             if (_repository.GetByLogin(login) != null)
                 throw new RequestAlreadyExistException("Запит вже поданий, очікуйте відповіді");
 
-            // resolve user by login
             using var context = new DealershipContext();
             var user = context.Users.FirstOrDefault(u => u.Login == login);
             if (user == null)

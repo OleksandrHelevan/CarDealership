@@ -6,13 +6,13 @@ using System.Windows;
 
 namespace CarDealership.service.impl
 {
-    public class BuyServiceImpl : IBuyService
+    public class BuyServiceImpl
     {
         private readonly IProductRepository _productRepository;
-        private readonly IOrderService _orderService;
+        private readonly OrderService _orderService;
         private readonly IClientRepository _clientRepository;
 
-        public BuyServiceImpl(IProductRepository productRepository, IOrderService orderService, IClientRepository clientRepository)
+        public BuyServiceImpl(IProductRepository productRepository, OrderService orderService, IClientRepository clientRepository)
         {
             _productRepository = productRepository;
             _orderService = orderService;
@@ -29,12 +29,10 @@ namespace CarDealership.service.impl
                 var product = ctx.Products.FirstOrDefault(p => p.Id == buyCarDto.Id);
                 if (product == null)
                     throw new InvalidOperationException($"Product not found: ID={buyCarDto.Id}");
-                // Allow placing an order even if not in stock (preorder)
-                // If product is available, we will decrement stock; otherwise, keep amount as is
 
                 var client = ctx.Clients.FirstOrDefault(c => c.Id == buyCarDto.ClientId);
                 if (client == null)
-                    throw new InvalidOperationException($"РљР»С–С”РЅС‚Р° РЅРµ Р·РЅР°Р№РґРµРЅРѕ: ID={buyCarDto.ClientId}");
+                    throw new InvalidOperationException($"Клієнта не знайдено: ID={buyCarDto.ClientId}");
 
                 var order = new Order
                 {
@@ -49,10 +47,8 @@ namespace CarDealership.service.impl
 
                 ctx.Orders.Add(order);
 
-                // Decrement amount only if currently in stock and amount > 0
                 if (product.InStock && product.Amount > 0)
                 {
-                    // DB trigger expected to update in_stock accordingly
                     product.Amount = Math.Max(0, product.Amount - 1);
                     ctx.Products.Update(product);
                 }
@@ -64,7 +60,7 @@ namespace CarDealership.service.impl
             catch (Exception ex)
             {
                 var msg = ex.InnerException?.Message ?? ex.Message;
-                MessageBox.Show($"РџРѕРјРёР»РєР° РїРѕРєСѓРїРєРё: {msg}", "РџРѕРјРёР»РєР°", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка покупки: {msg}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
@@ -75,5 +71,3 @@ namespace CarDealership.service.impl
         }
     }
 }
-
-

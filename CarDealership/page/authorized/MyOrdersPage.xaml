@@ -9,18 +9,18 @@
 
     <Page.Resources>
         <Style x:Key="ButtonHoverRedStyle" TargetType="Button">
-            <Setter Property="Background" Value="#3B82F6"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="Background" Value="#3B82F6" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="0,10,0,0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -41,14 +41,14 @@
         </Style>
 
         <Style x:Key="OrderCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Padding" Value="15"/>
-            <Setter Property="Width" Value="320"/>
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="Width" Value="320" />
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.2" BlurRadius="5"/>
+                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
                 </Setter.Value>
             </Setter>
         </Style>
@@ -60,13 +60,13 @@
                        FontSize="28"
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
-                       Margin="0,0,0,20"/>
+                       Margin="0,0,0,20" />
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl x:Name="OrdersList">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Left" IsItemsHost="True"/>
+                            <WrapPanel HorizontalAlignment="Left" IsItemsHost="True" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
@@ -74,24 +74,28 @@
                         <DataTemplate DataType="{x:Type model:OrderDto}">
                             <Border Style="{StaticResource OrderCardStyle}">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding CarName}" 
-                                               FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
-                                    
+                                    <TextBlock Text="{Binding CarName}"
+                                               FontSize="18" FontWeight="Bold" Margin="0 0 0 10" />
+
                                     <StackPanel Margin="0,0,0,10">
-                                        <TextBlock Text="{Binding PaymentType, StringFormat=Оплата: {0}}" FontWeight="SemiBold"/>
-                                        <TextBlock Text="{Binding Delivery, StringFormat=Доставка: {0}}" FontWeight="SemiBold"/>
-                                        <TextBlock Text="{Binding CreatedAt, StringFormat=Дата замовлення: {0:dd.MM.yyyy}}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding PaymentType, StringFormat=Оплата: {0}}"
+                                                   FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Delivery, StringFormat=Доставка: {0}}"
+                                                   FontWeight="SemiBold" />
+                                        <TextBlock
+                                            Text="{Binding CreatedAt, StringFormat=Дата замовлення: {0:dd.MM.yyyy}}"
+                                            FontWeight="SemiBold" />
                                     </StackPanel>
 
-                                    <Button Content="Відмінити" 
+                                    <Button Content="Відмінити"
                                             Style="{StaticResource ButtonHoverRedStyle}"
                                             Tag="{Binding Id}"
-                                            Click="CancelOrderButton_Click"/>
+                                            Click="CancelOrderButton_Click" />
                                     <Button Content="Оновити"
                                             Style="{StaticResource ButtonHoverRedStyle}"
                                             Margin="0,10,0,0"
                                             Tag="{Binding Id}"
-                                            Click="UpdateOrderButton_Click"/>
+                                            Click="UpdateOrderButton_Click" />
                                 </StackPanel>
                             </Border>
                         </DataTemplate>

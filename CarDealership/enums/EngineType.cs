@@ -2,7 +2,7 @@ namespace CarDealership.enums;
 
 public enum EngineType
 {
-    Electro, 
+    Electro,
     Gasoline
 }
 

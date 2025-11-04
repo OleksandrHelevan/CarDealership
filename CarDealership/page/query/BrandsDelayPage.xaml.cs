@@ -72,7 +72,8 @@ public partial class BrandsDelayPage
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка завантаження даних: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка завантаження даних: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 }

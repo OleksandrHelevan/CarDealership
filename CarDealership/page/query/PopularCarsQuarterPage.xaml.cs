@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using CarDealership.config;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +14,7 @@ public partial class PopularCarsQuarterPage
     public class PopularItem
     {
         public int Rank { get; set; }
-        public string Title { get; set; } = string.Empty; // Brand Model
+        public string Title { get; set; } = string.Empty;
         public int Count { get; set; }
     }
 
@@ -31,7 +28,6 @@ public partial class PopularCarsQuarterPage
 
     private void LoadPeriods()
     {
-        // Динамічно генеруємо квартальні періоди від 01.01.2024 до сьогодні
         var items = new List<PeriodItem>();
         var start = new DateTime(2024, 1, 1);
         var today = DateTime.Today;

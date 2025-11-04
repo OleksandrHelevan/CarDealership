@@ -16,14 +16,4 @@ public class ClientMapper
             PassportDataMapper.ToDto(e.PassportData)
         );
     }
-
-    public static Client ToEntity(ClientDto dto)
-    {
-        return new Client
-        {
-            Id = dto.Id,
-            UserId = dto.UserId,
-            PassportDataId = dto.PassportData.Id
-        };
-    }
 }

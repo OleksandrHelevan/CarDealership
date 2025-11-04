@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using CarDealership.page;
 using CarDealership.page.admin;
-using CarDealership.page.authorized;
 using CarDealership.page.@operator;
 using CarDealership.page.query;
 
@@ -72,11 +71,8 @@ public partial class OperatorWindow : Window
         MainFrame.Navigate(new WaitingCustomersPage());
     }
 
-    
     private void BtnDealerContracts_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new CarDealership.page.query.DealerContractsCountPage());
+        MainFrame.Navigate(new DealerContractsCountPage());
     }
 }
-
-

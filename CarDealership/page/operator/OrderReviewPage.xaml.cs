@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
@@ -50,7 +49,7 @@ public partial class OrderReviewPage : Page
         var orders = _context.Orders
             .Where(o => !_context.OrderReviews.Any(r => r.OrderId == o.Id))
             .Include(o => o.Client)
-                .ThenInclude(c => c.PassportData)
+            .ThenInclude(c => c.PassportData)
             .Include(o => o.Product)
             .Select(o => new OrderRow
             {
@@ -82,7 +81,11 @@ public partial class OrderReviewPage : Page
                 var review = _reviewRepo.GetByOrderId(orderId);
                 if (review == null)
                 {
-                    review = new OrderReview { OrderId = orderId, Status = RequestStatus.Pending, RequiresDeliveryAddress = order.Delivery, RequiresCardNumber = order.PaymentType == PaymentType.Card };
+                    review = new OrderReview
+                    {
+                        OrderId = orderId, Status = RequestStatus.Pending, RequiresDeliveryAddress = order.Delivery,
+                        RequiresCardNumber = order.PaymentType == PaymentType.Card
+                    };
                     _reviewRepo.Add(review);
                 }
 
@@ -108,9 +111,10 @@ public partial class OrderReviewPage : Page
                         {
                             _reviewService.SubmitDetails(review.Id, deliveryAddress, cardNumber);
                         }
-                        catch (System.Exception ex)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show($"Помилка збереження деталей: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show($"Помилка збереження деталей: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                             return;
                         }
                     }

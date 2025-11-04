@@ -12,11 +12,13 @@ namespace CarDealership.window
     {
         private readonly string _currentUserLogin;
         private readonly IAuthorizationRequestService _requestService;
+
         public GuestWindow(string login)
         {
             InitializeComponent();
-            _requestService = new AuthorizationRequestService(new AuthorizationRequestRepository(new DealershipContext()));
-            _currentUserLogin = login; 
+            _requestService =
+                new AuthorizationRequestService(new AuthorizationRequestRepository(new DealershipContext()));
+            _currentUserLogin = login;
             MainFrame.Navigate(new ProductsPage(_currentUserLogin));
         }
 
@@ -29,7 +31,7 @@ namespace CarDealership.window
         {
             MainFrame.Navigate(new ProductsPage(_currentUserLogin));
         }
-        
+
         private void BtnAuthRequest_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -40,7 +42,7 @@ namespace CarDealership.window
             catch (RequestAlreadyExistException ex)
             {
                 MessageBox.Show(ex.Message);
-            } 
+            }
         }
     }
 }

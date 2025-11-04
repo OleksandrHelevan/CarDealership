@@ -6,6 +6,7 @@ public enum FuelType
     Diesel,
     Gas
 }
+
 public static class FuelTypeExtensions
 {
     public static string ToFriendlyString(this FuelType fuelType)

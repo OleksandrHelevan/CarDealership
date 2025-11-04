@@ -4,7 +4,6 @@ public enum CarType
 {
     Electro,
     Gasoline
-
 }
 
 public static class CarTypeExtensions

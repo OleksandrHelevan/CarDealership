@@ -3,7 +3,6 @@ using CarDealership.entity;
 using CarDealership.enums;
 using CarDealership.mapper;
 using CarDealership.repo;
-using CarDealership.repo.impl;
 
 namespace CarDealership.service.impl;
 
@@ -66,7 +65,6 @@ public class OrderReviewServiceImpl : IOrderReviewService
     {
         var review = _reviewRepository.GetById(reviewId) ?? throw new InvalidOperationException("Review not found");
 
-        // If delivery address is required, allow using existing order address when provided earlier
         var order = review.Order ?? throw new InvalidOperationException("Order not loaded");
         var providedAddress = deliveryAddress?.Trim();
         var existingAddress = order.Address;
@@ -79,7 +77,6 @@ public class OrderReviewServiceImpl : IOrderReviewService
 
         if (review.RequiresDeliveryAddress)
         {
-            // persist address on Order entity; prefer newly provided address if any
             if (!string.IsNullOrWhiteSpace(providedAddress))
             {
                 order.Address = providedAddress;

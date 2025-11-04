@@ -1,25 +1,24 @@
 using System.Windows;
 using CarDealership.page;
 using CarDealership.page.authorized;
-using CarDealership.page.query;
 
 namespace CarDealership.window;
 
-public partial class AuthorizedWindow 
+public partial class AuthorizedWindow
 {
     private readonly string _currentUserLogin;
-    
+
     public AuthorizedWindow(string login)
     {
         InitializeComponent();
         _currentUserLogin = login;
     }
-    
+
     private void BtnGasolineCar_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new ProductsPage(_currentUserLogin));
     }
-    
+
     private void BtnMyOrders_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new MyOrdersPage(_currentUserLogin));
@@ -39,7 +38,4 @@ public partial class AuthorizedWindow
     {
         MainFrame.Navigate(new RouteQueriesPage(_currentUserLogin));
     }
-
-
-
 }

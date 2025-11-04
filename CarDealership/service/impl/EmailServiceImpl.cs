@@ -1,5 +1,4 @@
-using System;
-using System.Net;
+using System.Net; 
 using System.Net.Mail;
 using CarDealership.util;
 
@@ -16,7 +15,6 @@ public class EmailServiceImpl : IEmailService
 
     public EmailServiceImpl()
     {
-        // Load .env (if present) to populate environment variables
         DotEnv.Load();
 
         _host = Environment.GetEnvironmentVariable("SMTP_HOST") ?? "smtp.example.com";

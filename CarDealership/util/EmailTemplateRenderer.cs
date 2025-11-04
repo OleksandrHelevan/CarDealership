@@ -1,8 +1,4 @@
 using System.IO;
-
-using System;
-using System.IO;
-
 namespace CarDealership.util;
 
 public static class EmailTemplateRenderer

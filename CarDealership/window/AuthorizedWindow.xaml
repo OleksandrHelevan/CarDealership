@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:CarDealership.window"
         mc:Ignorable="d"
         Title="AuthorizedWindow"
         WindowStartupLocation="CenterScreen"
@@ -82,7 +81,7 @@
                     Content="Вбудовані запити"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnQueries_Click" />
-           
+
         </StackPanel>
 
         <Frame x:Name="MainFrame"
@@ -93,4 +92,3 @@
                VerticalAlignment="Stretch" />
     </DockPanel>
 </Window>
-

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
@@ -40,14 +38,12 @@ public partial class WaitingCustomersPage : Page
                 .Include(o => o.Client).ThenInclude(c => c.PassportData)
                 .Include(o => o.Product).ThenInclude(p => p.Car)
                 .Where(o => !o.Product.InStock || o.Product.Amount == 0)
-                // exclude explicitly rejected orders
                 .Where(o => !_context.OrderReviews.Any(r => r.OrderId == o.Id && r.Status == RequestStatus.Rejected));
 
             var list = baseQuery
                 .OrderByDescending(o => o.OrderDate)
                 .ToList();
-
-            // Show one row per client (latest order), also compute their waiting orders count
+            
             var grouped = list
                 .GroupBy(o => o.ClientId)
                 .Select(g => new { Latest = g.OrderByDescending(x => x.OrderDate).First(), Count = g.Count() })
@@ -68,7 +64,7 @@ public partial class WaitingCustomersPage : Page
             }).ToList();
 
             Results.ItemsSource = new ObservableCollection<WaitingRow>(rows);
-            var totalClients = rows.Count; // already unique by client
+            var totalClients = rows.Count;
             TotalCountText.Text = totalClients.ToString();
         }
         catch (Exception ex)

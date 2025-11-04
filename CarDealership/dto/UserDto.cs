@@ -15,5 +15,4 @@ public class UserDto
         Password = password;
         AccessRight = accessRight;
     }
-    
 }

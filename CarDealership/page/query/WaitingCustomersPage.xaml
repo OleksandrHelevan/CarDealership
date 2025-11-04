@@ -5,23 +5,22 @@
 
     <DockPanel Margin="20">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Text="Очікують на склад: " FontSize="18" FontWeight="Bold"/>
-            <TextBlock x:Name="TotalCountText" FontSize="18" FontWeight="Bold" Margin="6,0,0,0"/>
+            <TextBlock Text="Очікують на склад: " FontSize="18" FontWeight="Bold" />
+            <TextBlock x:Name="TotalCountText" FontSize="18" FontWeight="Bold" Margin="6,0,0,0" />
         </StackPanel>
 
         <ListView x:Name="Results" Margin="0,12,0,0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Клієнт" DisplayMemberBinding="{Binding ClientName}" Width="200"/>
-                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Phone}" Width="140"/>
-                    <GridViewColumn Header="К-сть замовлень" DisplayMemberBinding="{Binding OrdersCount}" Width="120"/>
-                    <GridViewColumn Header="Зам. №" DisplayMemberBinding="{Binding OrderId}" Width="70"/>
-                    <GridViewColumn Header="Авто" DisplayMemberBinding="{Binding CarTitle}" Width="220"/>
-                    <GridViewColumn Header="Продукт" DisplayMemberBinding="{Binding ProductNumber}" Width="120"/>
-                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding OrderDate}" Width="140"/>
+                    <GridViewColumn Header="Клієнт" DisplayMemberBinding="{Binding ClientName}" Width="200" />
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Phone}" Width="140" />
+                    <GridViewColumn Header="К-сть замовлень" DisplayMemberBinding="{Binding OrdersCount}" Width="120" />
+                    <GridViewColumn Header="Зам. №" DisplayMemberBinding="{Binding OrderId}" Width="70" />
+                    <GridViewColumn Header="Авто" DisplayMemberBinding="{Binding CarTitle}" Width="220" />
+                    <GridViewColumn Header="Продукт" DisplayMemberBinding="{Binding ProductNumber}" Width="120" />
+                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding OrderDate}" Width="140" />
                 </GridView>
             </ListView.View>
         </ListView>
     </DockPanel>
 </Page>
-

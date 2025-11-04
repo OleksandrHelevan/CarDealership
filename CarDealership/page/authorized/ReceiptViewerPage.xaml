@@ -4,16 +4,16 @@
       Title="Перегляд квитанції">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="8">
-            <Button Content="Назад" Margin="0,0,8,0" Click="Back_Click"/>
-            <Button Content="Зберегти як..." Click="Save_Click"/>
+            <Button Content="Назад" Margin="0,0,8,0" Click="Back_Click" />
+            <Button Content="Зберегти як..." Click="Save_Click" />
         </StackPanel>
 
         <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="12"
-                   Text="Попередній перегляд у вікні недоступний. Квитанцію відкрито у стандартному PDF‑переглядачі. Ви також можете зберегти файл через кнопку вище."/>
+                   Text="Попередній перегляд у вікні недоступний. Квитанцію відкрито у стандартному PDF‑переглядачі. Ви також можете зберегти файл через кнопку вище." />
     </Grid>
 </Page>

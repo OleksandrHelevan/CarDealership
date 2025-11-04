@@ -36,8 +36,6 @@ public static class DotEnv
         }
         catch
         {
-            // Ignore .env loading errors to avoid breaking app startup
         }
     }
 }
-

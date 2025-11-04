@@ -21,21 +21,19 @@ namespace CarDealership.util
         {
             if (sender is not Window win) return;
 
-            // F1 — Help
-            if (e.Key == Key.F1 || (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) || (e.Key == Key.Oem2 && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control))
+            if (e.Key == Key.F1 ||
+                (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) ||
+                (e.Key == Key.Oem2 && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control))
             {
                 e.Handled = true;
                 ShowHelp();
                 return;
             }
 
-            // Tab / Shift+Tab — let WPF handle focus navigation
             if (e.Key == Key.Tab) return;
 
-            // Enter — Accept / submit
             if (e.Key == Key.Enter)
             {
-                // If inside multi-line TextBox, allow newline
                 if (Keyboard.FocusedElement is TextBox tb && tb.AcceptsReturn)
                     return;
 
@@ -46,7 +44,6 @@ namespace CarDealership.util
                 }
             }
 
-            // Esc — Cancel / Back
             if (e.Key == Key.Escape)
             {
                 if (ClickCancelButton(win))
@@ -63,7 +60,6 @@ namespace CarDealership.util
                     return;
                 }
             }
-            // Other keys — ignored by this handler
         }
 
         private static void ShowHelp()
@@ -78,18 +74,19 @@ namespace CarDealership.util
 
         private static bool ClickDefaultButton(Window win)
         {
-            // Prefer Button with IsDefault=true
             var btn = FindChild<Button>(win, b => b.IsDefault);
             if (btn == null)
             {
-                // Fallback by common content
-                btn = FindChild<Button>(win, b => HasCaption(b, "OK", "ОК", "Підтвердити", "Зберегти", "Так", "Продовжити"));
+                btn = FindChild<Button>(win,
+                    b => HasCaption(b, "OK", "ОК", "Підтвердити", "Зберегти", "Так", "Продовжити"));
             }
+
             if (btn != null && btn.IsEnabled)
             {
                 btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 return true;
             }
+
             return false;
         }
 
@@ -98,13 +95,16 @@ namespace CarDealership.util
             var btn = FindChild<Button>(win, b => b.IsCancel);
             if (btn == null)
             {
-                btn = FindChild<Button>(win, b => HasCaption(b, "Cancel", "Відміна", "Скасувати", "Ні", "Назад", "Закрити"));
+                btn = FindChild<Button>(win,
+                    b => HasCaption(b, "Cancel", "Відміна", "Скасувати", "Ні", "Назад", "Закрити"));
             }
+
             if (btn != null && btn.IsEnabled)
             {
                 btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 return true;
             }
+
             return false;
         }
 
@@ -115,7 +115,8 @@ namespace CarDealership.util
             return texts.Any(t => string.Equals(s, t, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static T? FindChild<T>(DependencyObject? parent, Func<T, bool>? predicate = null) where T : DependencyObject
+        private static T? FindChild<T>(DependencyObject? parent, Func<T, bool>? predicate = null)
+            where T : DependencyObject
         {
             if (parent == null) return null;
             int count = VisualTreeHelper.GetChildrenCount(parent);
@@ -126,11 +127,12 @@ namespace CarDealership.util
                 {
                     if (predicate == null || predicate(t)) return t;
                 }
+
                 var sub = FindChild<T>(child, predicate);
                 if (sub != null) return sub;
             }
+
             return null;
         }
     }
 }
-

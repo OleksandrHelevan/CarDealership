@@ -6,7 +6,7 @@ public class ProductDto
 {
     public int Id { get; set; }
     public string Number { get; set; }
- 
+
     public string CountryOfOrigin { get; set; }
 
     public bool InStock { get; set; }
@@ -14,12 +14,13 @@ public class ProductDto
     public int Amount { get; set; }
 
     public DateTime? AvailableFrom { get; set; }
-    
+
     public Vehicle Vehicle { get; set; }
 
     public CarType CarType => Vehicle?.CarType ?? throw new InvalidOperationException("Vehicle is null");
 
-    public ProductDto(int id, string number, string countryOfOrigin, bool inStock, int amount, DateTime? availableFrom, Vehicle vehicle)
+    public ProductDto(int id, string number, string countryOfOrigin, bool inStock, int amount, DateTime? availableFrom,
+        Vehicle vehicle)
     {
         Id = id;
         Number = number;
@@ -29,5 +30,4 @@ public class ProductDto
         AvailableFrom = availableFrom;
         Vehicle = vehicle;
     }
-    
 }

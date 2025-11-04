@@ -23,7 +23,7 @@ namespace CarDealership.page.authorized
 
                 var phone = PhoneBox.Text?.Trim();
                 if (string.IsNullOrWhiteSpace(phone) || !IsValidPhone(phone))
-                    throw new System.Exception("Введіть коректний номер телефону (цифри, +, пробіли, (), -).");
+                    throw new Exception("Введіть коректний номер телефону (цифри, +, пробіли, (), -).");
 
                 var delivery = DeliveryCheckBox.IsChecked ?? false;
                 string? address = null;
@@ -31,7 +31,7 @@ namespace CarDealership.page.authorized
                 {
                     address = AddressBox.Text?.Trim();
                     if (string.IsNullOrWhiteSpace(address))
-                        throw new System.Exception("Адреса обов’язкова, якщо вибрано доставку.");
+                        throw new Exception("Адреса обов’язкова, якщо вибрано доставку.");
                 }
 
                 BuyCarDto = new BuyCarDto
@@ -45,7 +45,7 @@ namespace CarDealership.page.authorized
                 DialogResult = true;
                 Close();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Помилка покупки: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }

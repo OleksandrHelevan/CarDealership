@@ -33,6 +33,7 @@ namespace CarDealership.service.impl
             _userRepository.Save(user);
             return true;
         }
+
         public bool Update(User user)
         {
             if (user == null)
@@ -40,7 +41,7 @@ namespace CarDealership.service.impl
 
             try
             {
-                _userRepository.Update(user); 
+                _userRepository.Update(user);
                 return true;
             }
             catch (Exception)
@@ -67,6 +68,7 @@ namespace CarDealership.service.impl
             {
                 throw new UserNotFoundException($"Користувач з логіном '{login}' не знайдений.");
             }
+
             if (userFromDb.Password != DealershipPasswordEncoder.Encode(password))
             {
                 throw new InvalidPasswordException("Невірний пароль.");
@@ -85,6 +87,7 @@ namespace CarDealership.service.impl
             _userRepository.Update(user);
             return true;
         }
+
         public IEnumerable<User> GetAllUsers()
         {
             return _userRepository.GetAll();

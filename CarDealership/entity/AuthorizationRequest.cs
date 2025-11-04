@@ -22,15 +22,21 @@ public class AuthorizationRequest : INotifyPropertyChanged
     public User User { get; set; }
 
     private RequestStatus _status;
+
     [Required]
     [Column("status")]
     public RequestStatus Status
     {
         get => _status;
-        set { _status = value; OnPropertyChanged(); }
+        set
+        {
+            _status = value;
+            OnPropertyChanged();
+        }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
+
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

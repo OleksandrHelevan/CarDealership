@@ -91,7 +91,6 @@ namespace CarDealership.window
 
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
-            // Використати логін для пошуку email в БД
             var login = UsernameTextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(login))
             {
@@ -108,7 +107,6 @@ namespace CarDealership.window
 
             var email = user.Email;
 
-            // Згенерувати код і відправити HTML-лист
             var code = util.RandomCodeGenerator.GenerateNumericCode(6);
             var templatePath = System.IO.Path.Combine(AppContext.BaseDirectory, "templates", "reset_code_email.html");
             var html = util.EmailTemplateRenderer.RenderResetCodeTemplate(templatePath, code);
@@ -124,7 +122,6 @@ namespace CarDealership.window
                 return;
             }
 
-            // Запросити код та перевірити
             var codeDialog = new page.common.SimplePromptDialog("Введіть код з email:");
             codeDialog.Owner = this;
             var codeOk = codeDialog.ShowDialog();
@@ -137,7 +134,6 @@ namespace CarDealership.window
                 return;
             }
 
-            // Відкрити ResetPasswordWindow
             var resetWindow = new ResetPasswordWindow(_userService, login);
             resetWindow.Owner = this;
             resetWindow.ShowDialog();

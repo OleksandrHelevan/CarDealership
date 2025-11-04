@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using System.Windows.Data;
 using CarDealership.entity;
@@ -14,7 +13,8 @@ namespace CarDealership.converter
             {
                 return product.Car.CarType.ToFriendlyString();
             }
-            if (value is CarDealership.enums.CarType carType)
+
+            if (value is CarType carType)
             {
                 return carType.ToFriendlyString();
             }

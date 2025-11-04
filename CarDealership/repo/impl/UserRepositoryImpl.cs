@@ -4,7 +4,7 @@ using CarDealership.enums;
 
 namespace CarDealership.repo.impl
 {
-    public class UserRepositoryImpl :  IUserRepository
+    public class UserRepositoryImpl : IUserRepository
     {
         private readonly DealershipContext _context;
 
@@ -48,17 +48,17 @@ namespace CarDealership.repo.impl
         {
             return _context.Users.FirstOrDefault(u => u.Login == login);
         }
-        
+
         public User? GetByEmail(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
-        
+
         public IEnumerable<User> GetAll()
         {
             return _context.Users.ToList();
         }
-        
+
         public IEnumerable<User> GetAllByAccessRight(AccessRight accessRight)
         {
             return _context.Users.Where(u => u.AccessRight == accessRight).ToList();

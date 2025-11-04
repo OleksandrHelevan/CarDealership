@@ -26,6 +26,7 @@ namespace CarDealership.repo.impl
                 .Include(r => r.User)
                 .FirstOrDefault(r => r.User.Login == login);
         }
+
         public AuthorizationRequest? GetById(int id)
         {
             return _context.Set<AuthorizationRequest>()

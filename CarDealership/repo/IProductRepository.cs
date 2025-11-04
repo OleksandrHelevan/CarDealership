@@ -1,6 +1,4 @@
 using CarDealership.entity;
-using CarDealership.enums;
-using System.Collections.Generic;
 
 namespace CarDealership.repo
 {
@@ -12,7 +10,5 @@ namespace CarDealership.repo
         void Update(Product product);
         void Delete(int id);
         bool ExistsByNumber(string number);
-        IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType);
-        IEnumerable<Product> GetByStock(bool inStock);
     }
 }

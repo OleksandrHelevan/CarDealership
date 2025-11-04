@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CarDealership.enums;
@@ -31,18 +30,11 @@ public class Order
     [Column("order_date", TypeName = "timestamptz")]
     public DateTime OrderDate { get; set; }
 
-    [Required]
-    [Column("payment_type")]
-    public PaymentType PaymentType { get; set; }
+    [Required] [Column("payment_type")] public PaymentType PaymentType { get; set; }
 
-    [Required]
-    [Column("delivery")]
-    public bool Delivery { get; set; }
+    [Required] [Column("delivery")] public bool Delivery { get; set; }
 
-    // Optional delivery address when Delivery == true
-    [Column("address")]
-    [MaxLength(400)]
-    public string? Address { get; set; }
+    [Column("address")] [MaxLength(400)] public string? Address { get; set; }
 
     [Column("phone_number")]
     [MaxLength(32)]

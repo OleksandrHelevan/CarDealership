@@ -11,15 +11,15 @@
 
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#3B82F6"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Width" Value="140"/>
+            <Setter Property="Background" Value="#3B82F6" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="140" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -29,19 +29,19 @@
                                 Padding="{TemplateBinding Padding}"
                                 SnapsToDevicePixels="True">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              RecognizesAccessKey="True"/>
+                                              RecognizesAccessKey="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#60A5FA"/>
+                                <Setter TargetName="border" Property="Background" Value="#60A5FA" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#1E40AF"/>
+                                <Setter TargetName="border" Property="Background" Value="#1E40AF" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Background" Value="#a0aec0"/>
-                                <Setter Property="Foreground" Value="#6b7280"/>
-                                <Setter Property="Cursor" Value="Arrow"/>
+                                <Setter TargetName="border" Property="Background" Value="#a0aec0" />
+                                <Setter Property="Foreground" Value="#6b7280" />
+                                <Setter Property="Cursor" Value="Arrow" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -52,26 +52,26 @@
 
     <Grid Margin="30">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Логін" FontWeight="SemiBold" Margin="0,0,0,5"/>
-        <TextBox x:Name="UsernameTextBox" Height="35" Margin="0,0,0,10" Grid.Row="1" FontSize="14"/>
+        <TextBlock Text="Логін" FontWeight="SemiBold" Margin="0,0,0,5" />
+        <TextBox x:Name="UsernameTextBox" Height="35" Margin="0,0,0,10" Grid.Row="1" FontSize="14" />
 
-        <TextBlock Text="Пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="3"/>
-        <PasswordBox x:Name="PasswordBox" Height="35" Margin="0,0,0,10" Grid.Row="4" FontSize="14"/>
-        
+        <TextBlock Text="Пароль" FontWeight="SemiBold" Margin="0,0,0,5" Grid.Row="3" />
+        <PasswordBox x:Name="PasswordBox" Height="35" Margin="0,0,0,10" Grid.Row="4" FontSize="14" />
+
 
         <UniformGrid Grid.Row="6" Rows="1" Columns="3" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Увійти" Click="Login_Click" Style="{StaticResource RoundedButtonStyle}"/>
-            <Button Content="Забув пароль" Click="ForgotPassword_Click" Style="{StaticResource RoundedButtonStyle}"/>
-            <Button Content="Зареєструватися" Click="Register_Click" Style="{StaticResource RoundedButtonStyle}"/>
+            <Button Content="Увійти" Click="Login_Click" Style="{StaticResource RoundedButtonStyle}" />
+            <Button Content="Забув пароль" Click="ForgotPassword_Click" Style="{StaticResource RoundedButtonStyle}" />
+            <Button Content="Зареєструватися" Click="Register_Click" Style="{StaticResource RoundedButtonStyle}" />
         </UniformGrid>
     </Grid>
 

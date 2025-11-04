@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CarDealership.enums;
 
@@ -20,13 +19,9 @@ public class OrderReview
 
     public Order Order { get; set; } = null!;
 
-    [Required]
-    [Column("status")]
-    public RequestStatus Status { get; set; } = RequestStatus.Pending;
+    [Required] [Column("status")] public RequestStatus Status { get; set; } = RequestStatus.Pending;
 
-    [Column("message")]
-    [MaxLength(500)]
-    public string? Message { get; set; }
+    [Column("message")] [MaxLength(500)] public string? Message { get; set; }
 
     [Required]
     [Column("requires_delivery_address")]
@@ -52,5 +47,4 @@ public class OrderReview
     public int? ApprovedByUserId { get; set; }
 
     public User? ApprovedByUser { get; set; }
-
 }

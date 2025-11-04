@@ -79,52 +79,47 @@ namespace CarDealership.page.authorized
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"РџРѕРјРёР»РєР° РїСЂРё Р·Р°СЃС‚РѕСЃСѓРІР°РЅРЅС– С„С–Р»СЊС‚СЂР°: {ex.Message}");
+                MessageBox.Show("Помилка при застосуванні фільтра: " + ex.Message);
             }
         }
         
-        private TransmissionType? GetSelectedTransmissionType()
+                private TransmissionType? GetSelectedTransmissionType()
         {
             var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "РљРџРџ")
+            if (FilterTransmission.SelectedIndex == 0 || selectedItem == null)
                 return null;
-                
             return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
         }
         
-        private CarBodyType? GetSelectedBodyType()
+                private CarBodyType? GetSelectedBodyType()
         {
             var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "РўРёРї РєСѓР·РѕРІР°")
+            if (FilterBodyType.SelectedIndex == 0 || selectedItem == null)
                 return null;
-                
             return FilterHelper.GetBodyType(selectedItem.Content.ToString());
         }
         
-        private Color? GetSelectedColor()
+                private Color? GetSelectedColor()
         {
             var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "РљРѕР»С–СЂ")
+            if (FilterColor.SelectedIndex == 0 || selectedItem == null)
                 return null;
-                
             return FilterHelper.GetColor(selectedItem.Content.ToString());
         }
         
-        private DriveType? GetSelectedDriveType()
+                private DriveType? GetSelectedDriveType()
         {
             var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "РџСЂРёРІС–Рґ")
+            if (FilterDriveType.SelectedIndex == 0 || selectedItem == null)
                 return null;
-                
             return FilterHelper.GetDriveType(selectedItem.Content.ToString());
         }
         
-        private FuelType? GetSelectedFuelType()
+                private FuelType? GetSelectedFuelType()
         {
             var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
-            if (selectedItem == null || selectedItem.Content.ToString() == "РўРёРї РїР°Р»СЊРЅРѕРіРѕ")
+            if (FilterFuelType.SelectedIndex == 0 || selectedItem == null)
                 return null;
-                
             return FilterHelper.GetFuelType(selectedItem.Content.ToString());
         }
         
@@ -214,7 +209,7 @@ namespace CarDealership.page.authorized
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during purchase: {ex.Message}");
+                MessageBox.Show("Помилка при застосуванні фільтра: " + ex.Message);
             }
         }private int GetClientIdFromUser(string userLogin)
         {
@@ -280,6 +275,7 @@ namespace CarDealership.page.authorized
 
   
 }
+
 
 
 

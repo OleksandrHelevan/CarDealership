@@ -1,6 +1,4 @@
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
@@ -47,7 +45,6 @@ public partial class UsersAndCarsPaymentTypePage : Page
     {
         try
         {
-            // Localized payment types
             PaymentTypePicker.ItemsSource = new[]
             {
                 new PaymentTypeItem("Готівка", PaymentType.Cash),
@@ -66,7 +63,8 @@ public partial class UsersAndCarsPaymentTypePage : Page
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка ініціалізації: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка ініціалізації: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
@@ -95,20 +93,20 @@ public partial class UsersAndCarsPaymentTypePage : Page
                 return;
             }
 
-            // Clients having orders with specified payment type
             var clientQuery = _context.Orders
                 .Where(o => o.PaymentType == paymentType)
                 .Include(o => o.Client)
-                    .ThenInclude(c => c.PassportData)
+                .ThenInclude(c => c.PassportData)
                 .Include(o => o.Client)
-                    .ThenInclude(c => c.User)
+                .ThenInclude(c => c.User)
                 .AsEnumerable()
                 .Where(o => o.Client != null && o.Client.User != null && o.Client.PassportData != null)
                 .GroupBy(o => o.Client!.Id)
                 .Select(g => new ClientRow
                 {
                     ClientId = g.Key,
-                    FullName = $"{g.First().Client!.PassportData!.FirstName} {g.First().Client!.PassportData!.LastName}",
+                    FullName =
+                        $"{g.First().Client!.PassportData!.FirstName} {g.First().Client!.PassportData!.LastName}",
                     Login = g.First().Client!.User!.Login,
                     Email = g.First().Client!.User!.Email,
                     AccessRight = g.First().Client!.User!.AccessRightString,
@@ -119,11 +117,10 @@ public partial class UsersAndCarsPaymentTypePage : Page
 
             ClientsList.ItemsSource = new ObservableCollection<ClientRow>(clientQuery);
 
-            // Cars having orders with specified payment type
             var carsQuery = _context.Orders
                 .Where(o => o.PaymentType == paymentType)
                 .Include(o => o.Product)
-                    .ThenInclude(p => p.Car)
+                .ThenInclude(p => p.Car)
                 .AsEnumerable()
                 .Where(o => o.Product != null && o.Product.Car != null)
                 .GroupBy(o => o.Product!.Car!.Id)
@@ -145,7 +142,8 @@ public partial class UsersAndCarsPaymentTypePage : Page
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка виконання запиту: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка виконання запиту: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 }

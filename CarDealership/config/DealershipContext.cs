@@ -16,7 +16,6 @@ namespace CarDealership.config
         public DbSet<OrderReview> OrderReviews { get; set; }
         public DbSet<PaymentHistory> PaymentHistory { get; set; }
         public DbSet<PassportData> PassportData { get; set; }
-        public DbSet<AuthorizationRequest> AuthorizationRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,7 +33,6 @@ namespace CarDealership.config
                 v => v.ToString().ToLower(),
                 v => (EngineType)Enum.Parse(typeof(EngineType), v, true));
 
-            // Use UTC for timestamptz columns (Npgsql requires Kind=Utc)
             var utcConverter = new ValueConverter<DateTime, DateTime>(
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
@@ -54,7 +52,6 @@ namespace CarDealership.config
             modelBuilder.Entity<PaymentHistory>()
                 .ToTable("payment_history");
 
-            //FK
             modelBuilder.Entity<Car>()
                 .HasOne(c => c.Engine)
                 .WithMany()
@@ -66,18 +63,18 @@ namespace CarDealership.config
                 .WithMany()
                 .HasForeignKey(p => p.CarId)
                 .IsRequired();
-            
+
 
             modelBuilder.Entity<Order>()
                 .ToTable("orders")
-                .HasOne(o => o.Client)      // РќР°РІС–РіР°С†С–СЏ
-                .WithMany()                 // Clients РЅРµ РјР°С” РєРѕР»РµРєС†С–С— Orders, С‚РѕРјСѓ РїСЂРѕСЃС‚Рѕ WithMany()
+                .HasOne(o => o.Client)
+                .WithMany()
                 .HasForeignKey(o => o.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.Product)     // РќР°РІС–РіР°С†С–СЏ
-                .WithMany()                 // Products РЅРµ РјР°С” РєРѕР»РµРєС†С–С— Orders
+                .HasOne(o => o.Product)
+                .WithMany()
                 .HasForeignKey(o => o.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -101,7 +98,6 @@ namespace CarDealership.config
                 .Property(p => p.AvailableFrom)
                 .HasConversion(nullableUtcConverter);
 
-            //Enums
             modelBuilder.Entity<Car>()
                 .Property(c => c.Color)
                 .HasConversion<string>();
@@ -129,7 +125,7 @@ namespace CarDealership.config
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentType)
                 .HasConversion<string>();
-            
+
             modelBuilder.Entity<OrderReview>()
                 .Property(r => r.Status)
                 .HasConversion<string>();
@@ -145,7 +141,7 @@ namespace CarDealership.config
                 .WithMany()
                 .HasForeignKey(r => r.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<AuthorizationRequest>()
                 .Property(r => r.Status)
                 .HasConversion<string>();
@@ -162,7 +158,7 @@ namespace CarDealership.config
                 .Property(e => e.EngineType)
                 .HasConversion(engineTypeConverter);
 
-                        modelBuilder.Entity<OrderReview>()
+            modelBuilder.Entity<OrderReview>()
                 .HasOne(r => r.ApprovedByUser)
                 .WithMany()
                 .HasForeignKey(r => r.ApprovedByUserId)
@@ -181,6 +177,3 @@ namespace CarDealership.config
         }
     }
 }
-
-
-

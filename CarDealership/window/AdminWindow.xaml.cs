@@ -1,7 +1,6 @@
 using System.Windows;
 using CarDealership.page;
 using CarDealership.page.admin;
-using CarDealership.page.authorized;
 using CarDealership.page.@operator;
 
 namespace CarDealership.window;
@@ -9,6 +8,7 @@ namespace CarDealership.window;
 public partial class AdminWindow : Window
 {
     private readonly string _currentLogin;
+
     public AdminWindow(String login)
     {
         InitializeComponent();
@@ -19,7 +19,7 @@ public partial class AdminWindow : Window
     {
         MainFrame.Navigate(new AddOperatorPage());
     }
-    
+
     private void BtnUnboundCars_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new EditProductPage());
@@ -32,15 +32,15 @@ public partial class AdminWindow : Window
 
     private void BtnAddCar_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new CarDealership.page.@operator.AddCarPage());
+        MainFrame.Navigate(new AddCarPage());
     }
-    
-    
+
+
     private void BtnEditProduct_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new EditProductPage());
     }
-    
+
     private void BtnMyAccount_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new UserDetailsPage(_currentLogin));
@@ -48,6 +48,6 @@ public partial class AdminWindow : Window
 
     private void BtnCommandPrompt_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new CarDealership.page.admin.SqlConsolePage());
+        MainFrame.Navigate(new SqlConsolePage());
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarDealership.entity;
@@ -37,14 +36,11 @@ public class PaymentHistory
     [MaxLength(100)]
     public string ContentType { get; set; } = "application/pdf";
 
-    [Required]
-    [Column("receipt_pdf")]
-    public byte[] ReceiptPdf { get; set; } = Array.Empty<byte>();
+    [Required] [Column("receipt_pdf")] public byte[] ReceiptPdf { get; set; } = Array.Empty<byte>();
 
     [ForeignKey(nameof(Operator))]
     [Column("operator_id")]
     public int? OperatorId { get; set; }
 
     public User? Operator { get; set; }
-
 }

@@ -1,4 +1,3 @@
-
 using System.Windows;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -15,6 +14,7 @@ namespace CarDealership.window
         private readonly DealershipContext _context;
 
         private AccessRight _accessRight;
+
         public RegisterWindow(AccessRight accessRight)
         {
             InitializeComponent();
@@ -32,7 +32,6 @@ namespace CarDealership.window
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
 
-            // First/Last name: at least 2 letters (letters only)
             if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || !firstName.All(char.IsLetter))
             {
                 MessageBox.Show("Ім'я має містити щонайменше 2 літери та тільки літери.");
@@ -45,21 +44,18 @@ namespace CarDealership.window
                 return;
             }
 
-            // Passport number: exactly 13 digits
             if (string.IsNullOrWhiteSpace(passportNumber) || !Regex.IsMatch(passportNumber, "^\\d{13}$"))
             {
                 MessageBox.Show("Номер паспорта має складатися з 13 цифр.");
                 return;
             }
 
-            // Login: must be a unique passport number (13 digits)
             if (string.IsNullOrWhiteSpace(login) || !Regex.IsMatch(login, "^\\d{13}$"))
             {
                 MessageBox.Show("Логін має бути номером паспорта з 13 цифр.");
                 return;
             }
 
-            // Optional consistency: login equals entered passport number
             if (!string.Equals(login, passportNumber))
             {
                 MessageBox.Show("Логін має збігатися з номером паспорта (13 цифр).");
@@ -78,14 +74,12 @@ namespace CarDealership.window
                 return;
             }
 
-            // Email pattern validation
             if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Введіть коректну email-адресу.");
                 return;
             }
 
-            // Password: more than 8 chars and contains letters and digits
             bool hasLetter = password.Any(char.IsLetter);
             bool hasDigit = password.Any(char.IsDigit);
             if (password.Length <= 8 || !hasLetter || !hasDigit)
@@ -130,13 +124,12 @@ namespace CarDealership.window
                 UserId = key.Id,
                 PassportDataId = passport.Id
             };
-            
+
             _context.Clients.Add(client);
             _context.SaveChanges();
 
             MessageBox.Show("Registration successful!");
             Close();
         }
-        
     }
 }

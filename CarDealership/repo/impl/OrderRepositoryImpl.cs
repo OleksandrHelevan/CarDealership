@@ -15,7 +15,6 @@ namespace CarDealership.repo.impl
 
         public void Add(Order order)
         {
-            // Minimal FK write: rely on existing IDs; avoids heavy includes
             if (order.ClientId <= 0) throw new ArgumentException("Invalid ClientId");
             if (order.ProductId <= 0) throw new ArgumentException("Invalid ProductId");
 

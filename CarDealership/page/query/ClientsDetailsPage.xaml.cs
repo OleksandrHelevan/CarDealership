@@ -1,6 +1,4 @@
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using CarDealership.config;
 using Microsoft.EntityFrameworkCore;
@@ -40,14 +38,14 @@ public partial class ClientsDetailsPage
                 .Distinct()
                 .OrderBy(b => b)
                 .ToList();
-            // Add "All" option to fetch every client with any payment
             brands.Insert(0, "Всі");
             BrandPicker.ItemsSource = brands;
             if (brands.Count > 0) BrandPicker.SelectedIndex = 0;
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка завантаження марок: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка завантаження марок: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
@@ -64,10 +62,10 @@ public partial class ClientsDetailsPage
         {
             var rows = _context.PaymentHistory
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Product)
-                        .ThenInclude(p => p.Car)
+                .ThenInclude(o => o.Product)
+                .ThenInclude(p => p.Car)
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Client)
+                .ThenInclude(o => o.Client)
                 .Where(ph => ph.Order != null && ph.Order.Product != null && ph.Order.Product.Car != null)
                 .AsEnumerable()
                 .GroupBy(ph => ph.Order!.Product!.Car!.Brand)
@@ -84,11 +82,12 @@ public partial class ClientsDetailsPage
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка завантаження зведення: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка завантаження зведення: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
-    private void RunBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    private void RunBtn_Click(object sender, RoutedEventArgs e)
     {
         var brand = BrandPicker.SelectedItem as string;
         if (string.IsNullOrWhiteSpace(brand))
@@ -101,14 +100,14 @@ public partial class ClientsDetailsPage
         {
             var query = _context.PaymentHistory
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Product)
-                        .ThenInclude(p => p.Car)
+                .ThenInclude(o => o.Product)
+                .ThenInclude(p => p.Car)
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Client)
-                        .ThenInclude(c => c.PassportData)
+                .ThenInclude(o => o.Client)
+                .ThenInclude(c => c.PassportData)
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Client)
-                        .ThenInclude(c => c.User)
+                .ThenInclude(o => o.Client)
+                .ThenInclude(c => c.User)
                 .Where(ph => ph.Order != null && ph.Order.Product != null && ph.Order.Product.Car != null);
 
             if (brand != "Всі")
@@ -118,12 +117,14 @@ public partial class ClientsDetailsPage
 
             var items = query
                 .AsEnumerable()
-                .Where(ph => ph.Order?.Client != null && ph.Order.Client.PassportData != null && ph.Order.Client.User != null)
+                .Where(ph =>
+                    ph.Order?.Client != null && ph.Order.Client.PassportData != null && ph.Order.Client.User != null)
                 .GroupBy(ph => ph.Order!.Client!.Id)
                 .Select(g => new ClientRow
                 {
                     ClientId = g.Key,
-                    FullName = $"{g.First().Order!.Client!.PassportData!.FirstName} {g.First().Order!.Client!.PassportData!.LastName}",
+                    FullName =
+                        $"{g.First().Order!.Client!.PassportData!.FirstName} {g.First().Order!.Client!.PassportData!.LastName}",
                     PassportNumber = g.First().Order!.Client!.PassportData!.PassportNumber,
                     Login = g.First().Order!.Client!.User!.Login,
                     Email = g.First().Order!.Client!.User!.Email,
@@ -136,12 +137,12 @@ public partial class ClientsDetailsPage
 
             ClientsList.ItemsSource = new ObservableCollection<ClientRow>(items);
 
-            // refresh summary too
             LoadBrandSummary();
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка пошуку клієнтів: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка пошуку клієнтів: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 }

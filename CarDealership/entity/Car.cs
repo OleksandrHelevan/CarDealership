@@ -12,9 +12,7 @@ public class Car
     [Column("id")]
     public int Id { get; set; }
 
-    [Required]
-    [Column("car_type")]
-    public CarType CarType { get; set; }
+    [Required] [Column("car_type")] public CarType CarType { get; set; }
 
     [Required]
     [MaxLength(100)]
@@ -33,58 +31,35 @@ public class Car
 
     public Engine Engine { get; set; } = null!;
 
-    [Required]
-    [Column("color")]
-    public Color Color { get; set; }
+    [Required] [Column("color")] public Color Color { get; set; }
 
-    [Required]
-    [Column("mileage")]
-    public int Mileage { get; set; }
+    [Required] [Column("mileage")] public int Mileage { get; set; }
 
     [Required]
     [Column("price", TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
 
-    [Required]
-    [Column("weight")]
-    public int Weight { get; set; }
+    [Required] [Column("weight")] public int Weight { get; set; }
 
-    [Required]
-    [Column("drive_type")]
-    public DriveType DriveType { get; set; }
+    [Required] [Column("drive_type")] public DriveType DriveType { get; set; }
 
-    [Required]
-    [Column("transmission")]
-    public TransmissionType Transmission { get; set; }
+    [Required] [Column("transmission")] public TransmissionType Transmission { get; set; }
 
-    [Required]
-    [Column("year")]
-    public int Year { get; set; }
+    [Required] [Column("year")] public int Year { get; set; }
 
-    [Required]
-    [Column("number_of_doors")]
-    public int NumberOfDoors { get; set; }
+    [Required] [Column("number_of_doors")] public int NumberOfDoors { get; set; }
 
-    [Required]
-    [Column("body_type")]
-    public CarBodyType BodyType { get; set; }
+    [Required] [Column("body_type")] public CarBodyType BodyType { get; set; }
 
-    [Required]
-    [Column("on_sale")]
-    public bool OnSale { get; set; } = false;
+    [Required] [Column("on_sale")] public bool OnSale { get; set; } = false;
 
-    [NotMapped]
-    public string BodyTypeString => BodyType.ToFriendlyString();
+    [NotMapped] public string BodyTypeString => BodyType.ToFriendlyString();
 
-    [NotMapped]
-    public string TransmissionString => Transmission.ToFriendlyString();
+    [NotMapped] public string TransmissionString => Transmission.ToFriendlyString();
 
-    [NotMapped]
-    public string DriveTypeString => DriveType.ToFriendlyString();
+    [NotMapped] public string DriveTypeString => DriveType.ToFriendlyString();
 
-    [NotMapped]
-    public string ColorString => Color.ToFriendlyString();
+    [NotMapped] public string ColorString => Color.ToFriendlyString();
 
-    [NotMapped]
-    public string CarTypeString => CarType.ToFriendlyString();
+    [NotMapped] public string CarTypeString => CarType.ToFriendlyString();
 }

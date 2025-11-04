@@ -4,28 +4,28 @@
       Title="Оплачені замовлення">
     <Grid Margin="12">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Оплачені замовлення" FontSize="18" FontWeight="Bold"/>
+        <TextBlock Text="Оплачені замовлення" FontSize="18" FontWeight="Bold" />
 
         <ListView Grid.Row="1" x:Name="PaymentsList" Margin="0,8,0,0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60"/>
-                    <GridViewColumn Header="Замовлення" DisplayMemberBinding="{Binding OrderId}" Width="90"/>
-                    <GridViewColumn Header="Клієнт" DisplayMemberBinding="{Binding ClientName}" Width="160"/>
-                    <GridViewColumn Header="Продукт" DisplayMemberBinding="{Binding ProductNumber}" Width="120"/>
-                    <GridViewColumn Header="Авто" DisplayMemberBinding="{Binding CarName}" Width="180"/>
-                    <GridViewColumn Header="Сума" DisplayMemberBinding="{Binding Amount}" Width="100"/>
-                    <GridViewColumn Header="Створено" DisplayMemberBinding="{Binding CreatedAt}" Width="150"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="60" />
+                    <GridViewColumn Header="Замовлення" DisplayMemberBinding="{Binding OrderId}" Width="90" />
+                    <GridViewColumn Header="Клієнт" DisplayMemberBinding="{Binding ClientName}" Width="160" />
+                    <GridViewColumn Header="Продукт" DisplayMemberBinding="{Binding ProductNumber}" Width="120" />
+                    <GridViewColumn Header="Авто" DisplayMemberBinding="{Binding CarName}" Width="180" />
+                    <GridViewColumn Header="Сума" DisplayMemberBinding="{Binding Amount}" Width="100" />
+                    <GridViewColumn Header="Створено" DisplayMemberBinding="{Binding CreatedAt}" Width="150" />
                     <GridViewColumn Header="Дія" Width="190">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Відкрити" Tag="{Binding Id}" Click="Open_Click"/>
-                                    <Button Content="Зберегти" Tag="{Binding Id}" Click="Save_Click"/>
+                                    <Button Content="Відкрити" Tag="{Binding Id}" Click="Open_Click" />
+                                    <Button Content="Зберегти" Tag="{Binding Id}" Click="Save_Click" />
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -35,4 +35,3 @@
         </ListView>
     </Grid>
 </Page>
-

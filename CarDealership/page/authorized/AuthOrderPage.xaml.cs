@@ -27,7 +27,7 @@ public partial class AuthOrderPage : Page
         public int LastReceiptId { get; set; }
         public bool HasReceipt { get; set; }
         public string HasReceiptText => HasReceipt ? "Так" : "Ні";
-        public CarDealership.enums.RequestStatus? ReviewStatus { get; set; }
+        public RequestStatus? ReviewStatus { get; set; }
         public string? ReviewMessage { get; set; }
     }
 
@@ -48,13 +48,11 @@ public partial class AuthOrderPage : Page
         var client = _context.Clients.FirstOrDefault(c => c.UserId == user.Id);
         if (client == null) return;
 
-        // Base the list on the latest OrderReview per order (for this client)
         var list = (from r in _context.OrderReviews
                     join o in _context.Orders on r.OrderId equals o.Id
                     join p in _context.Products on o.ProductId equals p.Id
                     join c in _context.Cars on p.CarId equals c.Id
                     where o.ClientId == client.Id
-                    // keep only latest review per order
                     where !_context.OrderReviews.Any(r2 => r2.OrderId == r.OrderId && r2.Id > r.Id)
                     select new Row
                     {
@@ -89,11 +87,10 @@ public partial class AuthOrderPage : Page
                 try
                 {
                     var id = _paymentService.CreateReceipt(orderId, dlg.CardNumber!);
-                    // Refresh list so visibility/status updates immediately
                     LoadOrders();
                     MessageBox.Show("Квитанцію збережено.", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

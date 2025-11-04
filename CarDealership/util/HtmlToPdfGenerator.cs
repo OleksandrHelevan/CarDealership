@@ -19,9 +19,8 @@ public static class HtmlToPdfGenerator
         if (string.IsNullOrWhiteSpace(html))
             throw new ArgumentException("HTML is empty", nameof(html));
 
-        var effectiveSize = size ?? OpenHtmlToPdf.PaperSize.A4;
+        var effectiveSize = size ?? PaperSize.A4;
 
-        // If baseUrl provided, inject <base href> so relative URLs (images/css) resolve
         if (!string.IsNullOrWhiteSpace(baseUrl))
         {
             try
@@ -32,17 +31,17 @@ public static class HtmlToPdfGenerator
                 var baseHref = new Uri(norm).AbsoluteUri;
                 html = html.Replace("<head>", $"<head><base href=\"{baseHref}\" />");
             }
-            catch { /* ignore base href issues */ }
+            catch
+            {
+            }
         }
 
         var builder = Pdf
             .From(html)
             .OfSize(effectiveSize)
-            // Uniform margins (mm)
-            .WithMargins(Math.Max(Math.Max(marginLeftMm, marginRightMm), Math.Max(marginTopMm, marginBottomMm)).Millimeters())
-            // Make sure the engine does not shrink content unexpectedly
+            .WithMargins(Math.Max(Math.Max(marginLeftMm, marginRightMm), Math.Max(marginTopMm, marginBottomMm))
+                .Millimeters())
             .WithObjectSetting("web.enableIntelligentShrinking", "false")
-            // Slight zoom to improve readability
             .WithObjectSetting("load.zoomFactor", "1.25");
 
         if (!string.IsNullOrWhiteSpace(baseUrl))
@@ -53,24 +52,11 @@ public static class HtmlToPdfGenerator
         }
 
         if (!string.IsNullOrWhiteSpace(baseUrl))
-            builder = builder.WithObjectSetting("web.defaultEncoding", "utf-8").WithGlobalSetting("documentTitle", "document");
+            builder = builder.WithObjectSetting("web.defaultEncoding", "utf-8")
+                .WithGlobalSetting("documentTitle", "document");
 
         builder = landscape ? builder.Landscape() : builder.Portrait();
 
         return builder.Content();
-    }
-
-    // Convenience: save to path and return the path
-    public static string SaveToFile(string html, string outputPath,
-        string? baseUrl = null,
-        OpenHtmlToPdf.PaperSize? size = null,
-        bool landscape = false)
-    {
-        var bytes = FromHtmlString(html, baseUrl, size, landscape);
-        var dir = Path.GetDirectoryName(outputPath);
-        if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
-            Directory.CreateDirectory(dir);
-        File.WriteAllBytes(outputPath, bytes);
-        return outputPath;
     }
 }

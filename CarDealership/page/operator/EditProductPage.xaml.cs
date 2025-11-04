@@ -38,7 +38,7 @@ namespace CarDealership.page.@operator
 
                 ProductsList.ItemsSource = allProducts;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Помилка завантаження: {ex.Message}");
             }
@@ -61,7 +61,7 @@ namespace CarDealership.page.@operator
                     MessageBox.Show("Продукт успішно оновлено!");
                     LoadData();
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show($"Помилка оновлення: {ex.Message}\n\nДеталі: {ex.InnerException?.Message}");
                 }
@@ -85,7 +85,7 @@ namespace CarDealership.page.@operator
                 MessageBox.Show("Продукт видалено успішно.");
                 LoadData();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Помилка видалення: {ex.Message}\n\nДеталі: {ex.InnerException?.Message}");
             }
@@ -114,12 +114,10 @@ namespace CarDealership.page.@operator
 
                 ProductsList.ItemsSource = query.ToList();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Помилка фільтру: {ex.Message}");
             }
         }
     }
 }
-
-

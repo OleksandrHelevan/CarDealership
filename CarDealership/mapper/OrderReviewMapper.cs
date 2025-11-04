@@ -20,20 +20,4 @@ public static class OrderReviewMapper
             UpdatedAt = e.UpdatedAt
         };
     }
-
-    public static OrderReview ToEntity(OrderReviewDto dto)
-    {
-        return new OrderReview
-        {
-            Id = dto.Id,
-            OrderId = dto.OrderId,
-            Status = dto.Status,
-            Message = dto.Message,
-            RequiresDeliveryAddress = dto.RequiresDeliveryAddress,
-            RequiresCardNumber = dto.RequiresCardNumber,
-            CardNumber = dto.CardNumber,
-            CreatedAt = dto.CreatedAt,
-            UpdatedAt = dto.UpdatedAt
-        };
-    }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,7 +5,6 @@ using System.Windows.Input;
 using CarDealership.config;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace CarDealership.page.admin;
 

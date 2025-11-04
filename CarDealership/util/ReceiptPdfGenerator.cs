@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using CarDealership.entity;
 using QuestPDF.Fluent;
@@ -11,7 +10,6 @@ public static class ReceiptPdfGenerator
 {
     public static byte[] Generate(Order order, string productNumber, string carName, decimal price, string cardLast4)
     {
-        // Ensure QuestPDF license configured (Community license)
         QuestPDF.Settings.License = LicenseType.Community;
         byte[] result;
         var now = DateTime.UtcNow;

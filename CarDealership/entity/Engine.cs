@@ -12,28 +12,19 @@ public class Engine
     [Column("id")]
     public int Id { get; set; }
 
-    [Required]
-    [Column("engine_type")]
-    public EngineType EngineType { get; set; }
+    [Required] [Column("engine_type")] public EngineType EngineType { get; set; }
 
-    [Required]
-    [Column("power")]
-    public double Power { get; set; }
+    [Required] [Column("power")] public double Power { get; set; }
 
-    [Column("fuel_type")]
-    public FuelType? FuelType { get; set; }
+    [Column("fuel_type")] public FuelType? FuelType { get; set; }
 
-    [Column("fuel_consumption")]
-    public float? FuelConsumption { get; set; }
+    [Column("fuel_consumption")] public float? FuelConsumption { get; set; }
 
-    [Column("battery_capacity")]
-    public double? BatteryCapacity { get; set; }
+    [Column("battery_capacity")] public double? BatteryCapacity { get; set; }
 
-    [Column("range")]
-    public int? Range { get; set; }
+    [Column("range")] public int? Range { get; set; }
 
-    [Column("motor_type")]
-    public ElectroMotorType? MotorType { get; set; }
+    [Column("motor_type")] public ElectroMotorType? MotorType { get; set; }
 
     [NotMapped]
     public string EngineString =>

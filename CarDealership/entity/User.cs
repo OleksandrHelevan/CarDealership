@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CarDealership.enums;
@@ -28,14 +27,11 @@ public class User
     [Column("password")]
     public string Password { get; set; } = null!;
 
-    [Required]
-    [Column("access_right")]
-    public AccessRight AccessRight { get; set; }
+    [Required] [Column("access_right")] public AccessRight AccessRight { get; set; }
 
     public Client? Client { get; set; }
 
     public ICollection<AuthorizationRequest>? Requests { get; set; }
 
-    [NotMapped]
-    public string AccessRightString => AccessRight.ToFriendlyString();
+    [NotMapped] public string AccessRightString => AccessRight.ToFriendlyString();
 }

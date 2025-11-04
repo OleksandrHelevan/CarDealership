@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using CarDealership.entity;
 using CarDealership.enums;
@@ -10,10 +9,11 @@ namespace CarDealership.page.admin
 {
     public partial class AddOperatorPage : Page
     {
-        private readonly UserServiceImpl _userService = new UserServiceImpl();
+        private readonly UserServiceImpl _userService;
 
         public AddOperatorPage()
         {
+            _userService = new UserServiceImpl();
             InitializeComponent();
             RefreshUsersList();
         }

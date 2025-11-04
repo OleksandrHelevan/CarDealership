@@ -8,7 +8,7 @@ namespace CarDealership.repo
         AuthorizationRequest Add(AuthorizationRequest request);
 
         AuthorizationRequest? GetByLogin(string id);
-        
+
         AuthorizationRequest? GetById(int id);
 
         IEnumerable<AuthorizationRequest> GetAll();

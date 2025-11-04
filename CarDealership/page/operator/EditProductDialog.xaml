@@ -7,100 +7,98 @@
         ResizeMode="NoResize">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="20">
-            <TextBlock Text="Продукт" FontSize="20" FontWeight="Bold" Margin="0,0,0,12"/>
+            <TextBlock Text="Продукт" FontSize="20" FontWeight="Bold" Margin="0,0,0,12" />
 
             <UniformGrid Columns="2" Rows="5" Margin="0,0,0,10">
-                <TextBlock Text="Номер:" VerticalAlignment="Center"/>
-                <TextBox x:Name="TbNumber"/>
+                <TextBlock Text="Номер:" VerticalAlignment="Center" />
+                <TextBox x:Name="TbNumber" />
 
-                <TextBlock Text="Країна:" VerticalAlignment="Center"/>
-                <TextBox x:Name="TbCountry"/>
+                <TextBlock Text="Країна:" VerticalAlignment="Center" />
+                <TextBox x:Name="TbCountry" />
 
-                <TextBlock Text="В наявності:" VerticalAlignment="Center"/>
-                <CheckBox x:Name="CbInStock"/>
+                <TextBlock Text="В наявності:" VerticalAlignment="Center" />
+                <CheckBox x:Name="CbInStock" />
 
-                <TextBlock Text="Доступно з:" VerticalAlignment="Center"/>
-                <DatePicker x:Name="DpAvailableFrom"/>
-                <TextBlock Text="Кількість:" VerticalAlignment="Center"/>
-                <TextBox x:Name="TbAmount"/>
+                <TextBlock Text="Доступно з:" VerticalAlignment="Center" />
+                <DatePicker x:Name="DpAvailableFrom" />
+                <TextBlock Text="Кількість:" VerticalAlignment="Center" />
+                <TextBox x:Name="TbAmount" />
             </UniformGrid>
 
-            <Separator Margin="0,8"/>
-            <TextBlock Text="Авто" FontSize="20" FontWeight="Bold" Margin="0,8,0,12"/>
+            <Separator Margin="0,8" />
+            <TextBlock Text="Авто" FontSize="20" FontWeight="Bold" Margin="0,8,0,12" />
 
             <UniformGrid Columns="2" Rows="8" Margin="0,0,0,10">
-                <TextBlock Text="Марка:"/>
-                <TextBox x:Name="TbBrand"/>
+                <TextBlock Text="Марка:" />
+                <TextBox x:Name="TbBrand" />
 
-                <TextBlock Text="Модель:"/>
-                <TextBox x:Name="TbModel"/>
+                <TextBlock Text="Модель:" />
+                <TextBox x:Name="TbModel" />
 
-                <TextBlock Text="Рік:"/>
-                <TextBox x:Name="TbYear"/>
+                <TextBlock Text="Рік:" />
+                <TextBox x:Name="TbYear" />
 
-                <TextBlock Text="Ціна:"/>
-                <TextBox x:Name="TbPrice"/>
+                <TextBlock Text="Ціна:" />
+                <TextBox x:Name="TbPrice" />
 
-                <TextBlock Text="Пробіг (км):"/>
-                <TextBox x:Name="TbMileage"/>
+                <TextBlock Text="Пробіг (км):" />
+                <TextBox x:Name="TbMileage" />
 
-                <TextBlock Text="Вага (кг):"/>
-                <TextBox x:Name="TbWeight"/>
+                <TextBlock Text="Вага (кг):" />
+                <TextBox x:Name="TbWeight" />
 
-                <TextBlock Text="Двері (шт):"/>
-                <TextBox x:Name="TbDoors"/>
+                <TextBlock Text="Двері (шт):" />
+                <TextBox x:Name="TbDoors" />
             </UniformGrid>
 
             <UniformGrid Columns="2" Rows="5" Margin="0,0,0,10">
-                <TextBlock Text="Колір:"/>
-                <ComboBox x:Name="ColorCombo"/>
+                <TextBlock Text="Колір:" />
+                <ComboBox x:Name="ColorCombo" />
 
-                <TextBlock Text="Привід:"/>
-                <ComboBox x:Name="DriveTypeCombo"/>
+                <TextBlock Text="Привід:" />
+                <ComboBox x:Name="DriveTypeCombo" />
 
-                <TextBlock Text="Трансмісія:"/>
-                <ComboBox x:Name="TransmissionCombo"/>
+                <TextBlock Text="Трансмісія:" />
+                <ComboBox x:Name="TransmissionCombo" />
 
-                <TextBlock Text="Тип кузова:"/>
-                <ComboBox x:Name="BodyTypeCombo"/>
+                <TextBlock Text="Тип кузова:" />
+                <ComboBox x:Name="BodyTypeCombo" />
             </UniformGrid>
 
-            <Separator Margin="0,8"/>
-            <TextBlock Text="Двигун" FontSize="20" FontWeight="Bold" Margin="0,8,0,12"/>
+            <Separator Margin="0,8" />
+            <TextBlock Text="Двигун" FontSize="20" FontWeight="Bold" Margin="0,8,0,12" />
 
             <UniformGrid Columns="2" Rows="2" Margin="0,0,0,8">
-                <TextBlock Text="Тип двигуна:"/>
-                <ComboBox x:Name="EngineTypeCombo" SelectionChanged="EngineTypeCombo_SelectionChanged"/>
-                <TextBlock Text="Потужність (кВт):"/>
-                <TextBox x:Name="TbPower"/>
+                <TextBlock Text="Тип двигуна:" />
+                <ComboBox x:Name="EngineTypeCombo" SelectionChanged="EngineTypeCombo_SelectionChanged" />
+                <TextBlock Text="Потужність (кВт):" />
+                <TextBox x:Name="TbPower" />
             </UniformGrid>
 
             <StackPanel x:Name="GasFieldsPanel">
                 <UniformGrid Columns="2" Rows="2">
-                    <TextBlock Text="Пальне:"/>
-                    <ComboBox x:Name="FuelTypeCombo"/>
-                    <TextBlock Text="Витрата (л/100км):"/>
-                    <TextBox x:Name="TbFuelConsumption"/>
+                    <TextBlock Text="Пальне:" />
+                    <ComboBox x:Name="FuelTypeCombo" />
+                    <TextBlock Text="Витрата (л/100км):" />
+                    <TextBox x:Name="TbFuelConsumption" />
                 </UniformGrid>
             </StackPanel>
 
             <StackPanel x:Name="ElectroFieldsPanel">
                 <UniformGrid Columns="2" Rows="3">
-                    <TextBlock Text="Батарея (кВт·г):"/>
-                    <TextBox x:Name="TbBatteryCapacity"/>
-                    <TextBlock Text="Запас ходу (км):"/>
-                    <TextBox x:Name="TbRange"/>
-                    <TextBlock Text="Тип мотору:"/>
-                    <ComboBox x:Name="MotorTypeCombo"/>
+                    <TextBlock Text="Батарея (кВт·г):" />
+                    <TextBox x:Name="TbBatteryCapacity" />
+                    <TextBlock Text="Запас ходу (км):" />
+                    <TextBox x:Name="TbRange" />
+                    <TextBlock Text="Тип мотору:" />
+                    <ComboBox x:Name="MotorTypeCombo" />
                 </UniformGrid>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,16,0,0">
-                <Button Content="Зберегти" Width="140" Height="40" Margin="8" Click="Save_Click"/>
-                <Button Content="Скасувати" Width="140" Height="40" Margin="8" Click="Cancel_Click"/>
+                <Button Content="Зберегти" Width="140" Height="40" Margin="8" Click="Save_Click" />
+                <Button Content="Скасувати" Width="140" Height="40" Margin="8" Click="Cancel_Click" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Window>
-
-

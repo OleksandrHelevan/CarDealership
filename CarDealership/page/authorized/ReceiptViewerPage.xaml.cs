@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using CarDealership.config;
 using CarDealership.repo.impl;
 using Microsoft.Win32;
-using System.Windows.Navigation;
 
 namespace CarDealership.page.authorized;
 
@@ -22,8 +21,7 @@ public partial class ReceiptViewerPage : Page
         _receiptId = receiptId;
         _context = new DealershipContext();
         _repo = new PaymentHistoryRepositoryImpl(_context);
-        // Clean temp file when page is unloaded (navigation away)
-        this.Unloaded += (_, __) => CleanupTempFile();
+        Unloaded += (_, __) => CleanupTempFile();
         LoadPdf();
     }
 
@@ -35,8 +33,8 @@ public partial class ReceiptViewerPage : Page
             MessageBox.Show("Квитанцію не знайдено.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
-        // Use a unique temp file to avoid file lock conflicts with WebBrowser
-        var unique = System.Guid.NewGuid().ToString("N");
+
+        var unique = Guid.NewGuid().ToString("N");
         _tempFile = Path.Combine(Path.GetTempPath(), $"receipt-{ph.Id}-{unique}.pdf");
         File.WriteAllBytes(_tempFile, ph.ReceiptPdf);
         try
@@ -44,9 +42,9 @@ public partial class ReceiptViewerPage : Page
             var psi = new ProcessStartInfo(_tempFile) { UseShellExecute = true };
             Process.Start(psi);
         }
-        catch
+        catch (Exception ex)
         {
-            // If no handler, at least leave the file on disk so user can Save As
+            MessageBox.Show($"Помилка відкриття квитанції: {ex.Message}");
         }
     }
 
@@ -63,6 +61,7 @@ public partial class ReceiptViewerPage : Page
             MessageBox.Show("Квитанцію не знайдено.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
+
         var dlg = new SaveFileDialog
         {
             FileName = $"receipt-{ph.Id}.pdf",
@@ -84,6 +83,9 @@ public partial class ReceiptViewerPage : Page
                 File.Delete(_tempFile);
             }
         }
-        catch { /* ignore cleanup errors */ }
+        catch
+        {
+            MessageBox.Show("Помилка при очищенні тимчасового файлу.");
+        }
     }
 }

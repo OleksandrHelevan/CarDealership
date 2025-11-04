@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Windows;
 
 namespace CarDealership.page.authorized;

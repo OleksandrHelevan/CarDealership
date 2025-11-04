@@ -20,8 +20,8 @@ public partial class SimplePromptDialog : Window
             MessageBox.Show("Please enter a value.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
+
         DialogResult = true;
         Close();
     }
 }
-

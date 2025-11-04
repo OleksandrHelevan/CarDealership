@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
-using Microsoft.EntityFrameworkCore;
 using CarDealership.enums;
 
 namespace CarDealership.page.query;
@@ -44,7 +42,7 @@ public partial class DealerContractsCountPage : Page
                 .Select(u => new DealerOption { Id = u.Id, Display = u.Login })
                 .ToList();
 
-            var items = new System.Collections.Generic.List<DealerOption>
+            var items = new List<DealerOption>
             {
                 new DealerOption { Id = null, Display = "Усі дилери" }
             };
@@ -83,7 +81,7 @@ public partial class DealerContractsCountPage : Page
             var list = q.ToList();
             Results.ItemsSource = new ObservableCollection<Row>(list);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             MessageBox.Show($"Помилка завантаження: {ex.Message}");
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using CarDealership.entity;
 using CarDealership.enums;
@@ -40,14 +38,12 @@ namespace CarDealership.page.@operator
 
         private void LoadDefaults()
         {
-            // Product fields
             TbNumber.Text = ProductToEdit.Number;
             TbCountry.Text = ProductToEdit.CountryOfOrigin;
             CbInStock.IsChecked = ProductToEdit.InStock;
             DpAvailableFrom.SelectedDate = ProductToEdit.AvailableFrom;
             TbAmount.Text = ProductToEdit.Amount.ToString();
 
-            // Car fields
             var car = ProductToEdit.Car;
             if (car == null) return;
 
@@ -68,7 +64,6 @@ namespace CarDealership.page.@operator
             BodyTypeCombo.SelectedItem = ((System.Collections.IEnumerable)BodyTypeCombo.Items)
                 .Cast<ComboBoxItem>().FirstOrDefault(i => (CarBodyType)i.Tag == car.BodyType);
 
-            // Engine
             var engine = car.Engine;
             if (engine == null) return;
 
@@ -104,7 +99,6 @@ namespace CarDealership.page.@operator
         {
             try
             {
-                // product
                 ProductToEdit.Number = TbNumber.Text.Trim();
                 ProductToEdit.CountryOfOrigin = TbCountry.Text.Trim();
                 ProductToEdit.InStock = CbInStock.IsChecked == true;
@@ -117,15 +111,20 @@ namespace CarDealership.page.@operator
                 }
 
                 var car = ProductToEdit.Car;
-                if (car == null) { DialogResult = false; return; }
+                if (car == null)
+                {
+                    DialogResult = false;
+                    return;
+                }
 
                 car.Brand = TbBrand.Text.Trim();
                 car.ModelName = TbModel.Text.Trim();
                 if (!int.TryParse(TbYear.Text, out var year) || year <= 1960)
                 {
-                    MessageBox.Show("Р С–Рє Р°РІС‚Рѕ РјР°С” Р±СѓС‚Рё Р±С–Р»СЊС€РёРј Р·Р° 1960.");
+                    MessageBox.Show("Рік авто має бути більшим за 1960.");
                     return;
                 }
+
                 car.Year = year;
                 if (decimal.TryParse(TbPrice.Text, out var price)) car.Price = price;
                 if (int.TryParse(TbMileage.Text, out var mileage)) car.Mileage = mileage;
@@ -134,11 +133,11 @@ namespace CarDealership.page.@operator
 
                 if (ColorCombo.SelectedItem is ComboBoxItem colorItem) car.Color = (Color)colorItem.Tag;
                 if (DriveTypeCombo.SelectedItem is ComboBoxItem driveItem) car.DriveType = (DriveType)driveItem.Tag;
-                if (TransmissionCombo.SelectedItem is ComboBoxItem transItem) car.Transmission = (TransmissionType)transItem.Tag;
+                if (TransmissionCombo.SelectedItem is ComboBoxItem transItem)
+                    car.Transmission = (TransmissionType)transItem.Tag;
                 if (BodyTypeCombo.SelectedItem is ComboBoxItem bodyItem) car.BodyType = (CarBodyType)bodyItem.Tag;
 
-                // Engine
-                var engine = car.Engine ?? new Engine();
+                var engine = car.Engine;
                 car.Engine = engine;
 
                 engine.EngineType = EngineTypeCombo.SelectedItem is EngineType et ? et : engine.EngineType;
@@ -151,16 +150,21 @@ namespace CarDealership.page.@operator
                     engine.MotorType = null;
 
                     if (FuelTypeCombo.SelectedItem is ComboBoxItem fuelItem) engine.FuelType = (FuelType)fuelItem.Tag;
-                    if (float.TryParse(TbFuelConsumption.Text, out var fc)) engine.FuelConsumption = fc; else engine.FuelConsumption = null;
+                    if (float.TryParse(TbFuelConsumption.Text, out var fc)) engine.FuelConsumption = fc;
+                    else engine.FuelConsumption = null;
                 }
                 else
                 {
                     engine.FuelType = null;
                     engine.FuelConsumption = null;
 
-                    if (double.TryParse(TbBatteryCapacity.Text, out var bat)) engine.BatteryCapacity = bat; else engine.BatteryCapacity = null;
-                    if (int.TryParse(TbRange.Text, out var range)) engine.Range = range; else engine.Range = null;
-                    if (MotorTypeCombo.SelectedItem is ComboBoxItem motorItem) engine.MotorType = (ElectroMotorType)motorItem.Tag; else engine.MotorType = null;
+                    if (double.TryParse(TbBatteryCapacity.Text, out var bat)) engine.BatteryCapacity = bat;
+                    else engine.BatteryCapacity = null;
+                    if (int.TryParse(TbRange.Text, out var range)) engine.Range = range;
+                    else engine.Range = null;
+                    if (MotorTypeCombo.SelectedItem is ComboBoxItem motorItem)
+                        engine.MotorType = (ElectroMotorType)motorItem.Tag;
+                    else engine.MotorType = null;
                 }
 
                 car.CarType = engine.EngineType == EngineType.Electro ? CarType.Electro : CarType.Gasoline;

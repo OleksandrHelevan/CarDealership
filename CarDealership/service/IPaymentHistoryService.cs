@@ -4,4 +4,3 @@ public interface IPaymentHistoryService
 {
     int CreateReceipt(int orderId, string cardNumber);
 }
-

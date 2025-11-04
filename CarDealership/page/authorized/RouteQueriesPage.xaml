@@ -7,20 +7,20 @@
       Title="RoureQueriesPage">
 
     <DockPanel Background="#f7f7f7">
-        <TextBlock DockPanel.Dock="Top" Text="Вбудовані запити" FontSize="18" FontWeight="Bold" Margin="12"/>
+        <TextBlock DockPanel.Dock="Top" Text="Вбудовані запити" FontSize="18" FontWeight="Bold" Margin="12" />
 
         <Grid Margin="12">
             <UniformGrid Rows="2" Columns="5" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Button Content="1" Margin="8" Width="120" Height="40" Click="Btn1_Click"/>
-                <Button Content="2" Margin="8" Width="120" Height="40" Click="Btn2_Click"/>
-                <Button Content="3" Margin="8" Width="120" Height="40" Click="Btn3_Click"/>
-                <Button Content="4" Margin="8" Width="120" Height="40" Click="BtnMinStock_Click"/>
-                <Button Content="5" Margin="8" Width="120" Height="40" IsEnabled="False"/>
-                <Button Content="6" Margin="8" Width="120" Height="40" IsEnabled="False"/>
-                <Button Content="7" Margin="8" Width="120" Height="40" IsEnabled="False"/>
-                <Button Content="8" Margin="8" Width="120" Height="40" IsEnabled="False"/>
-                <Button Content="9" Margin="8" Width="120" Height="40" IsEnabled="False"/>
-                <Button Content="10" Margin="8" Width="120" Height="40" IsEnabled="False"/>
+                <Button Content="1" Margin="8" Width="120" Height="40" Click="Btn1_Click" />
+                <Button Content="2" Margin="8" Width="120" Height="40" Click="Btn2_Click" />
+                <Button Content="3" Margin="8" Width="120" Height="40" Click="Btn3_Click" />
+                <Button Content="4" Margin="8" Width="120" Height="40" Click="BtnMinStock_Click" />
+                <Button Content="5" Margin="8" Width="120" Height="40" IsEnabled="False" />
+                <Button Content="6" Margin="8" Width="120" Height="40" IsEnabled="False" />
+                <Button Content="7" Margin="8" Width="120" Height="40" IsEnabled="False" />
+                <Button Content="8" Margin="8" Width="120" Height="40" IsEnabled="False" />
+                <Button Content="9" Margin="8" Width="120" Height="40" IsEnabled="False" />
+                <Button Content="10" Margin="8" Width="120" Height="40" IsEnabled="False" />
             </UniformGrid>
         </Grid>
     </DockPanel>

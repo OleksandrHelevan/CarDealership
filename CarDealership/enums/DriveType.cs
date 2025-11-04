@@ -7,6 +7,7 @@ public enum DriveType
     AWD,
     FourWD
 }
+
 public static class DriveTypeExtensions
 {
     public static string ToFriendlyString(this DriveType driveType)

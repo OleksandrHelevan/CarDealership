@@ -7,6 +7,7 @@ namespace CarDealership.repo.impl;
 public class PaymentHistoryRepositoryImpl : IPaymentHistoryRepository
 {
     private readonly DealershipContext _context;
+
     public PaymentHistoryRepositoryImpl(DealershipContext context)
     {
         _context = context;
@@ -19,7 +20,7 @@ public class PaymentHistoryRepositoryImpl : IPaymentHistoryRepository
             _context.PaymentHistory.Add(history);
             _context.SaveChanges();
         }
-        catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
+        catch (DbUpdateException ex)
         {
             var root = ex.InnerException?.Message ?? ex.Message;
             throw new InvalidOperationException($"Помилка збереження платежу: {root}", ex);
@@ -56,11 +57,11 @@ public class PaymentHistoryRepositoryImpl : IPaymentHistoryRepository
     {
         return _context.PaymentHistory
             .Include(p => p.Order)
-                .ThenInclude(o => o.Client)
-                    .ThenInclude(cl => cl.PassportData)
+            .ThenInclude(o => o.Client)
+            .ThenInclude(cl => cl.PassportData)
             .Include(p => p.Order)
-                .ThenInclude(o => o.Product)
-                    .ThenInclude(pr => pr.Car)
+            .ThenInclude(o => o.Product)
+            .ThenInclude(pr => pr.Car)
             .OrderByDescending(p => p.Id)
             .ToList();
     }

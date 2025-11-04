@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +34,7 @@ namespace CarDealership.page.@operator
 
                 CarsList.ItemsSource = cars;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Помилка завантаження: {ex.Message}");
             }
@@ -63,7 +62,6 @@ namespace CarDealership.page.@operator
 
                 if (_productService.Create(product))
                 {
-                    // mark car as on sale
                     var carToUpdate = _context.Cars.FirstOrDefault(x => x.Id == car.Id);
                     if (carToUpdate != null)
                     {

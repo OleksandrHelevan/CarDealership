@@ -58,19 +58,4 @@ public static class ProductMapper
             vehicle
         );
     }
-
-    public static Product ToEntity(ProductDto dto)
-    {
-        var entity = new Product
-        {
-            Id = dto.Id,
-            Number = dto.Number,
-            CountryOfOrigin = dto.CountryOfOrigin,
-            InStock = dto.InStock,
-            Amount = dto.Amount,
-            AvailableFrom = dto.AvailableFrom,
-            CarId = dto.Vehicle.Id
-        };
-        return entity;
-    }
 }

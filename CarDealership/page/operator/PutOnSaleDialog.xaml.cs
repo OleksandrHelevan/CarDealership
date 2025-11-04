@@ -1,8 +1,6 @@
-using System;
 using System.Windows;
 using CarDealership.dto;
 using CarDealership.entity;
-using CarDealership.enums;
 
 namespace CarDealership.page.@operator;
 

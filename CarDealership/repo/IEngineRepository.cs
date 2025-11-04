@@ -12,4 +12,3 @@ namespace CarDealership.repo
         void Delete(int id);
     }
 }
-

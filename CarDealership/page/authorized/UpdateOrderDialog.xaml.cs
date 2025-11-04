@@ -1,4 +1,3 @@
-
 using System.Windows;
 using CarDealership.config;
 using CarDealership.enums;

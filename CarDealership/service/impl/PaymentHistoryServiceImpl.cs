@@ -24,20 +24,19 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
     public int CreateReceipt(int orderId, string cardNumber)
     {
         if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Count(char.IsDigit) < 12)
-            throw new ArgumentException("РќРµРєРѕСЂРµРєС‚РЅРёР№ РЅРѕРјРµСЂ РєР°СЂС‚РєРё.");
+            throw new ArgumentException("Некоректний номер картки.");
 
-        // Validate that the order has an approved review
         var review = _context.OrderReviews
             .Include(r => r.Order)
             .ThenInclude(o => o.Product)
             .FirstOrDefault(r => r.OrderId == orderId);
 
         if (review == null)
-            throw new InvalidOperationException("Р—Р°РјРѕРІР»РµРЅРЅСЏ РЅРµ РјР°С” СЂС–С€РµРЅРЅСЏ РѕРїРµСЂР°С‚РѕСЂР°.");
+            throw new InvalidOperationException("Замовлення не має рішення оператора.");
         if (review.Status == RequestStatus.Rejected)
-            throw new InvalidOperationException($"Р—Р°РјРѕРІР»РµРЅРЅСЏ РІС–РґС…РёР»РµРЅРѕ: {review.Message}");
+            throw new InvalidOperationException($"Замовлення відхилено: {review.Message}");
         if (review.Status != RequestStatus.Approved)
-            throw new InvalidOperationException("Р—Р°РјРѕРІР»РµРЅРЅСЏ С‰Рµ РЅРµ РїС–РґС‚РІРµСЂРґР¶РµРЅРµ.");
+            throw new InvalidOperationException("Замовлення ще не підтверджене.");
 
         var order = (from o in _context.Orders
                      where o.Id == orderId
@@ -48,7 +47,7 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
                      select new { o, p, c, pd }).FirstOrDefault();
 
         if (order == null)
-            throw new InvalidOperationException("Р—Р°РјРѕРІР»РµРЅРЅСЏ РЅРµ Р·РЅР°Р№РґРµРЅРѕ.");
+            throw new InvalidOperationException("Замовлення не знайдено.");
 
         var last4 = new string(cardNumber.Where(char.IsDigit).TakeLast(4).ToArray());
         var carName = $"{order.c.Brand} {order.c.ModelName}";
@@ -76,5 +75,3 @@ public class PaymentHistoryServiceImpl : IPaymentHistoryService
         return history.Id;
     }
 }
-
-

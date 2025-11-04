@@ -9,65 +9,73 @@
       Title="EditProductPage">
 
     <Page.Resources>
-        <converters:CarTypeToFriendlyStringConverter x:Key="CarTypeConverter"/>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:CarTypeToFriendlyStringConverter x:Key="CarTypeConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </Page.Resources>
 
     <DockPanel Background="#f7f7f7">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10" HorizontalAlignment="Center">
             <ComboBox x:Name="StockStatusFilter" Width="180" Height="30" Margin="0,0,10,0">
-                <ComboBoxItem Content="В наявності" IsSelected="True"/>
-                <ComboBoxItem Content="Нема в наявності"/>
+                <ComboBoxItem Content="В наявності" IsSelected="True" />
+                <ComboBoxItem Content="Нема в наявності" />
             </ComboBox>
-            <Button x:Name="StockStatusApplyButton" Content="Показати" Width="120" Height="30" Click="StockStatusApplyButton_Click"/>
+            <Button x:Name="StockStatusApplyButton" Content="Показати" Width="120" Height="30"
+                    Click="StockStatusApplyButton_Click" />
         </StackPanel>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
             <ItemsControl x:Name="ProductsList">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel/>
+                        <WrapPanel />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type entity:Product}">
-                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15" Background="#F5F5F5" Width="300">
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10" Padding="15"
+                                Background="#F5F5F5" Width="300">
                             <StackPanel>
                                 <TextBlock FontSize="16" FontWeight="Bold" Margin="0 0 0 10"
-                                           Text="{Binding Path=., Converter={StaticResource CarTypeConverter}, StringFormat={}{0} автомобіль}"/>
+                                           Text="{Binding Path=., Converter={StaticResource CarTypeConverter}, StringFormat={}{0} автомобіль}" />
 
-                                <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0 2" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Number, StringFormat=Номер продукту: {0}}" Margin="0 2"
+                                           FontWeight="Bold" />
+                                <TextBlock Text="{Binding CountryOfOrigin, StringFormat=Країна: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding InStock, StringFormat=В наявності: {0}}" Margin="0 2" />
 
-                                <TextBlock Text="{Binding Amount, StringFormat=Кількість: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding AvailableFrom, StringFormat=Доступно з: {0:yyyy-MM-dd}}" Margin="0 2"/>
-                                <Separator Margin="0,5"/>
+                                <TextBlock Text="{Binding Amount, StringFormat=Кількість: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding AvailableFrom, StringFormat=Доступно з: {0:yyyy-MM-dd}}"
+                                           Margin="0 2" />
+                                <Separator Margin="0,5" />
 
-                                <TextBlock Text="{Binding Car.Brand, StringFormat=Марка: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.ModelName, StringFormat=Модель: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.Year, StringFormat=Рік: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.Engine.EngineString, StringFormat=Двигун: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.ColorString, StringFormat=Колір: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.Mileage, StringFormat=Пробіг: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.Price, StringFormat=Ціна: {0} $}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.Weight, StringFormat=Вага: {0} кг}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.TransmissionString, StringFormat=Трансмісія: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.NumberOfDoors, StringFormat=К-сть дверей: {0}}" Margin="0 2"/>
-                                <TextBlock Text="{Binding Car.BodyTypeString, StringFormat=Тип кузова: {0}}" Margin="0 2"/>
+                                <TextBlock Text="{Binding Car.Brand, StringFormat=Марка: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.ModelName, StringFormat=Модель: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.Year, StringFormat=Рік: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.Engine.EngineString, StringFormat=Двигун: {0}}"
+                                           Margin="0 2" />
+                                <TextBlock Text="{Binding Car.ColorString, StringFormat=Колір: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.Mileage, StringFormat=Пробіг: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.Price, StringFormat=Ціна: {0} $}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.Weight, StringFormat=Вага: {0} кг}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.TransmissionString, StringFormat=Трансмісія: {0}}"
+                                           Margin="0 2" />
+                                <TextBlock Text="{Binding Car.DriveTypeString, StringFormat=Привід: {0}}" Margin="0 2" />
+                                <TextBlock Text="{Binding Car.NumberOfDoors, StringFormat=К-сть дверей: {0}}"
+                                           Margin="0 2" />
+                                <TextBlock Text="{Binding Car.BodyTypeString, StringFormat=Тип кузова: {0}}"
+                                           Margin="0 2" />
 
-                                <Button Content="Редагувати" 
-                                        Background="#FBBF24" Foreground="Black" 
+                                <Button Content="Редагувати"
+                                        Background="#FBBF24" Foreground="Black"
                                         Margin="0,10,0,0" Height="35"
                                         Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                        CommandParameter="{Binding}"/>
+                                        CommandParameter="{Binding}" />
                                 <Button Content="Видалити"
-                                        Background="#EF4444" Foreground="White" 
+                                        Background="#EF4444" Foreground="White"
                                         Margin="0,10,0,0" Height="35"
                                         Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                        CommandParameter="{Binding}"/>
+                                        CommandParameter="{Binding}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

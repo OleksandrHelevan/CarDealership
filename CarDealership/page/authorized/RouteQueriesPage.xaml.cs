@@ -27,6 +27,7 @@ public partial class RouteQueriesPage
     {
         NavigationService?.Navigate(new BrandsDelayPage());
     }
+
     private void BtnMinStock_Click(object sender, RoutedEventArgs e)
     {
         NavigationService?.Navigate(new MinStockCarsPage());

@@ -49,7 +49,8 @@ public partial class GetPriceByBrandPage
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка завантаження марок: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка завантаження марок: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
@@ -59,8 +60,8 @@ public partial class GetPriceByBrandPage
         {
             var grouped = _context.PaymentHistory
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Product)
-                        .ThenInclude(p => p.Car)
+                .ThenInclude(o => o.Product)
+                .ThenInclude(p => p.Car)
                 .Where(ph => ph.Order != null && ph.Order.Product != null && ph.Order.Product.Car != null)
                 .AsEnumerable()
                 .GroupBy(ph => ph.Order!.Product!.Car!.Brand)
@@ -79,7 +80,8 @@ public partial class GetPriceByBrandPage
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка завантаження сум: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка завантаження сум: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
@@ -96,8 +98,8 @@ public partial class GetPriceByBrandPage
         {
             var list = _context.PaymentHistory
                 .Include(ph => ph.Order)
-                    .ThenInclude(o => o.Product)
-                        .ThenInclude(p => p.Car)
+                .ThenInclude(o => o.Product)
+                .ThenInclude(p => p.Car)
                 .Where(ph => ph.Order != null && ph.Order.Product != null && ph.Order.Product.Car != null)
                 .Where(ph => ph.Order!.Product!.Car!.Brand == brand)
                 .Select(ph => new SoldModelCard
@@ -115,12 +117,13 @@ public partial class GetPriceByBrandPage
             ResultsItems.ItemsSource = new ObservableCollection<SoldModelCard>(list);
             var selectedSum = list.Sum(x => x.Price);
             SelectedSumText.Text = $"Сума обраної марки: ${selectedSum}";
-            
+
             LoadBrandSums();
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Помилка виконання запиту: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Помилка виконання запиту: {ex.Message}", "Помилка", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 }

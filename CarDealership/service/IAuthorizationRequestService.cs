@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using CarDealership.entity;
-using CarDealership.enums;
 
 namespace CarDealership.service
 {
@@ -8,12 +6,9 @@ namespace CarDealership.service
     {
         AuthorizationRequest CreateRequest(string login);
 
-        AuthorizationRequest? GetRequestByLogin(string login);
-
         IEnumerable<AuthorizationRequest> GetAllRequests();
 
         bool UpdateRequest(AuthorizationRequest request);
 
-        bool DeleteRequest(int id);
     }
 }

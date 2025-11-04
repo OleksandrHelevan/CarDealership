@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CarDealership.entity;
 
 namespace CarDealership.repo

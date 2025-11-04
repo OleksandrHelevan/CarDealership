@@ -33,7 +33,7 @@ namespace CarDealership.service.impl
                 System.Diagnostics.Debug.WriteLine($"ERROR in OrderService.Add: {msg}");
                 System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 System.Windows.MessageBox.Show($"Помилка створення замовлення: {msg}", "Помилка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                throw; // Rethrow to let caller handle
+                throw;
             }
         }
 

@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using CarDealership.config;
@@ -103,6 +101,7 @@ namespace CarDealership.page.@operator
                     MessageBox.Show("Оберіть тип двигуна");
                     return;
                 }
+
                 var engineType = (EngineType)engineItem.Tag;
 
                 if (ColorCombo.SelectedItem is not ComboBoxItem colorItem ||

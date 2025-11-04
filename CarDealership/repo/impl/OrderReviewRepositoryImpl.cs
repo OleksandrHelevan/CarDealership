@@ -36,9 +36,9 @@ public class OrderReviewRepositoryImpl : IOrderReviewRepository
     {
         return _context.OrderReviews
             .Include(r => r.Order)
-                .ThenInclude(o => o.Client)
+            .ThenInclude(o => o.Client)
             .Include(r => r.Order)
-                .ThenInclude(o => o.Product)
+            .ThenInclude(o => o.Product)
             .FirstOrDefault(r => r.Id == id);
     }
 
@@ -46,9 +46,9 @@ public class OrderReviewRepositoryImpl : IOrderReviewRepository
     {
         return _context.OrderReviews
             .Include(r => r.Order)
-                .ThenInclude(o => o.Client)
+            .ThenInclude(o => o.Client)
             .Include(r => r.Order)
-                .ThenInclude(o => o.Product)
+            .ThenInclude(o => o.Product)
             .FirstOrDefault(r => r.OrderId == orderId);
     }
 
@@ -56,9 +56,9 @@ public class OrderReviewRepositoryImpl : IOrderReviewRepository
     {
         return _context.OrderReviews
             .Include(r => r.Order)
-                .ThenInclude(o => o.Client)
+            .ThenInclude(o => o.Client)
             .Include(r => r.Order)
-                .ThenInclude(o => o.Product)
+            .ThenInclude(o => o.Product)
             .ToList();
     }
 
@@ -66,9 +66,9 @@ public class OrderReviewRepositoryImpl : IOrderReviewRepository
     {
         return _context.OrderReviews
             .Include(r => r.Order)
-                .ThenInclude(o => o.Client)
+            .ThenInclude(o => o.Client)
             .Include(r => r.Order)
-                .ThenInclude(o => o.Product)
+            .ThenInclude(o => o.Product)
             .Where(r => r.Status == RequestStatus.Pending)
             .ToList();
     }
@@ -77,11 +77,10 @@ public class OrderReviewRepositoryImpl : IOrderReviewRepository
     {
         return _context.OrderReviews
             .Include(r => r.Order)
-                .ThenInclude(o => o.Client)
+            .ThenInclude(o => o.Client)
             .Include(r => r.Order)
-                .ThenInclude(o => o.Product)
+            .ThenInclude(o => o.Product)
             .Where(r => r.Order.ClientId == clientId)
             .ToList();
     }
 }
-
