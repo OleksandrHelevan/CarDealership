@@ -1,0 +1,86 @@
+<Page x:Class="CarDealership.page.guest.GuestCarsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="Каталог автомобілів">
+
+    <Page.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Width" Value="340" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.18" BlurRadius="5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,2,0,0" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#f0f2f5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Каталог автомобілів"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20" />
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly">
+            <ItemsControl x:Name="CarsList"
+                          ScrollViewer.CanContentScroll="False">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3"
+                                     HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           Margin="0,0,0,4" />
+                                <TextBlock Text="{Binding YearText}"
+                                           Foreground="#4B5563"
+                                           Margin="0,0,0,8" />
+
+                                <TextBlock Text="{Binding PriceText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding MileageText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding BodyText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding DriveText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding TransmissionText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding ColorText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding DoorsText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding CarTypeText}" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Text="{Binding WeightText}" Style="{StaticResource LabelStyle}" />
+
+                                <Separator Margin="0,10" />
+                                <TextBlock Text="Двигун:" FontWeight="Bold" />
+                                <TextBlock Text="{Binding EngineSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
