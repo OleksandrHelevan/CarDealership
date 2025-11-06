@@ -17,4 +17,15 @@ public class OrderDto
     public string CarName { get; set; }
     public DateTime CreatedAt { get; set; }
     public int OrderId { get; set; }
+
+    public string PaymentTypeDisplay =>
+        PaymentType switch
+        {
+            PaymentType.Cash => "Готівка",
+            PaymentType.Card => "Картка",
+            PaymentType.Credit => "Кредит",
+            _ => PaymentType.ToString()
+        };
+
+    public string DeliveryDisplay => Delivery ? "Так" : "Ні";
 }

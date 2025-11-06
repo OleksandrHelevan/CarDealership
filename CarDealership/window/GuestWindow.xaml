@@ -56,20 +56,15 @@
                     HorizontalAlignment="Center"
                     Background="Transparent">
 
-            <Button Name="BtnGasolineCar"
-                    Content="Бензинові автомобілі"
+            <Button Name="BtnCars"
+                    Content="Каталог авто"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnGasolineCar_Click" />
+                    Click="BtnCars_Click" />
 
-            <Button Name="BtnElectroeCar"
-                    Content="Електромобілі"
+            <Button Name="BtnAccount"
+                    Content="Мій профіль"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnElectroCar_Click" />
-
-            <Button Name="BtnAuthRequest"
-                    Content="Запит на авторизацію"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnAuthRequest_Click" />
+                    Click="BtnAccount_Click" />
         </StackPanel>
 
         <Frame x:Name="MainFrame"

@@ -29,6 +29,17 @@ public partial class AuthOrderPage : Page
         public string HasReceiptText => HasReceipt ? "Так" : "Ні";
         public RequestStatus? ReviewStatus { get; set; }
         public string? ReviewMessage { get; set; }
+
+        public string PaymentTypeDisplay =>
+            PaymentType switch
+            {
+                PaymentType.Cash => "Готівка",
+                PaymentType.Card => "Картка",
+                PaymentType.Credit => "Кредит",
+                _ => PaymentType.ToString()
+            };
+
+        public string DeliveryDisplay => Delivery ? "Так" : "Ні";
     }
 
     public AuthOrderPage(string userLogin)

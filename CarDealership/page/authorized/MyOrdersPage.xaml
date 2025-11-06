@@ -78,9 +78,9 @@
                                                FontSize="18" FontWeight="Bold" Margin="0 0 0 10" />
 
                                     <StackPanel Margin="0,0,0,10">
-                                        <TextBlock Text="{Binding PaymentType, StringFormat=Оплата: {0}}"
+                                        <TextBlock Text="{Binding PaymentTypeDisplay, StringFormat=Оплата: {0}}"
                                                    FontWeight="SemiBold" />
-                                        <TextBlock Text="{Binding Delivery, StringFormat=Доставка: {0}}"
+                                        <TextBlock Text="{Binding DeliveryDisplay, StringFormat=Доставка: {0}}"
                                                    FontWeight="SemiBold" />
                                         <TextBlock
                                             Text="{Binding CreatedAt, StringFormat=Дата замовлення: {0:dd.MM.yyyy}}"

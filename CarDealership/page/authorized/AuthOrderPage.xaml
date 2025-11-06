@@ -3,37 +3,98 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:enums="clr-namespace:CarDealership.enums"
       Title="Мої покупки">
-    <DockPanel Background="#f7f7f7">
-        <TextBlock DockPanel.Dock="Top" Margin="12" Text="Мої замовлення" FontSize="18" FontWeight="Bold" />
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl x:Name="OrdersList" Margin="8">
-                <ItemsControl.Resources>
-                    <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="10" Margin="8" Padding="12"
-                                Background="#FFFFFF" Width="320">
-                            <StackPanel>
-                                <TextBlock FontWeight="Bold" FontSize="16"
-                                           Text="{Binding Id, StringFormat=Замовлення #{0}}" />
-                                <Separator Margin="0,6" />
-                                <TextBlock Text="{Binding CarName, StringFormat=Авто: {0}}" />
-                                <TextBlock Text="{Binding ProductNumber, StringFormat=Продукт: {0}}" />
-                                <TextBlock Text="{Binding Amount, StringFormat=Сума: {0}}" />
-                                <TextBlock Text="{Binding PaymentType, StringFormat=Оплата: {0}}" />
-                                <TextBlock Text="{Binding Delivery, StringFormat=Доставка: {0}}" />
-                                <TextBlock Text="{Binding HasReceiptText, StringFormat=Квитанція: {0}}" />
-                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                    <Button Content="Причина відхилення" Tag="{Binding ReviewMessage}"
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#60A5FA" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1E40AF" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#a0aec0" />
+                                <Setter Property="Foreground" Value="#6b7280" />
+                                <Setter Property="Cursor" Value="Arrow" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="OrderCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Margin" Value="12" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Width" Value="340" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.2" BlurRadius="5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#f0f2f5">
+        <StackPanel>
+            <TextBlock Text="Мої замовлення"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20" />
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="OrdersList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Left" IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource OrderCardStyle}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding CarName}"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,6" />
+                                    <TextBlock Text="{Binding Id, StringFormat=Замовлення #{0}}"
+                                               FontWeight="SemiBold"
+                                               Foreground="#4B5563"
+                                               Margin="0,0,0,10" />
+
+                                    <StackPanel Margin="0,0,0,10">
+                                        <TextBlock Text="{Binding ProductNumber, StringFormat=Продукт: {0}}" />
+                                        <TextBlock Text="{Binding Amount, StringFormat=Сума: {0:N2}}" />
+                                        <TextBlock Text="{Binding PaymentTypeDisplay, StringFormat=Оплата: {0}}" />
+                                        <TextBlock Text="{Binding DeliveryDisplay, StringFormat=Доставка: {0}}" />
+                                        <TextBlock Text="{Binding HasReceiptText, StringFormat=Квитанція: {0}}" />
+                                    </StackPanel>
+
+                                    <Button Content="Причина відхилення"
+                                            Tag="{Binding ReviewMessage}"
                                             Click="Reason_Click">
                                         <Button.Style>
-                                            <Style TargetType="Button">
+                                            <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding ReviewStatus}"
@@ -44,10 +105,12 @@
                                             </Style>
                                         </Button.Style>
                                     </Button>
-                                    <Button Content="Сформувати чек" Tag="{Binding Id}" Click="Receipt_Click"
-                                            Margin="6,0,0,0">
+
+                                    <Button Content="Сформувати чек"
+                                            Tag="{Binding Id}"
+                                            Click="Receipt_Click">
                                         <Button.Style>
-                                            <Style TargetType="Button">
+                                            <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding ReviewStatus}"
@@ -61,15 +124,18 @@
                                             </Style>
                                         </Button.Style>
                                     </Button>
-                                    <Button Content="Переглянути" Tag="{Binding LastReceiptId}" Click="View_Click"
-                                            Margin="6,0,0,0"
-                                            Visibility="{Binding HasReceipt, Converter={StaticResource BoolToVisibility}}" />
+
+                                    <Button Content="Переглянути квитанцію"
+                                            Tag="{Binding LastReceiptId}"
+                                            Click="View_Click"
+                                            Visibility="{Binding HasReceipt, Converter={StaticResource BoolToVisibility}}"
+                                            Style="{StaticResource PrimaryButtonStyle}" />
                                 </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
 </Page>

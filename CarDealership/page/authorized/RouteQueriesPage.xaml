@@ -6,22 +6,139 @@
       mc:Ignorable="d"
       Title="RoureQueriesPage">
 
-    <DockPanel Background="#f7f7f7">
-        <TextBlock DockPanel.Dock="Top" Text="Вбудовані запити" FontSize="18" FontWeight="Bold" Margin="12" />
+    <Page.Resources>
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Margin" Value="0,14,0,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#60A5FA" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1E40AF" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#a0aec0" />
+                                <Setter Property="Foreground" Value="#6b7280" />
+                                <Setter Property="Cursor" Value="Arrow" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <Grid Margin="12">
-            <UniformGrid Rows="2" Columns="5" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Button Content="1" Margin="8" Width="120" Height="40" Click="Btn1_Click" />
-                <Button Content="2" Margin="8" Width="120" Height="40" Click="Btn2_Click" />
-                <Button Content="3" Margin="8" Width="120" Height="40" Click="Btn3_Click" />
-                <Button Content="4" Margin="8" Width="120" Height="40" Click="BtnMinStock_Click" />
-                <Button Content="5" Margin="8" Width="120" Height="40" IsEnabled="False" />
-                <Button Content="6" Margin="8" Width="120" Height="40" IsEnabled="False" />
-                <Button Content="7" Margin="8" Width="120" Height="40" IsEnabled="False" />
-                <Button Content="8" Margin="8" Width="120" Height="40" IsEnabled="False" />
-                <Button Content="9" Margin="8" Width="120" Height="40" IsEnabled="False" />
-                <Button Content="10" Margin="8" Width="120" Height="40" IsEnabled="False" />
-            </UniformGrid>
-        </Grid>
-    </DockPanel>
+        <Style x:Key="QueryCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Width" Value="320" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.18" BlurRadius="5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#f0f2f5">
+        <StackPanel>
+            <TextBlock Text="Вбудовані запити"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20" />
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.Resources>
+                        <Style TargetType="TextBlock" x:Key="DescriptionText">
+                            <Setter Property="Foreground" Value="#4B5563" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </ItemsControl.Resources>
+
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <ItemsPresenter />
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
+                    <Border Style="{StaticResource QueryCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Продажі за брендом"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,8" />
+                            <TextBlock Style="{StaticResource DescriptionText}"
+                                       Text="Аналітика сум продажів по кожній марці та деталізація оплачуваних замовлень конкретного бренду." />
+                            <Button Content="Відкрити звіт"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Click="Btn1_Click" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource QueryCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Каталог наявних авто"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,8" />
+                            <TextBlock Style="{StaticResource DescriptionText}"
+                                       Text="Показує усі доступні продукти, дозволяє перевірити комплектації, ціни та статуси в наявності." />
+                            <Button Content="Переглянути"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Click="Btn2_Click" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource QueryCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Затримки постачальників"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,8" />
+                            <TextBlock Style="{StaticResource DescriptionText}"
+                                       Text="Виявляє бренди та конкретні товари з простроченою доступністю, щоб швидко реагувати на затримки." />
+                            <Button Content="Перейти до списку"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Click="Btn3_Click" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource QueryCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Моделі з мінімальним запасом"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,8" />
+                            <TextBlock Style="{StaticResource DescriptionText}"
+                                       Text="Показує автомобілі, що наближаються до мінімального рівня складу, з деталями по партіям і доступності." />
+                            <Button Content="Перевірити склад"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Click="BtnMinStock_Click" />
+                        </StackPanel>
+                    </Border>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
 </Page>

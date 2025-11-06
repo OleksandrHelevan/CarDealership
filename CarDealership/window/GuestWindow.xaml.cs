@@ -1,48 +1,28 @@
 using System.Windows;
-using CarDealership.config;
-using CarDealership.exception;
-using CarDealership.page.authorized;
-using CarDealership.repo.impl;
-using CarDealership.service;
-using CarDealership.service.impl;
+using CarDealership.page;
+using CarDealership.page.guest;
 
 namespace CarDealership.window
 {
     public partial class GuestWindow
     {
         private readonly string _currentUserLogin;
-        private readonly IAuthorizationRequestService _requestService;
 
         public GuestWindow(string login)
         {
             InitializeComponent();
-            _requestService =
-                new AuthorizationRequestService(new AuthorizationRequestRepository(new DealershipContext()));
             _currentUserLogin = login;
-            MainFrame.Navigate(new ProductsPage(_currentUserLogin));
+            MainFrame.Navigate(new GuestCarsPage());
         }
 
-        private void BtnGasolineCar_Click(object sender, RoutedEventArgs e)
+        private void BtnCars_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new ProductsPage(_currentUserLogin));
+            MainFrame.Navigate(new GuestCarsPage());
         }
 
-        private void BtnElectroCar_Click(object sender, RoutedEventArgs e)
+        private void BtnAccount_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new ProductsPage(_currentUserLogin));
-        }
-
-        private void BtnAuthRequest_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                _requestService.CreateRequest(_currentUserLogin);
-                MessageBox.Show($"Запит на авторизацію створено!", "Успіх");
-            }
-            catch (RequestAlreadyExistException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            MainFrame.Navigate(new UserDetailsPage(_currentUserLogin));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace CarDealership.enums
         {
             return accessRight switch
             {
-                AccessRight.Guest => "Гість",
+                AccessRight.Guest => "Не авторизований",
                 AccessRight.Authorized => "Авторизований",
                 AccessRight.Operator => "Оператор",
                 AccessRight.Admin => "Адмін",
