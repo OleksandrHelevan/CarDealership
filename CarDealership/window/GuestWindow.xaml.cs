@@ -61,11 +61,33 @@ namespace CarDealership.window
                 var existingRequest = _authorizationRequestService.GetRequestByLogin(_currentUserLogin);
                 if (existingRequest != null)
                 {
-                    MessageBox.Show(existingRequest.Status == RequestStatus.Pending
-                        ? "Запит уже подано. Очікуйте рішення."
-                        : "Запит уже розглянуто.");
-                    UpdateRequestButtonState();
-                    return;
+                    switch (existingRequest.Status)
+                    {
+                        case RequestStatus.Pending:
+                            MessageBox.Show("Запит уже подано. Очікуйте рішення.");
+                            BtnRequestAccess.IsEnabled = false;
+                            return;
+                        case RequestStatus.Approved:
+                            MessageBox.Show("Ваш запит вже підтверджено. Оновіть сесію, щоб отримати доступ.");
+                            BtnRequestAccess.IsEnabled = false;
+                            return;
+                        case RequestStatus.Rejected:
+                            var result = MessageBox.Show(
+                                "Ваш попередній запит було відхилено. Подати новий запит?",
+                                "Запит відхилено",
+                                MessageBoxButton.OKCancel,
+                                MessageBoxImage.Warning);
+                            if (result != MessageBoxResult.OK)
+                            {
+                                UpdateRequestButtonState();
+                                return;
+                            }
+                            _authorizationRequestService.DeleteRequest(existingRequest.Id);
+                            break;
+                        default:
+                            BtnRequestAccess.IsEnabled = false;
+                            return;
+                    }
                 }
 
                 _authorizationRequestService.CreateRequest(_currentUserLogin);
@@ -106,7 +128,7 @@ namespace CarDealership.window
                 }
 
                 var existingRequest = _authorizationRequestService.GetRequestByLogin(_currentUserLogin);
-                BtnRequestAccess.IsEnabled = existingRequest == null;
+                BtnRequestAccess.IsEnabled = existingRequest == null || existingRequest.Status == RequestStatus.Rejected;
             }
             catch (System.Exception)
             {

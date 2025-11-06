@@ -12,5 +12,7 @@ namespace CarDealership.service
 
         bool UpdateRequest(AuthorizationRequest request);
 
+        bool DeleteRequest(int id);
+
     }
 }

@@ -46,25 +46,59 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-            <Button Name="BtnAddOperator"
-                    Content="Додати оператора"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnAddOperator_Click"/>
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,10">
 
-            <Button Name="BtnSqlCommands"
-                    Content="SQL команди"
-                    Style="{StaticResource RoundedButtonStyle}" />
-
-            <Button Name="BtnCommandPrompt"
-                    Content="Командний рядок"
-                    Style="{StaticResource RoundedButtonStyle}" Click="BtnCommandPrompt_Click" />
-            
-            <Button Name="BtnMyAccount"
-                    Content="Мій акаунт"
+            <Button Name="BtnAddCar"
+                    Content="Додати авто"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnMyAccount_Click" />
-        </StackPanel>
+                    Click="BtnAddCar_Click" />
+
+            <Button Name="BtnPutOnSale"
+                    Content="Виставити авто на продаж"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnUnboundCars_Click" />
+
+            <Button Name="BtnShowRequest"
+                    Content="Запити на авторизацію"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnShowRequest_Click" />
+
+            <Button Name="BtnEditProduct"
+                    Content="Продукти"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnEditProduct_Click" />
+
+            <Button Name="BtnShowOrders"
+                    Content="Показати замовлення"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="showOrders_Click" />
+
+            <Button Name="BtnMinStock"
+                    Content="Мінімальний запас"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnMinStock_Click" />
+
+            <Button Name="BtnClients"
+                    Content="Клієнти"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnClients_Click" />
+
+            <Button Name="BtnUsersCarsByPayment"
+                    Content="Клієнти/Авто по оплаті"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnUsersCarsByPayment_Click" />
+
+            <Button Name="BtnWaitingCustomers"
+                    Content="Очікують на склад"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnWaitingCustomers_Click" />
+
+            <Button Name="BtnDealerContracts"
+                    Content="Договори по дилеру"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnDealerContracts_Click" />
+
+        </WrapPanel>
         <Frame x:Name="MainFrame"
                Grid.Row="1"
                NavigationUIVisibility="Hidden"
@@ -72,32 +106,27 @@
                Margin="20"
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch" />
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-           
-            <Button Name="BtnAddGasolineCar"
-                    Content="Додати  авто"
-                    Style="{StaticResource RoundedButtonStyle}" 
-                    Click="BtnAddCar_Click"/>
-            
 
-            <Button Name="BtnPutOnSale"
-                    Content="Виставити авто на продаж"
-                    Style="{StaticResource RoundedButtonStyle}" 
-                    Click="BtnUnboundCars_Click"/>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,20">
             
-            <Button Name="BtnShowRequest"
-                    Content="Показати запити"
+            <Button Name="BtnAddOperator"
+                    Content="Додати оператора"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnShowRequest_Click" />
+                    Click="BtnAddOperator_Click"/>
             
-            <Button Name="BtnEditProduct"
-                    Content="Продукти"
+            <Button Name="BtnCommandPrompt"
+                    Content="Командний рядок"
                     Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnEditProduct_Click" />
-            
+                    Click="BtnCommandPrompt_Click" />
+
+            <Button Name="BtnMyAccount"
+                    Content="Мій акаунт"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnMyAccount_Click" />
         </StackPanel>
-       
+        
     </Grid>
 </Window>
-
