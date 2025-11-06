@@ -18,7 +18,7 @@
             </StackPanel>
             <TextBox x:Name="SqlInput"
                      AcceptsReturn="True" AcceptsTab="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                      Height="120" FontFamily="Consolas" FontSize="14"
                      KeyDown="SqlInput_KeyDown" />
         </DockPanel>

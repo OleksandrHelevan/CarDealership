@@ -50,15 +50,9 @@ namespace CarDealership.window
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(login) || !Regex.IsMatch(login, "^\\d{13}$"))
+            if (string.IsNullOrWhiteSpace(login) || login.Length < 4 || login.Length > 20 || !Regex.IsMatch(login, "^[A-Za-z0-9._-]+$"))
             {
-                MessageBox.Show("Логін має бути номером паспорта з 13 цифр.");
-                return;
-            }
-
-            if (!string.Equals(login, passportNumber))
-            {
-                MessageBox.Show("Логін має збігатися з номером паспорта (13 цифр).");
+                MessageBox.Show("Логін має містити 4-20 символів, складатися з англійських (латинських) літер, цифр або символів . _ -");
                 return;
             }
 
@@ -82,21 +76,15 @@ namespace CarDealership.window
 
             bool hasLetter = password.Any(char.IsLetter);
             bool hasDigit = password.Any(char.IsDigit);
-            if (password.Length <= 8 || !hasLetter || !hasDigit)
+            if (password.Length < 8 || !hasLetter || !hasDigit)
             {
-                MessageBox.Show("Пароль має бути довшим за 8 символів та містити літери й цифри.");
+                MessageBox.Show("Пароль має містити щонайменше 8 символів та включати літери й цифри.");
                 return;
             }
 
             if (_context.Users.Any(k => k.Login == login))
             {
                 MessageBox.Show("Такий логін уже зайнятий.");
-                return;
-            }
-
-            if (_context.Users.Any(k => k.Email == email))
-            {
-                MessageBox.Show("Такий email уже зареєстровано.");
                 return;
             }
 
@@ -128,7 +116,7 @@ namespace CarDealership.window
             _context.Clients.Add(client);
             _context.SaveChanges();
 
-            MessageBox.Show("Registration successful!");
+            MessageBox.Show("Реєстрація успішна!");
             Close();
         }
     }

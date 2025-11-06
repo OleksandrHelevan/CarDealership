@@ -6,6 +6,8 @@ namespace CarDealership.service
     {
         AuthorizationRequest CreateRequest(string login);
 
+        AuthorizationRequest? GetRequestByLogin(string login);
+
         IEnumerable<AuthorizationRequest> GetAllRequests();
 
         bool UpdateRequest(AuthorizationRequest request);

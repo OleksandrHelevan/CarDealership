@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using CarDealership.entity;
 using CarDealership.enums;
@@ -10,6 +12,7 @@ namespace CarDealership.page.admin
     public partial class AddOperatorPage : Page
     {
         private readonly UserServiceImpl _userService;
+        private List<User> _allUsers = new();
 
         public AddOperatorPage()
         {
@@ -20,8 +23,8 @@ namespace CarDealership.page.admin
 
         private void RefreshUsersList()
         {
-            List<User> users = new List<User>(_userService.GetAllByAccessRight(AccessRight.Authorized));
-            UsersDataGrid.ItemsSource = users;
+            _allUsers = new List<User>(_userService.GetAllByAccessRight(AccessRight.Authorized));
+            ApplyFilter(SearchBox?.Text);
         }
 
         private void AddOperatorButton_Click(object sender, RoutedEventArgs e)
@@ -42,6 +45,26 @@ namespace CarDealership.page.admin
 
                 RefreshUsersList();
             }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFilter(SearchBox.Text);
+        }
+
+        private void ApplyFilter(string? query)
+        {
+            if (_allUsers == null) return;
+
+            IEnumerable<User> filtered = _allUsers;
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                filtered = filtered.Where(u =>
+                    u.Login != null &&
+                    u.Login.Contains(query, StringComparison.OrdinalIgnoreCase));
+            }
+
+            UsersList.ItemsSource = filtered.ToList();
         }
 
         private void AssignOperatorButton_Click(object sender, RoutedEventArgs e)

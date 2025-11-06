@@ -65,6 +65,10 @@
                     Content="Мій профіль"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnAccount_Click" />
+            <Button Name="BtnRequestAccess"
+                    Content="Подати запит на авторизацію"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnRequestAccess_Click" />
         </StackPanel>
 
         <Frame x:Name="MainFrame"
