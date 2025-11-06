@@ -14,6 +14,10 @@ public partial class SqlConsolePage : Page
     private DataTable? _currentTable;
     private string? _currentTableName;
 
+    private static readonly Regex SchemaManipulationRegex =
+        new(@"(?<!\w)(create|alter|drop|truncate|comment\s+on|reindex|grant|revoke)\b",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
     public SqlConsolePage()
     {
         InitializeComponent();
@@ -48,9 +52,14 @@ public partial class SqlConsolePage : Page
             return;
         }
 
+        if (ContainsSchemaManipulation(sql))
+        {
+            ResultText.Text = "Заборонено виконувати запити, що змінюють структуру бази даних.";
+            return;
+        }
+
         try
         {
-            // ВАЖЛИВО: не диспоузити з'єднання EF. Відкриваємо/закриваємо через Database.
             _context.Database.OpenConnection();
             var conn = _context.Database.GetDbConnection();
 
@@ -58,7 +67,6 @@ public partial class SqlConsolePage : Page
             cmd.CommandText = sql;
             cmd.CommandTimeout = 60;
 
-            // Якщо починається з SELECT або WITH — читаємо результат
             var lowered = sql.TrimStart().ToLowerInvariant();
             if (lowered.StartsWith("select") || lowered.StartsWith("with"))
             {
@@ -68,7 +76,6 @@ public partial class SqlConsolePage : Page
                 ResultGrid.ItemsSource = table.DefaultView;
                 ResultText.Text = $"OK. Рядків: {table.Rows.Count}";
 
-                // зберігаємо для можливості редагування прямо в гріді
                 _currentTable = table;
                 _currentTableName = TryExtractBaseTableName(sql);
             }
@@ -86,21 +93,34 @@ public partial class SqlConsolePage : Page
         }
         finally
         {
-            try { _context.Database.CloseConnection(); } catch { /* ignore */ }
+            try
+            {
+                _context.Database.CloseConnection();
+            }
+            catch
+            {
+                /* ignore */
+            }
         }
+    }
+
+    private static bool ContainsSchemaManipulation(string sql)
+    {
+        if (string.IsNullOrWhiteSpace(sql)) return false;
+        var cleaned = Regex.Replace(sql, @"'([^']|'')*'", "''");
+        return SchemaManipulationRegex.IsMatch(cleaned);
     }
 
     private static string? TryExtractBaseTableName(string sql)
     {
-        // Дуже проста евристика: select ... from <table>
         var m = Regex.Match(sql, @"(?is)select[\s\S]*?from\s+([a-zA-Z0-9_\.]+)");
         if (m.Success)
         {
             var name = m.Groups[1].Value.Trim();
-            // відрізаємо аліас/крапки, беремо останню частину
             var lastDot = name.LastIndexOf('.');
             return lastDot >= 0 ? name[(lastDot + 1)..] : name;
         }
+
         return null;
     }
 
@@ -115,7 +135,6 @@ public partial class SqlConsolePage : Page
 
     private void SaveGridChanges()
     {
-        // Завершити поточне редагування осередку/рядка
         ResultGrid.CommitEdit(DataGridEditingUnit.Cell, true);
         ResultGrid.CommitEdit(DataGridEditingUnit.Row, true);
 
@@ -132,7 +151,6 @@ public partial class SqlConsolePage : Page
             return;
         }
 
-        // очікуємо наявність первинного ключа id
         if (!_currentTable.Columns.Contains("id"))
         {
             ResultText.Text = "Не знайдено колонки 'id'. Оновлення неможливе.";
@@ -147,7 +165,6 @@ public partial class SqlConsolePage : Page
             int total = 0;
             foreach (DataRow row in changes.Rows)
             {
-                // формуємо UPDATE table SET col=@p,... WHERE id=@id
                 var setParts = new List<string>();
                 var cmd = conn.CreateCommand();
 
@@ -156,8 +173,9 @@ public partial class SqlConsolePage : Page
                     if (string.Equals(col.ColumnName, "id", StringComparison.OrdinalIgnoreCase))
                         continue;
 
-                    if (row[col, DataRowVersion.Current]?.Equals(row[col, DataRowVersion.Original] ?? DBNull.Value) == true)
-                        continue; // колонка не змінена
+                    if (row[col, DataRowVersion.Current]?.Equals(row[col, DataRowVersion.Original] ?? DBNull.Value) ==
+                        true)
+                        continue;
 
                     var p = cmd.CreateParameter();
                     p.ParameterName = "@p_" + col.ColumnName;
@@ -167,14 +185,15 @@ public partial class SqlConsolePage : Page
                 }
 
                 if (setParts.Count == 0)
-                    continue; // нічого оновлювати
+                    continue;
 
                 var idParam = cmd.CreateParameter();
                 idParam.ParameterName = "@id";
                 idParam.Value = row["id"];
                 cmd.Parameters.Add(idParam);
 
-                cmd.CommandText = $"update \"{_currentTableName}\" set {string.Join(", ", setParts)} where \"id\" = @id";
+                cmd.CommandText =
+                    $"update \"{_currentTableName}\" set {string.Join(", ", setParts)} where \"id\" = @id";
                 var affected = cmd.ExecuteNonQuery();
                 total += affected;
             }
@@ -188,7 +207,13 @@ public partial class SqlConsolePage : Page
         }
         finally
         {
-            try { _context.Database.CloseConnection(); } catch { }
+            try
+            {
+                _context.Database.CloseConnection();
+            }
+            catch
+            {
+            }
         }
     }
 }
