@@ -80,4 +80,9 @@ public partial class AdminWindow : Window
     {
         MainFrame.Navigate(new DealerContractsCountPage());
     }
+
+    private void BtnDelayProducts_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new BrandsDelayPage());
+    }
 }

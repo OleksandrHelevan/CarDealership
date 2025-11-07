@@ -67,7 +67,7 @@
                     Click="BtnMyOrders_Click" />
 
             <Button Name="BtnShowOrders"
-                    Content="Показати замовлення"
+                    Content="Історія замовлень"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnShowOrders_Click" />
 

@@ -83,41 +83,14 @@
                     </ItemsControl.Template>
 
                     <Border Style="{StaticResource QueryCardStyle}">
-                        <StackPanel>
-                            <TextBlock Text="Продажі за брендом"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Margin="0,0,0,8" />
-                            <TextBlock Style="{StaticResource DescriptionText}"
-                                       Text="Аналітика сум продажів по кожній марці та деталізація оплачуваних замовлень конкретного бренду." />
-                            <Button Content="Відкрити звіт"
-                                    Style="{StaticResource PrimaryButtonStyle}"
-                                    Click="Btn1_Click" />
-                        </StackPanel>
-                    </Border>
 
-                    <Border Style="{StaticResource QueryCardStyle}">
-                        <StackPanel>
-                            <TextBlock Text="Каталог наявних авто"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Margin="0,0,0,8" />
-                            <TextBlock Style="{StaticResource DescriptionText}"
-                                       Text="Показує усі доступні продукти, дозволяє перевірити комплектації, ціни та статуси в наявності." />
-                            <Button Content="Переглянути"
-                                    Style="{StaticResource PrimaryButtonStyle}"
-                                    Click="Btn2_Click" />
-                        </StackPanel>
-                    </Border>
-
-                    <Border Style="{StaticResource QueryCardStyle}">
                         <StackPanel>
                             <TextBlock Text="Затримки постачальників"
                                        FontSize="20"
                                        FontWeight="Bold"
                                        Margin="0,0,0,8" />
                             <TextBlock Style="{StaticResource DescriptionText}"
-                                       Text="Виявляє бренди та конкретні товари з простроченою доступністю, щоб швидко реагувати на затримки." />
+                                       Text="Бренди та конкретні товари з простроченою доступністю (нема в наявності)" />
                             <Button Content="Перейти до списку"
                                     Style="{StaticResource PrimaryButtonStyle}"
                                     Click="Btn3_Click" />
@@ -126,12 +99,12 @@
 
                     <Border Style="{StaticResource QueryCardStyle}">
                         <StackPanel>
-                            <TextBlock Text="Моделі з мінімальним запасом"
+                            <TextBlock Text="Авто з мінімальним запасом"
                                        FontSize="20"
                                        FontWeight="Bold"
                                        Margin="0,0,0,8" />
                             <TextBlock Style="{StaticResource DescriptionText}"
-                                       Text="Показує автомобілі, що наближаються до мінімального рівня складу, з деталями по партіям і доступності." />
+                                       Text="Показує автомобілі, що наближаються до мінімальної кількості на складі" />
                             <Button Content="Перевірити склад"
                                     Style="{StaticResource PrimaryButtonStyle}"
                                     Click="BtnMinStock_Click" />

@@ -83,11 +83,11 @@
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnMyAccount_Click" />
             <Button Name="BtnMinStock"
-                    Content="Мінімальний запас"
+                    Content="ТОП авто поквартально "
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnMinStock_Click" />
             <Button Name="BtnClients"
-                    Content="Клієнти"
+                    Content="Зацікавленість клієнтів"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnClients_Click" />
 
@@ -100,10 +100,16 @@
                     Content="Очікують на склад"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnWaitingCustomers_Click" />
+            
             <Button Name="BtnDealerContracts"
                     Content="Договори по дилеру"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnDealerContracts_Click" />
+            
+            <Button Name="BtnDelayProducts"
+                    Content="Авто із затримкою"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnDelayProducts_Click" />
 
 
         </WrapPanel>

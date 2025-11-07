@@ -75,4 +75,9 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new DealerContractsCountPage());
     }
+
+    private void BtnDelayProducts_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new BrandsDelayPage());
+    }
 }
