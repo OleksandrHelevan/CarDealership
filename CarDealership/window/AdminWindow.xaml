@@ -52,17 +52,13 @@
                     Content="Додати авто"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnAddCar_Click" />
-
-            <Button Name="BtnPutOnSale"
-                    Content="Виставити авто на продаж"
-                    Style="{StaticResource RoundedButtonStyle}"
-                    Click="BtnUnboundCars_Click" />
+            
 
             <Button Name="BtnShowRequest"
                     Content="Запити на авторизацію"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnShowRequest_Click" />
-            
+
 
             <Button Name="BtnShowOrders"
                     Content="Показати замовлення"
@@ -70,12 +66,12 @@
                     Click="showOrders_Click" />
 
             <Button Name="BtnMinStock"
-                    Content="Мінімальний запас"
+                    Content="ТОП авто поквартально "
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnMinStock_Click" />
-
+            
             <Button Name="BtnClients"
-                    Content="Клієнти"
+                    Content="Зацікавленість клієнтів"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnClients_Click" />
 
@@ -88,7 +84,7 @@
                     Content="Очікують на склад"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnWaitingCustomers_Click" />
-
+            
             <Button Name="BtnDealerContracts"
                     Content="Договори по дилеру"
                     Style="{StaticResource RoundedButtonStyle}"
@@ -98,6 +94,11 @@
                     Content="Авто із затримкою"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnDelayProducts_Click" />
+            
+            <Button Name="BtnBrandStats"
+                    Content="Статистика по маркам"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnBrandStats_Click" />
 
         </WrapPanel>
         <Frame x:Name="MainFrame"
@@ -127,6 +128,11 @@
                     Content="Продукти"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnEditProduct_Click" />
+            
+            <Button Name="BtnPutOnSale"
+                    Content="Виставити авто на продаж"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnUnboundCars_Click" />
             
             <Button Name="BtnMyAccount"
                     Content="Мій акаунт"

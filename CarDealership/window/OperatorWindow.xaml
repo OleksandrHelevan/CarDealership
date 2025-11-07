@@ -110,8 +110,11 @@
                     Content="Авто із затримкою"
                     Style="{StaticResource RoundedButtonStyle}"
                     Click="BtnDelayProducts_Click" />
-
-
+            
+            <Button Name="BtnBrandStats"
+                    Content="Статистика по маркам"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Click="BtnBrandStats_Click" />
         </WrapPanel>
 
         <Frame x:Name="MainFrame"

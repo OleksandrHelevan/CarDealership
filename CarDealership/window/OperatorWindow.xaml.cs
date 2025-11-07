@@ -80,4 +80,8 @@ public partial class OperatorWindow : Window
     {
         MainFrame.Navigate(new BrandsDelayPage());
     }
+    private void BtnBrandStats_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new GetPriceByBrandPage());
+    }
 }
