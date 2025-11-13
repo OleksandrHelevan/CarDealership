@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using CarDealership.enums;
+using CarDealership.window;
 
 namespace CarDealership.util
 {
@@ -26,7 +28,7 @@ namespace CarDealership.util
                 (e.Key == Key.Oem2 && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control))
             {
                 e.Handled = true;
-                ShowHelp();
+                ShowHelp(win);
                 return;
             }
 
@@ -62,14 +64,25 @@ namespace CarDealership.util
             }
         }
 
-        private static void ShowHelp()
+                private static void ShowHelp(Window owner)
         {
-            var msg = "Гарячі клавіші:\n" +
-                      "F1 — допомога\n" +
-                      "Enter — підтвердження (кнопка за замовчуванням)\n" +
-                      "Esc — відміна/назад\n" +
-                      "Tab — наступне поле, Shift+Tab — попереднє";
-            MessageBox.Show(msg, "Довідка", MessageBoxButton.OK, MessageBoxImage.Information);
+            var accessRight = GetAccessRightForWindow(owner);
+            var help = new HelpWindow(accessRight)
+            {
+                Owner = owner
+            };
+            help.ShowDialog();
+        }
+        private static AccessRight GetAccessRightForWindow(Window win)
+        {
+            if (win is AdminWindow) return AccessRight.Admin;
+            if (win is OperatorWindow) return AccessRight.Operator;
+            if (win is AuthorizedWindow) return AccessRight.Authorized;
+            if (win is GuestWindow) return AccessRight.Guest;
+            if (win is LoginWindow) return AccessRight.Guest;
+            if (win is RegisterWindow) return AccessRight.Guest;
+            if (win is ResetPasswordWindow) return AccessRight.Guest;
+            return AccessRight.Guest;
         }
 
         private static bool ClickDefaultButton(Window win)
@@ -136,3 +149,9 @@ namespace CarDealership.util
         }
     }
 }
+
+
+
+
+
+

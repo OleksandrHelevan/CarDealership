@@ -4,7 +4,7 @@ using CarDealership.util;
 
 namespace CarDealership;
 
-public partial class App : Application
+public partial class App
 {
     protected override void OnStartup(StartupEventArgs e)
     {
