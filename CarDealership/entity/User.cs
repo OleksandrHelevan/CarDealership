@@ -21,7 +21,7 @@ public class User
     [MaxLength(255)]
     [Column("email")]
     public string Email { get; set; } = null!;
-
+ 
     [Required]
     [MaxLength(100)]
     [Column("password")]
