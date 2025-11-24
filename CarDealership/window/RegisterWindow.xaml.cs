@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Linq;
 using System.Text.RegularExpressions;
 using CarDealership.config;
 using CarDealership.config.decoder;

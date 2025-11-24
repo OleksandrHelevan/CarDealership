@@ -35,16 +35,6 @@ public class PaymentHistoryRepositoryImpl : IPaymentHistoryRepository
             .FirstOrDefault(p => p.Id == id);
     }
 
-    public PaymentHistory? GetByOrderId(int orderId)
-    {
-        return _context.PaymentHistory
-            .Include(p => p.Order)
-            .ThenInclude(o => o.Product)
-            .Where(p => p.OrderId == orderId)
-            .OrderByDescending(p => p.Id)
-            .FirstOrDefault();
-    }
-
     public List<PaymentHistory> GetByClientId(int clientId)
     {
         return _context.PaymentHistory

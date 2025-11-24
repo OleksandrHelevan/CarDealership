@@ -1,22 +1,15 @@
 ﻿using CarDealership.config;
 using CarDealership.dto;
 using CarDealership.entity;
-using CarDealership.repo;
 using System.Windows;
 
 namespace CarDealership.service.impl
 {
-    public class BuyServiceImpl
+    public class BuyServiceImpl : IBuyService
     {
-        private readonly IProductRepository _productRepository;
-        private readonly OrderService _orderService;
-        private readonly IClientRepository _clientRepository;
-
-        public BuyServiceImpl(IProductRepository productRepository, OrderService orderService, IClientRepository clientRepository)
+        
+        public BuyServiceImpl()
         {
-            _productRepository = productRepository;
-            _orderService = orderService;
-            _clientRepository = clientRepository;
         }
 
         public bool BuyCar(BuyCarDto buyCarDto)

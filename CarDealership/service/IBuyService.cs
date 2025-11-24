@@ -1,9 +1,8 @@
 using CarDealership.dto;
 
-namespace CarDealership.service
+namespace CarDealership.service;
+
+public interface IBuyService
 {
-    public interface IBuyService
-    {
-        bool BuyCar(BuyCarDto buyCarDto);
-    }
+    bool BuyCar(BuyCarDto buyCarDto);
 }

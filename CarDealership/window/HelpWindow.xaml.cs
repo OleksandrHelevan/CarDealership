@@ -22,7 +22,7 @@ namespace CarDealership.window
 
             try
             {
-                var helpDir = Path.Combine(AppContext.BaseDirectory, "help");
+                var helpDir = Path.Combine(AppContext.BaseDirectory, "templates\\help");
                 var fileName = _accessRight switch
                 {
                     AccessRight.Admin => "admin.txt",

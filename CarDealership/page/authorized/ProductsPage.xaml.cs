@@ -10,7 +10,7 @@ using CarDealership.service.impl;
 
 namespace CarDealership.page.authorized
 {
-    public partial class ProductsPage 
+    public partial class ProductsPage
     {
         private readonly ProductServiceImpl _productService;
         private readonly BuyServiceImpl _buyService;
@@ -23,14 +23,13 @@ namespace CarDealership.page.authorized
         {
             InitializeComponent();
             _currentUserLogin = userLogin;
-    
+
             var productRepo = new ProductRepositoryImpl(new DealershipContext());
 
             _productService = new ProductServiceImpl(productRepo);
-            _migrationService = new MigrationServiceImpl(productRepo);
-            var orderService = new OrderService(new OrderRepositoryImpl(new DealershipContext()));
-            var clientRepo = new ClientRepository(new DealershipContext());
-            _buyService = new BuyServiceImpl(productRepo, orderService, clientRepo);
+            _migrationService = new MigrationServiceImpl();
+
+            _buyService = new BuyServiceImpl();
 
             BuyCommand = new RelayCommand<ProductDto>(BuyCar);
 
@@ -65,15 +64,13 @@ namespace CarDealership.page.authorized
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void ApplyFilterButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // TODO: Implement unified Car filtering; for now, reload all
                 var productRepo = new ProductRepositoryImpl(new DealershipContext());
                 var allProducts = productRepo.GetAll().Select(ProductMapper.ToDto).ToList();
-
-                // stock filter removed from ProductsPage
 
                 GasolineCarsList.ItemsSource = allProducts;
             }
@@ -82,66 +79,66 @@ namespace CarDealership.page.authorized
                 MessageBox.Show("Помилка при застосуванні фільтра: " + ex.Message);
             }
         }
-        
-                private TransmissionType? GetSelectedTransmissionType()
+
+        private TransmissionType? GetSelectedTransmissionType()
         {
             var selectedItem = FilterTransmission.SelectedItem as ComboBoxItem;
             if (FilterTransmission.SelectedIndex == 0 || selectedItem == null)
                 return null;
             return FilterHelper.GetTransmissionType(selectedItem.Content.ToString());
         }
-        
-                private CarBodyType? GetSelectedBodyType()
+
+        private CarBodyType? GetSelectedBodyType()
         {
             var selectedItem = FilterBodyType.SelectedItem as ComboBoxItem;
             if (FilterBodyType.SelectedIndex == 0 || selectedItem == null)
                 return null;
             return FilterHelper.GetBodyType(selectedItem.Content.ToString());
         }
-        
-                private Color? GetSelectedColor()
+
+        private Color? GetSelectedColor()
         {
             var selectedItem = FilterColor.SelectedItem as ComboBoxItem;
             if (FilterColor.SelectedIndex == 0 || selectedItem == null)
                 return null;
             return FilterHelper.GetColor(selectedItem.Content.ToString());
         }
-        
-                private DriveType? GetSelectedDriveType()
+
+        private DriveType? GetSelectedDriveType()
         {
             var selectedItem = FilterDriveType.SelectedItem as ComboBoxItem;
             if (FilterDriveType.SelectedIndex == 0 || selectedItem == null)
                 return null;
             return FilterHelper.GetDriveType(selectedItem.Content.ToString());
         }
-        
-                private FuelType? GetSelectedFuelType()
+
+        private FuelType? GetSelectedFuelType()
         {
             var selectedItem = FilterFuelType.SelectedItem as ComboBoxItem;
             if (FilterFuelType.SelectedIndex == 0 || selectedItem == null)
                 return null;
             return FilterHelper.GetFuelType(selectedItem.Content.ToString());
         }
-        
+
         private int? GetIntValue(string text)
         {
             if (string.IsNullOrEmpty(text)) return null;
             return int.TryParse(text, out int value) ? value : null;
         }
-        
+
         private double? GetDoubleValue(string text)
         {
             if (string.IsNullOrEmpty(text)) return null;
             return double.TryParse(text, out double value) ? value : null;
         }
-        
+
         private float? GetFloatValue(string text)
         {
             if (string.IsNullOrEmpty(text)) return null;
             return float.TryParse(text, out float value) ? value : null;
         }
-        
-                private void BuyCar(ProductDto product)
+
+        private void BuyCar(ProductDto product)
         {
             System.Diagnostics.Debug.WriteLine($"BuyCar called for product: {product?.Number}");
             try
@@ -176,7 +173,8 @@ namespace CarDealership.page.authorized
                     if (ok)
                     {
                         if (!product.InStock || product.Amount == 0)
-                            MessageBox.Show("Замовлення оформлено. Авто наразі відсутнє — очікуйте надходження на склад.");
+                            MessageBox.Show(
+                                "Замовлення оформлено. Авто наразі відсутнє — очікуйте надходження на склад.");
                         else
                             MessageBox.Show("Покупку успішно оформлено!");
                     }
@@ -189,20 +187,24 @@ namespace CarDealership.page.authorized
                             var pr = new ProductRepositoryImpl(ctx).GetById(product.Id);
                             if (pr == null)
                             {
-                                MessageBox.Show($"Product not found: ID={product.Id}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show($"Product not found: ID={product.Id}", "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
                             }
                             else if (!pr.InStock)
                             {
-                                MessageBox.Show($"Product '{pr.Number}' is currently out of stock.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                MessageBox.Show($"Product '{pr.Number}' is currently out of stock.", "Warning",
+                                    MessageBoxButton.OK, MessageBoxImage.Warning);
                             }
                             else
                             {
-                                MessageBox.Show("Failed to submit order.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Failed to submit order.", "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
                             }
                         }
                         catch (Exception innerEx)
                         {
-                            MessageBox.Show($"Failed to submit order: {innerEx.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show($"Failed to submit order: {innerEx.Message}", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                         }
                     }
                 }
@@ -211,7 +213,9 @@ namespace CarDealership.page.authorized
             {
                 MessageBox.Show("Помилка при застосуванні фільтра: " + ex.Message);
             }
-        }private int GetClientIdFromUser(string userLogin)
+        }
+
+        private int GetClientIdFromUser(string userLogin)
         {
             try
             {
@@ -222,7 +226,7 @@ namespace CarDealership.page.authorized
                 }
 
                 using var context = new DealershipContext();
-                
+
                 var user = context.Users.FirstOrDefault(u => u.Login == userLogin);
                 if (user == null)
                 {
@@ -252,7 +256,7 @@ namespace CarDealership.page.authorized
             try
             {
                 using var context = new DealershipContext();
-                
+
                 var product = context.Products.FirstOrDefault(p => p.CarId == carId);
                 if (product == null)
                 {
@@ -269,13 +273,5 @@ namespace CarDealership.page.authorized
                 return 0;
             }
         }
-
-        
     }
-
-  
 }
-
-
-
-

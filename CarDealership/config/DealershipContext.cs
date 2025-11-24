@@ -20,7 +20,7 @@ namespace CarDealership.config
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(
-                "Host=localhost;Port=5432;Database=car_dealership_norm;Username=postgres;Password=1234qwer");
+                "Host=localhost;Port=5432;Database=car_dealership;Username=oleksandr;Password=1234qwer");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

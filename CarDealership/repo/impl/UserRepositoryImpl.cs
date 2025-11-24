@@ -24,25 +24,13 @@ namespace CarDealership.repo.impl
             _context.Users.Update(user);
             _context.SaveChanges();
         }
-
-        public void Delete(User user)
-        {
-            _context.Users.Remove(user);
-            _context.SaveChanges();
-        }
+        
 
         public bool ExistsByLogin(string login)
         {
             return _context.Users.Any(u => u.Login == login);
         }
-
-        public bool Exists(User user)
-        {
-            return _context.Users.Any(u =>
-                u.Login == user.Login &&
-                u.Password == user.Password &&
-                u.AccessRight == user.AccessRight);
-        }
+        
 
         public User? GetByLogin(string login)
         {

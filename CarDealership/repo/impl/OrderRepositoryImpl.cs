@@ -26,7 +26,7 @@ namespace CarDealership.repo.impl
 
             try
             {
-                _context.Orders.Add(new Order
+                _context.Orders.Add(new Order()
                 {
                     ClientId = order.ClientId,
                     ProductId = order.ProductId,

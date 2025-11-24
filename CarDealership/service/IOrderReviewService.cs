@@ -9,7 +9,6 @@ public interface IOrderReviewService
     void Reject(int reviewId, string reason);
     void SubmitDetails(int reviewId, string? deliveryAddress, string? cardNumber);
 
-    // Queries
     OrderReviewDto? GetById(int id);
     OrderReviewDto? GetByOrderId(int orderId);
     List<OrderReviewDto> GetAll();

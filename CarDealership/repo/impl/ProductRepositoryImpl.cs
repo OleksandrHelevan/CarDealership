@@ -1,7 +1,6 @@
 using CarDealership.config;
 using CarDealership.entity;
 using Microsoft.EntityFrameworkCore;
-using CarDealership.enums;
 
 namespace CarDealership.repo.impl
 {
@@ -56,23 +55,6 @@ namespace CarDealership.repo.impl
         {
             return _context.Products.Any(p => p.Number == number);
         }
-
-        public IEnumerable<Product> GetByVehicleIds(List<int> vehicleIds, CarType carType)
-        {
-            return _context.Products
-                .Include(p => p.Car)
-                .ThenInclude(c => c.Engine)
-                .Where(p => p.Car != null && p.Car.CarType == carType && vehicleIds.Contains(p.Car.Id))
-                .ToList();
-        }
-
-        public IEnumerable<Product> GetByStock(bool inStock)
-        {
-            return _context.Products
-                .Include(p => p.Car)
-                .ThenInclude(c => c.Engine)
-                .Where(p => p.InStock == inStock)
-                .ToList();
-        }
+        
     }
 }

@@ -1,4 +1,3 @@
-using CarDealership.dto;
 using CarDealership.enums;
 
 namespace CarDealership.dto;
